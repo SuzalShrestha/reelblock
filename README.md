@@ -25,7 +25,7 @@
 <p align="center">
   <img src="docs/demo.gif" width="280" alt="Animation: tap the Reels tab, Reel Block sends you back to the feed, twice">
   <br>
-  https://github.com/user-attachments/assets/497bf299-6da9-4eac-b0c2-96cae351e18f
+  
 </p>
 
 ---

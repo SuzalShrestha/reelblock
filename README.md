@@ -18,6 +18,12 @@
   <a href="CONTRIBUTING.md">Add an app</a>
 </p>
 
+<p align="center">
+  <a href="docs/demo.mp4"><img src="docs/demo.gif" width="280" alt="Animation: tap the Reels tab, Reel Block sends you back to the feed, twice"></a>
+  <br>
+  <sub>▶ <a href="docs/demo.mp4">Watch the 40-second story</a> of how we found the Reels screen inside Instagram</sub>
+</p>
+
 ---
 
 ## Why

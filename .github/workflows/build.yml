@@ -2,6 +2,7 @@
 # The APK here is signed with a throwaway key. Releases are signed with the maintainer's key.
 name: build
 on: [push, pull_request]
+permissions: { contents: read }
 jobs:
   apk:
     runs-on: ubuntu-latest

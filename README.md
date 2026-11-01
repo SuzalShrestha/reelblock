@@ -4,18 +4,17 @@
 
 <h1 align="center">Reel Block</h1>
 
-<p align="center"><b>Keep Instagram and YouTube. Lose the Reels and Shorts.</b></p>
+<p align="center"><b>Keep Instagram. Lose the Reels.</b></p>
 
 <p align="center">
-  Reel Block is a free, open-source Android app that closes Instagram Reels and YouTube Shorts
-  the moment they open, and keeps everything else in those apps.
+  Reel Block is a free, open-source Android app that closes Instagram Reels
+  the moment they open, and keeps everything else in Instagram.
 </p>
 
 <p align="center">
   <a href="../../releases/latest"><b>⬇ Download the APK</b></a> ·
   <a href="#install-in-2-minutes">Install</a> ·
-  <a href="#faq">FAQ</a> ·
-  <a href="CONTRIBUTING.md">Add an app</a>
+  <a href="#faq">FAQ</a>
 </p>
 
 https://github.com/user-attachments/assets/9e368622-f6dc-417e-a583-c22226c2a839
@@ -27,27 +26,24 @@ https://github.com/user-attachments/assets/9e368622-f6dc-417e-a583-c22226c2a839
 You open Instagram to answer one message. Forty minutes later you are still swiping Reels.
 That is not a lack of willpower. The feed is built to never end.
 
-Most blockers lock the whole app. Then you lose your DMs, your friends' Stories and the
-YouTube tutorial you actually needed, so you turn the blocker off. Reel Block removes only
-the endless short-video feed. Everything else stays.
+Most blockers lock the whole app. Then you lose your DMs, and your friends' Stories, so you
+turn the blocker off. Reel Block removes only the endless Reels feed. Everything else stays.
 
 | | Reel Block |
 |---|---|
 | Instagram Reels tab | **Closed** |
 | Reels opened from DMs, Explore or a profile | **Closed** (same viewer, not tested yet) |
-| YouTube Shorts tab and Shorts links | **Closed** |
 | Instagram feed, Stories, DMs, profiles, posting | Works |
-| YouTube home, search, normal videos, subscriptions | Works |
-| Root, modified APKs, accounts, ads, tracking | **None** |
+| Other apps | **Never touched**. Reel Block listens only to Instagram |
+| Root, modified APKs, accounts, ads, tracking, logs | **None** |
 | Size | About 20 KB |
 
 ## How it feels
 
 You tap the Reels tab. You are back on your feed before the first Reel plays.
-You tap a Shorts link from a friend. YouTube closes.
 After a few days you stop reaching for it, because nothing is there.
 
-Open the app to see how many Reels and Shorts it closed for you, and share the number.
+Open the app to see how many Reels it closed for you, and share the number.
 
 ## Install in 2 minutes
 
@@ -74,12 +70,15 @@ turn on **Autostart** (if you see it) and set battery use to **No restrictions /
 **Is it safe? Accessibility apps can read my screen.**
 Yes, Android gives accessibility apps a lot of access. That is why Reel Block is open source and
 very small: [the service is about 40 lines](src/dev/local/reelblock/ReelBlockService.java) and the
-[app screen is about 80](src/dev/local/reelblock/MainActivity.java). Read them. The app:
-- listens only to Instagram and YouTube (see [`accessibility.xml`](res/xml/accessibility.xml)),
-- looks for one view ID per app and reads no text, messages or images,
+[app screen is about 60](src/dev/local/reelblock/MainActivity.java). Read them. The app:
+- listens only to Instagram (see [`accessibility.xml`](res/xml/accessibility.xml)), and the code
+  checks the package again before it looks at any window,
+- looks for one view ID and reads no text, messages or images,
 - has **no internet permission** (see [`AndroidManifest.xml`](AndroidManifest.xml)), so it cannot send
   anything anywhere,
-- stores one number on your phone: how many times it closed a viewer.
+- writes no logs,
+- stores one number on your phone: how many times it closed a viewer. Backup and phone-to-phone
+  transfer are off, so the number stays on this phone.
 
 **Why is it not on the Play Store?**
 Google allows accessibility apps on the Play Store only for some uses. You can build the APK
@@ -89,41 +88,30 @@ yourself from this source (see below) and compare.
 No. iOS does not let apps act on other apps. On iPhone, the closest option is a Screen Time limit
 on the whole app.
 
-**Can I block only Reels and keep Shorts (or the opposite)?**
-Not yet in the app. Remove the line you do not want from `VIEWERS` in
-[`ReelBlockService.java`](src/dev/local/reelblock/ReelBlockService.java) and build it.
-A switch in the app is a good first contribution.
-
-**What about Facebook Reels, TikTok, Snapchat Spotlight?**
-TikTok is only short videos, so uninstall it. For the others, [add the app](CONTRIBUTING.md):
-it is one line of code if the app uses view IDs.
+**What about YouTube Shorts, Facebook Reels, TikTok?**
+Reel Block is Instagram only, on purpose: the fewer apps an accessibility service can see, the
+less it can leak. Use a separate app for the others.
 
 **Short videos still play inside my Instagram feed.**
 Yes. Reel Block closes the full-screen viewer, which is the endless part. A video in the feed
 stops when you scroll past it.
 
-**Reels came back after an Instagram or YouTube update.**
-The app maybe changed its view ID. [Open an issue](../../issues/new?template=id-changed.md)
+**Reels came back after an Instagram update.**
+Instagram maybe changed its view ID. [Open an issue](../../issues/new?template=id-changed.md)
 with your app version. Fixes are one line, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## How it works
 
-Reel Block is an Android accessibility service. When Instagram or YouTube changes its screen, the
-service looks for a visible full-screen short-video viewer by its view ID. If it finds one, it
+Reel Block is an Android accessibility service. When Instagram changes its screen, the
+service looks for the visible full-screen Reels viewer by its view ID. If it finds one, it
 presses Back.
 
 | App | Viewer ID | How we found it |
 |---|---|---|
 | Instagram 453.0.0.57.79 | `clips_viewer_view_pager` | `aapt2 dump resources` on the APK, then `dumpsys activity top` with Reels open. Inside Instagram, Reels are called *clips*; `reel_*` IDs are Stories. |
-| YouTube | `reel_recycler` | `dumpsys activity top` with Shorts open: a full-screen `ReelRecyclerView`. It is not on the home feed. Inside YouTube, Shorts are called *reels*. |
 
 After each Back press the service waits 1.5 seconds, so one Back does not become two while the app
-closes. Each press writes a log line:
-
-```sh
-adb logcat -s ReelBlock:I
-# I ReelBlock: Viewer visible, pressing Back: com.google.android.youtube:id/reel_recycler
-```
+closes. It writes no log lines. To check it, watch the counter in the app go up.
 
 ## Build from source
 
@@ -149,13 +137,13 @@ find it.
 
 ## Contributing
 
-New apps, fixed IDs, translations and test reports on more phones are all welcome.
+Fixed IDs, translations and test reports on more phones are all welcome.
 See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Disclaimer
 
-This project is not affiliated with Instagram, Meta, YouTube or Google. Instagram is a trademark of
-Meta Platforms, Inc. YouTube is a trademark of Google LLC.
+This project is not affiliated with Instagram or Meta. Instagram is a trademark of
+Meta Platforms, Inc.
 
 ## License
 

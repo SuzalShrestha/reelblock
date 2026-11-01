@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Design tokens. Every colour on screen comes from here; values-night/colors.xml has the dark set. -->
+<resources>
+    <color name="bg">#FFF6F7F9</color>
+    <color name="surface">#FFFFFFFF</color>
+    <color name="outline">#FFE3E6EB</color>
+    <color name="text">#FF14161A</color>
+    <color name="text_muted">#FF555B67</color>
+    <color name="accent">#FFC92A35</color>
+    <color name="on_accent">#FFFFFFFF</color>
+    <color name="accent_soft">#FFFDE7E8</color>
+    <color name="ok">#FF17703D</color>
+    <color name="ok_soft">#FFE1F4E8</color>
+    <color name="warn">#FF8F4700</color>
+    <color name="warn_soft">#FFFFEFD9</color>
+    <bool name="light_bars">true</bool>
+</resources>

@@ -5,37 +5,27 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import java.text.NumberFormat;
 
 // The screen you see when you tap the app icon: is the blocker on, how many Reels it closed, and a share button.
+// Layout and design tokens live in res/layout/main.xml and res/values/{colors,styles}.xml.
 public class MainActivity extends Activity {
     static final String REPO = "https://github.com/SuzalShrestha/reelblock";
-    private TextView status, count;
-    private Button turnOn;
 
     @Override
     protected void onCreate(Bundle b) {
         super.onCreate(b);
-        int pad = (int) (24 * getResources().getDisplayMetrics().density);
-        LinearLayout l = new LinearLayout(this);
-        l.setOrientation(LinearLayout.VERTICAL);
-        l.setPadding(pad, pad * 2, pad, pad);
-
-        text(l,"Closes Instagram Reels and YouTube Shorts when they open. The rest of each app works as before.", 16);
-        status = text(l, "", 18);
-        count = text(l, "", 16);
-
-        turnOn = button(l, "Turn on Reel Block", () ->
+        setContentView(R.layout.main);
+        findViewById(R.id.turn_on).setOnClickListener(v ->
             startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)));
-        text(l, "Find \"Reel Block\" in the list (it can be under \"Downloaded apps\") and turn it on.\n\n"
-            + "Switch is grey? Tap the button below, then ⋮ → \"Allow restricted settings\", then try again.", 14);
-        button(l, "Open app info", () -> startActivity(new Intent(
+        findViewById(R.id.app_info).setOnClickListener(v -> startActivity(new Intent(
             Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + getPackageName()))));
-        button(l, "Share Reel Block", () -> startActivity(Intent.createChooser(new Intent(Intent.ACTION_SEND)
-            .setType("text/plain").putExtra(Intent.EXTRA_TEXT, shareText()), "Share Reel Block")));
-        setContentView(l);
+        findViewById(R.id.share).setOnClickListener(v -> startActivity(Intent.createChooser(
+            new Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, shareText()),
+            getString(R.string.share))));
     }
 
     @Override
@@ -43,9 +33,19 @@ public class MainActivity extends Activity {
         super.onResume();
         String on = Settings.Secure.getString(getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
         boolean enabled = on != null && on.contains(getPackageName() + "/");
-        status.setText(enabled ? "✅ On. Reels and Shorts will close." : "⚠️ Off. Turn it on to block Reels and Shorts.");
-        turnOn.setText(enabled ? "Accessibility settings" : "Turn on Reel Block");
-        count.setText("Reels and Shorts closed: " + blocked());
+        TextView pill = findViewById(R.id.pill);
+        pill.setText(enabled ? R.string.status_on : R.string.status_off);
+        pill.setTextColor(getColor(enabled ? R.color.ok : R.color.warn));
+        pill.setBackgroundTintList(getColorStateList(enabled ? R.color.ok_soft : R.color.warn_soft));
+        ((TextView) findViewById(R.id.headline)).setText(enabled ? R.string.headline_on : R.string.headline_off);
+        ((TextView) findViewById(R.id.body)).setText(enabled ? R.string.body_on : R.string.body_off);
+        ((TextView) findViewById(R.id.count)).setText(NumberFormat.getInstance().format(blocked()));
+        Button turnOn = findViewById(R.id.turn_on);
+        turnOn.setText(enabled ? R.string.manage : R.string.turn_on);
+        // Once it is on, the setup help is noise. The button turns quiet too.
+        turnOn.setBackgroundResource(enabled ? R.drawable.btn_secondary : R.drawable.btn_primary);
+        turnOn.setTextColor(getColor(enabled ? R.color.text : R.color.on_accent));
+        findViewById(R.id.setup).setVisibility(enabled ? View.GONE : View.VISIBLE);
     }
 
     private int blocked() {
@@ -54,25 +54,7 @@ public class MainActivity extends Activity {
 
     private String shareText() {
         int n = blocked();
-        return (n > 0 ? "Reel Block closed " + n + " Reels and Shorts for me. " : "I stopped doom-scrolling Reels. ")
-            + "It's a free, open-source Android app that closes Instagram Reels and YouTube Shorts "
-            + "and keeps the rest of the apps. " + REPO;
-    }
-
-    private TextView text(LinearLayout l, String s, int sp) {
-        TextView t = new TextView(this);
-        t.setText(s);
-        t.setTextSize(sp);
-        t.setPadding(0, 0, 0, (int) (12 * getResources().getDisplayMetrics().density));
-        l.addView(t);
-        return t;
-    }
-
-    private Button button(LinearLayout l, String s, Runnable r) {
-        Button btn = new Button(this);
-        btn.setText(s);
-        btn.setOnClickListener(v -> r.run());
-        l.addView(btn);
-        return btn;
+        return (n > 0 ? getString(R.string.share_some, n) : getString(R.string.share_none))
+            + getString(R.string.share_body, REPO);
     }
 }

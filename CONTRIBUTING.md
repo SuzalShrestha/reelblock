@@ -3,9 +3,11 @@
 Thank you for helping people get their time back. Reel Block stays small on purpose: anyone must be
 able to read all of it in five minutes. Please keep changes small too.
 
-## Fix an ID or add an app (most useful)
+## Fix the Instagram ID (most useful)
 
-Apps rename their views after updates. A fix is usually one line.
+Reel Block is Instagram only, on purpose. Pull requests that add other apps will be closed.
+
+Instagram renames its views after updates. A fix is usually one line.
 
 1. Connect your phone with USB debugging on, and **turn Reel Block off**.
 2. Open the full-screen short-video viewer in the app.
@@ -17,23 +19,20 @@ Apps rename their views after updates. A fix is usually one line.
    Find a view that fills the screen (bounds like `0,0-1080,2174`) and has `V` (visible) in its flags.
 4. Go to the app's normal home screen and run the same command. The ID must **not** be visible
    there, or Reel Block would close the whole app.
-5. Add the ID to `VIEWERS` in [`ReelBlockService.java`](src/dev/local/reelblock/ReelBlockService.java)
-   as `"<package>:id/<id>"`, with a comment that names the app and version. For a new app, also add
-   the package to `android:packageNames` in [`res/xml/accessibility.xml`](res/xml/accessibility.xml).
+5. Change `VIEWER` in [`ReelBlockService.java`](src/dev/local/reelblock/ReelBlockService.java)
+   and update the comment with the Instagram version.
 6. Build, turn Reel Block on, and check:
    ```sh
    ./build.sh
-   adb logcat -s ReelBlock:I
    ```
-   Open the viewer: you see one `pressing Back` line and the app goes back. Open the normal screens
-   and normal videos: you see no line.
+   Open Reels: Instagram goes back and the counter in Reel Block goes up by one. Open the feed,
+   Stories and DMs: the counter does not change.
 
 In the pull request, write the app version, your phone and Android version, and what you tested.
 
 ## Other good first contributions
 
-- A switch in the app to choose which apps to block.
-- Translations of the text in [`MainActivity.java`](src/dev/local/reelblock/MainActivity.java).
+- Translations of [`res/values/strings.xml`](res/values/strings.xml) (add `res/values-<lang>/strings.xml`).
 - Test reports on more phones (open an issue with phone, Android version, and what worked).
 
 ## Rules
@@ -41,3 +40,7 @@ In the pull request, write the app version, your phone and Android version, and 
 - No internet permission, no analytics, no ads. Ever.
 - No new dependencies and no Gradle. The build must stay `./build.sh`.
 - Do not read text, messages or images on the screen. View IDs only.
+- Instagram only. No other packages in `accessibility.xml`.
+- No `android.util.Log` or any other logging.
+- Colours, type and spacing come from `res/values/colors.xml` and `styles.xml`. Every text colour
+  must reach 4.5:1 contrast in light and dark.

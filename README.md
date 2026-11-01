@@ -129,6 +129,10 @@ and platform. Set `BUILD_TOOLS=/path/to/build-tools/<version>` or `ANDROID_JAR=/
 to choose others. On the first build it creates a local `debug.keystore` to sign the APK. Git ignores
 this file. GitHub Actions builds every push, see [`.github/workflows/build.yml`](.github/workflows/build.yml).
 
+Merging does not make a release. To release, bump `versionCode` and `versionName` in
+`AndroidManifest.xml`, merge to `main`, then run `./release.sh notes.md` from `main`. It tags the version,
+checks the APK has the release key and no permissions, and uploads it to GitHub Releases.
+
 ## Spread it
 
 If Reel Block gave you some time back, send it to one friend who needs it.

@@ -1,0 +1,14 @@
+# Builds the APK on every push and pull request, so a broken change shows up before release.
+# The APK here is signed with a throwaway key. Releases are signed with the maintainer's key.
+name: build
+on: [push, pull_request]
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 17 }
+      - run: NO_INSTALL=1 ./build.sh
+      - uses: actions/upload-artifact@v4
+        with: { name: ReelBlock-unsigned-test, path: ReelBlock.apk }

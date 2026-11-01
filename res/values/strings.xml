@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="service_description">Closes Instagram Reels and YouTube Shorts when they open. Reel Block reads only the screen IDs of these two apps. It has no internet permission and sends no data.</string>
+</resources>

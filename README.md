@@ -19,9 +19,9 @@
 </p>
 
 <p align="center">
-  <a href="docs/demo.mp4"><img src="docs/demo.gif" width="280" alt="Animation: tap the Reels tab, Reel Block sends you back to the feed, twice"></a>
+  <img src="docs/demo.gif" width="280" alt="Animation: tap the Reels tab, Reel Block sends you back to the feed, twice">
   <br>
-  <sub>▶ <a href="docs/demo.mp4">Watch the 40-second story</a> of how we found the Reels screen inside Instagram</sub>
+  <sub>▶ <a href="https://github.com/SuzalShrestha/reelblock/raw/main/docs/demo.mp4">Download the 40-second story</a> (MP4, 4.5 MB) of how we found the Reels screen inside Instagram</sub>
 </p>
 
 ---

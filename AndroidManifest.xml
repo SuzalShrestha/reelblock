@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="dev.local.reelblock" android:versionCode="2" android:versionName="1.1">
+    package="dev.local.reelblock" android:versionCode="3" android:versionName="1.2">
     <uses-sdk android:minSdkVersion="26" android:targetSdkVersion="33" />
-    <application android:label="Reel Block" android:icon="@mipmap/ic_launcher" android:allowBackup="false">
+    <application android:label="Reel Block" android:icon="@mipmap/ic_launcher" android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_rules" android:theme="@style/Theme.ReelBlock">
         <activity android:name=".MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

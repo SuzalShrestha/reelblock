@@ -23,8 +23,7 @@
 </p>
 
 <p align="center">
-  <img src="docs/demo.gif" width="280" alt="Animation: tap the Reels tab, Reel Block sends you back to the feed, twice">
-  <br>
+ 
 </p>
 
 

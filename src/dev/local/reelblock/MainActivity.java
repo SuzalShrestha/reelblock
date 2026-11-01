@@ -32,7 +32,9 @@ public class MainActivity extends Activity {
     protected void onResume() {
         super.onResume();
         String on = Settings.Secure.getString(getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
-        boolean enabled = on != null && on.contains(getPackageName() + "/");
+        // Match whole entries ("pkg/service", split by ':'). contains() would also match "x.dev.local.reelblock/...".
+        boolean enabled = false;
+        if (on != null) for (String s : on.split(":")) enabled |= s.startsWith(getPackageName() + "/");
         TextView pill = findViewById(R.id.pill);
         pill.setText(enabled ? R.string.status_on : R.string.status_off);
         pill.setTextColor(getColor(enabled ? R.color.ok : R.color.warn));

@@ -1,7 +1,3 @@
-
-
-
-
 <p align="center">
   <img src="docs/icon.svg" width="96" alt="Reel Block icon: a play button with a red slash">
 </p>
@@ -22,13 +18,7 @@
   <a href="CONTRIBUTING.md">Add an app</a>
 </p>
 
-<p align="center">
- 
-</p>
-
-
 https://github.com/user-attachments/assets/9e368622-f6dc-417e-a583-c22226c2a839
-
 
 ---
 

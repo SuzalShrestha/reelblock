@@ -1,3 +1,7 @@
+
+
+
+
 <p align="center">
   <img src="docs/icon.svg" width="96" alt="Reel Block icon: a play button with a red slash">
 </p>
@@ -21,7 +25,7 @@
 <p align="center">
   <img src="docs/demo.gif" width="280" alt="Animation: tap the Reels tab, Reel Block sends you back to the feed, twice">
   <br>
-  <sub>▶ <a href="https://github.com/SuzalShrestha/reelblock/raw/main/docs/demo.mp4">Download the 40-second story</a> (MP4, 4.5 MB) of how we found the Reels screen inside Instagram</sub>
+  https://github.com/user-attachments/assets/497bf299-6da9-4eac-b0c2-96cae351e18f
 </p>
 
 ---

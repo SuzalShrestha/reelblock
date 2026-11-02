@@ -19,13 +19,31 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle b) {
         super.onCreate(b);
         setContentView(R.layout.main);
-        findViewById(R.id.turn_on).setOnClickListener(v ->
-            startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)));
+        // NEW_TASK: these screens get their own task, so onStop() below does not close them.
+        findViewById(R.id.turn_on).setOnClickListener(v -> startActivity(new Intent(
+            Settings.ACTION_ACCESSIBILITY_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)));
         findViewById(R.id.app_info).setOnClickListener(v -> startActivity(new Intent(
-            Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + getPackageName()))));
+            Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + getPackageName()))
+            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)));
         findViewById(R.id.share).setOnClickListener(v -> startActivity(Intent.createChooser(
             new Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, shareText()),
-            getString(R.string.share))));
+            getString(R.string.share)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)));
+        // Xiaomi only: without Autostart, the phone does not restart the service after it stops the app.
+        // setPackage: only Xiaomi's own app may answer, never another app that copies the action.
+        Intent autostart = new Intent("miui.intent.action.OP_AUTO_START").setPackage("com.miui.securitycenter")
+            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (autostart.resolveActivity(getPackageManager()) != null) {
+            findViewById(R.id.autostart_card).setVisibility(View.VISIBLE);
+            findViewById(R.id.autostart).setOnClickListener(v -> startActivity(autostart));
+        }
+    }
+
+    // Leave no Recents card. On Xiaomi/HyperOS, swiping the card away kills every process of the app
+    // (SwipeUpClean), the blocker too, and Android then shows it as "Not working" until it is turned on again.
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (!isChangingConfigurations()) finishAndRemoveTask();
     }
 
     @Override

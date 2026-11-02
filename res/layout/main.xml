@@ -36,6 +36,17 @@
             <Button android:id="@+id/turn_on" style="@style/Button.Primary" />
         </LinearLayout>
 
+        <!-- Shown only on phones with the Xiaomi Autostart screen. -->
+        <LinearLayout android:id="@+id/autostart_card" style="@style/Card" android:visibility="gone">
+            <TextView style="@style/Text.Title" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="@string/autostart_title"
+                android:accessibilityHeading="true" />
+            <TextView style="@style/Text.Muted" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:layout_marginTop="8dp"
+                android:text="@string/autostart_body" />
+            <Button android:id="@+id/autostart" style="@style/Button.Secondary" android:text="@string/autostart" />
+        </LinearLayout>
+
         <!-- Shown only while the blocker is off. -->
         <LinearLayout android:id="@+id/setup" android:layout_width="match_parent"
             android:layout_height="wrap_content" android:orientation="vertical">

@@ -62,6 +62,10 @@ restricted settings**, then go back to step 3.
 **Xiaomi, Redmi, POCO (HyperOS, MIUI), Samsung, OnePlus, Oppo, Vivo:** if Reels come back after
 some hours, the phone stopped the service to save battery. In **Settings → Apps → Reel Block**,
 turn on **Autostart** (if you see it) and set battery use to **No restrictions / Unrestricted**.
+On Xiaomi phones, swiping Reel Block away in Recents also stops it ("Not working" in Accessibility
+settings). Since v1.2.1 the app leaves no Recents card when you leave it. With **Autostart** on, the
+phone starts it again in about 1 second, even after a swipe. On Xiaomi phones, the app shows an
+**Open Autostart** button for this.
 
 **To stop:** turn off the service in Accessibility settings, or uninstall the app.
 

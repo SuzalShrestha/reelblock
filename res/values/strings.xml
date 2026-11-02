@@ -22,6 +22,10 @@
     <string name="help_body">Android blocks this setting for apps installed outside the Play Store. Open App info, tap ⋮ → \"Allow restricted settings\", then try again.</string>
     <string name="app_info">Open App info</string>
 
+    <string name="autostart_title">Keep it running</string>
+    <string name="autostart_body">This phone stops Reel Block when you clear Recents. Turn on Autostart for Reel Block, and the phone starts it again in about 1 second.</string>
+    <string name="autostart">Open Autostart</string>
+
     <string name="privacy_title">Your privacy</string>
     <string name="privacy1">No internet permission. Nothing can leave your phone.</string>
     <string name="privacy2">No logs, analytics, ads or accounts.</string>

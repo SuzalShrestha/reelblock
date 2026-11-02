@@ -29,7 +29,9 @@ public class MainActivity extends Activity {
             new Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, shareText()),
             getString(R.string.share)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)));
         // Xiaomi only: without Autostart, the phone does not restart the service after it stops the app.
-        Intent autostart = new Intent("miui.intent.action.OP_AUTO_START").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        // setPackage: only Xiaomi's own app may answer, never another app that copies the action.
+        Intent autostart = new Intent("miui.intent.action.OP_AUTO_START").setPackage("com.miui.securitycenter")
+            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if (autostart.resolveActivity(getPackageManager()) != null) {
             findViewById(R.id.autostart_card).setVisibility(View.VISIBLE);
             findViewById(R.id.autostart).setOnClickListener(v -> startActivity(autostart));

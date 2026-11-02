@@ -3,7 +3,7 @@
     package="dev.local.reelblock" android:versionCode="4" android:versionName="1.2.1">
     <uses-sdk android:minSdkVersion="26" android:targetSdkVersion="33" />
     <!-- Lets MainActivity see if the Xiaomi Autostart screen exists. -->
-    <queries><intent><action android:name="miui.intent.action.OP_AUTO_START" /></intent></queries>
+    <queries><package android:name="com.miui.securitycenter" /></queries>
     <application android:label="Reel Block" android:icon="@mipmap/ic_launcher" android:allowBackup="false"
         android:dataExtractionRules="@xml/data_rules" android:theme="@style/Theme.ReelBlock">
         <activity android:name=".MainActivity" android:exported="true">

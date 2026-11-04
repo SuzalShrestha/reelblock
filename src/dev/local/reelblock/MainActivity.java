@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.text.format.DateFormat;
 import android.view.View;
@@ -64,7 +65,7 @@ public class MainActivity extends Activity {
         shown = null;
         // Right after the app process starts, Android may still be binding the service. Do not call it
         // "stopped" during the first second: show no status rather than a wrong one.
-        graceUntil = System.currentTimeMillis() + 1000;
+        graceUntil = SystemClock.uptimeMillis() + 1000; // same clock as postDelayed, immune to clock changes
         ((Switch) findViewById(R.id.block_switch)).setOnCheckedChangeListener((v, on) -> {
             if (on == !State.paused(this)) return;
             if (on) { State.resume(this); render(); }
@@ -180,7 +181,7 @@ public class MainActivity extends Activity {
             : check.status == Check.STOPPED ? Hero.STOPPED
             : paused ? Hero.PAUSED
             : check.status == Check.CHANGED ? Hero.CHANGED : Hero.ON;
-        long wait = graceUntil - System.currentTimeMillis();
+        long wait = graceUntil - SystemClock.uptimeMillis();
         if (h == Hero.STOPPED && wait > 0) {
             // Say nothing yet (no red hero, no "Not running" line): look again when the grace ends.
             heroView.setVisibility(View.INVISIBLE);

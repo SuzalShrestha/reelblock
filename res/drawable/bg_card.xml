@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Card: flat tonal container, no shadow (M3 uses tone for elevation). -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/bg_card" />
+    <corners android:radius="@dimen/radius_xl" />
+</shape>

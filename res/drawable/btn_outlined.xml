@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Outlined button: an alternative action next to a filled one. -->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android" android:color="@color/state_on_surface">
+    <item><shape><stroke android:width="@dimen/stroke_thin" android:color="@color/outline" /><corners android:radius="@dimen/radius_full" /></shape></item>
+    <item android:id="@android:id/mask"><shape><solid android:color="@android:color/white" /><corners android:radius="@dimen/radius_full" /></shape></item>
+</ripple>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Material Symbols Rounded "lock" (Apache-2.0, google/material-design-icons). Tinted by the view. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="@dimen/icon_md" android:height="@dimen/icon_md"
+    android:viewportWidth="960" android:viewportHeight="960">
+    <group android:translateY="960">
+        <path android:fillColor="@android:color/white" android:pathData="M220-80q-24.8 0-42.4-17.6Q160-115.2 160-140v-434q0-24.8 17.6-42.4Q195.2-634 220-634h70v-96q0-78.8 55.6-134.4Q401.2-920 480.1-920q78.9 0 134.4 55.6Q670-808.9 670-730v96h70q24.8 0 42.4 17.6Q800-598.8 800-574v434q0 24.8-17.6 42.4Q764.8-80 740-80H220Zm0-60h520v-434H220v434Zm260.2-140q31.8 0 54.3-22T557-355q0-30-22.7-54.5t-54.5-24.5q-31.8 0-54.3 24.5t-22.5 55q0 30.5 22.7 52.5t54.5 22ZM350-634h260v-96q0-54.2-37.9-92.1-37.9-37.9-92-37.9T388-822.1q-38 37.9-38 92.1v96ZM220-140v-434 434Z" />
+    </group>
+</vector>

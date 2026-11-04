@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- First run: 3 pages. Page 2 is the disclosure: Android settings open only after "Agree and continue".
+     Pages swap in Welcome.java with the M3 emphasized motion. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/welcome_root" android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- Top bar: back and the page dots. -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:minHeight="@dimen/space_16" android:orientation="horizontal" android:gravity="center_vertical"
+        android:paddingStart="@dimen/space_1" android:paddingEnd="@dimen/margin_screen">
+        <ImageButton android:id="@+id/welcome_back" style="@style/IconButton" android:src="@drawable/ic_back"
+            android:contentDescription="@string/back" />
+        <View android:layout_width="@dimen/space_0" android:layout_height="@dimen/space_0" android:layout_weight="1" />
+        <LinearLayout android:id="@+id/dots" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical" />
+    </LinearLayout>
+
+    <FrameLayout android:id="@+id/pages" android:layout_width="match_parent" android:layout_height="@dimen/space_0"
+        android:layout_weight="1">
+
+        <!-- Page 1: what it is. -->
+        <ScrollView android:id="@+id/page1" android:layout_width="match_parent" android:layout_height="match_parent"
+            android:fillViewport="true">
+            <LinearLayout style="@style/Screen" android:paddingStart="@dimen/space_6" android:paddingEnd="@dimen/space_6">
+                <ImageView android:layout_width="match_parent" android:layout_height="@dimen/illustration_height"
+                    android:layout_marginTop="@dimen/space_4" android:src="@drawable/ill_welcome" android:importantForAccessibility="no" />
+                <TextView style="@style/Text.HeadlineLarge" android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_8" android:text="@string/welcome_title" android:accessibilityHeading="true" />
+                <TextView style="@style/Text.BodyLarge.Secondary" android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_3" android:text="@string/welcome_body" />
+                <LinearLayout style="@style/Bullet" android:layout_marginTop="@dimen/space_6">
+                    <ImageView style="@style/BulletIcon" android:src="@drawable/ic_check" android:tint="@color/primary" />
+                    <TextView style="@style/BulletText" android:text="@string/welcome_point1" />
+                </LinearLayout>
+                <LinearLayout style="@style/Bullet">
+                    <ImageView style="@style/BulletIcon" android:src="@drawable/ic_check" android:tint="@color/primary" />
+                    <TextView style="@style/BulletText" android:text="@string/welcome_point2" />
+                </LinearLayout>
+                <LinearLayout style="@style/Bullet">
+                    <ImageView style="@style/BulletIcon" android:src="@drawable/ic_check" android:tint="@color/primary" />
+                    <TextView style="@style/BulletText" android:text="@string/welcome_point3" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <!-- Page 2: the disclosure. -->
+        <ScrollView android:id="@+id/page2" android:layout_width="match_parent" android:layout_height="match_parent"
+            android:fillViewport="true" android:visibility="gone">
+            <LinearLayout style="@style/Screen" android:paddingStart="@dimen/space_6" android:paddingEnd="@dimen/space_6">
+                <ImageView android:layout_width="match_parent" android:layout_height="@dimen/illustration_height"
+                    android:layout_marginTop="@dimen/space_4" android:src="@drawable/ill_privacy" android:importantForAccessibility="no" />
+                <TextView style="@style/Text.HeadlineLarge" android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_8" android:text="@string/disclosure_title" android:accessibilityHeading="true" />
+                <TextView style="@style/Text.BodyLarge.Secondary" android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_3" android:text="@string/disclosure_body" />
+
+                <LinearLayout style="@style/Card" android:layout_marginTop="@dimen/space_6">
+                    <TextView style="@style/Text.TitleMedium" android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:text="@string/can_title" android:accessibilityHeading="true" />
+                    <LinearLayout style="@style/Bullet">
+                        <ImageView style="@style/BulletIcon" android:src="@drawable/ic_eye" android:tint="@color/primary" />
+                        <TextView style="@style/BulletText" android:text="@string/can1" />
+                    </LinearLayout>
+                    <LinearLayout style="@style/Bullet">
+                        <ImageView style="@style/BulletIcon" android:src="@drawable/ic_eye" android:tint="@color/primary" />
+                        <TextView style="@style/BulletText" android:text="@string/can2" />
+                    </LinearLayout>
+                    <LinearLayout style="@style/Bullet">
+                        <ImageView style="@style/BulletIcon" android:src="@drawable/ic_back_press" android:tint="@color/primary" />
+                        <TextView style="@style/BulletText" android:text="@string/can3" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout style="@style/Card">
+                    <TextView style="@style/Text.TitleMedium" android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:text="@string/cannot_title" android:accessibilityHeading="true" />
+                    <LinearLayout style="@style/Bullet">
+                        <ImageView style="@style/BulletIcon" android:src="@drawable/ic_eye_off" android:tint="@color/success" />
+                        <TextView style="@style/BulletText" android:text="@string/cannot1" />
+                    </LinearLayout>
+                    <LinearLayout style="@style/Bullet">
+                        <ImageView style="@style/BulletIcon" android:src="@drawable/ic_close" android:tint="@color/success" />
+                        <TextView style="@style/BulletText" android:text="@string/cannot2" />
+                    </LinearLayout>
+                    <LinearLayout style="@style/Bullet">
+                        <ImageView style="@style/BulletIcon" android:src="@drawable/ic_no_internet" android:tint="@color/success" />
+                        <TextView style="@style/BulletText" android:text="@string/cannot3" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView style="@style/Text.BodyMedium.Secondary" android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_4" android:paddingStart="@dimen/space_1" android:paddingEnd="@dimen/space_1"
+                    android:text="@string/disclosure_note" />
+                <Button android:id="@+id/read_code" style="@style/Button.Text" android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/space_1" android:text="@string/read_code" />
+            </LinearLayout>
+        </ScrollView>
+
+        <!-- Page 3: turn it on. -->
+        <ScrollView android:id="@+id/page3" android:layout_width="match_parent" android:layout_height="match_parent"
+            android:fillViewport="true" android:visibility="gone">
+            <LinearLayout style="@style/Screen" android:paddingStart="@dimen/space_6" android:paddingEnd="@dimen/space_6">
+                <ImageView android:layout_width="match_parent" android:layout_height="@dimen/illustration_height"
+                    android:layout_marginTop="@dimen/space_4" android:src="@drawable/ill_setup" android:importantForAccessibility="no" />
+                <TextView style="@style/Text.HeadlineLarge" android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_8" android:text="@string/setup_title" android:accessibilityHeading="true" />
+                <TextView style="@style/Text.BodyLarge.Secondary" android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_3" android:text="@string/setup_body" />
+                <LinearLayout style="@style/Card" android:layout_marginTop="@dimen/space_6">
+                    <LinearLayout style="@style/Bullet" android:layout_marginTop="@dimen/space_0">
+                        <TextView style="@style/Step" android:text="1" />
+                        <TextView style="@style/BulletText" android:text="@string/setup_step1" />
+                    </LinearLayout>
+                    <LinearLayout style="@style/Bullet" android:layout_marginTop="@dimen/space_4">
+                        <TextView style="@style/Step" android:text="2" />
+                        <TextView style="@style/BulletText" android:text="@string/setup_step2" />
+                    </LinearLayout>
+                    <LinearLayout style="@style/Bullet" android:layout_marginTop="@dimen/space_4">
+                        <TextView style="@style/Step" android:text="3" />
+                        <TextView style="@style/BulletText" android:text="@string/setup_step3" />
+                    </LinearLayout>
+                </LinearLayout>
+                <!-- Android 13+ only: help for "Restricted setting". -->
+                <LinearLayout android:id="@+id/restricted" style="@style/Card">
+                    <TextView style="@style/Text.TitleMedium" android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:text="@string/restricted_title" android:accessibilityHeading="true" />
+                    <TextView style="@style/Text.BodyMedium.Secondary" android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_2" android:text="@string/restricted_body" />
+                    <Button android:id="@+id/app_info" style="@style/Button.Tonal" android:layout_width="wrap_content"
+                        android:text="@string/open_app_info" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </FrameLayout>
+
+    <!-- Bottom actions: one main action per page; "Not now" only on the disclosure. -->
+    <LinearLayout android:id="@+id/welcome_actions" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:paddingStart="@dimen/space_6" android:paddingEnd="@dimen/space_6"
+        android:paddingBottom="@dimen/space_4" android:background="@color/bg_window">
+        <Button android:id="@+id/welcome_next" style="@style/Button.Filled" android:layout_marginTop="@dimen/space_3" />
+        <Button android:id="@+id/welcome_skip" style="@style/Button.Text" android:layout_marginTop="@dimen/space_1"
+            android:text="@string/not_now" android:visibility="gone" />
+    </LinearLayout>
+</LinearLayout>

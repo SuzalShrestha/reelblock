@@ -1,47 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="service_description">Closes Instagram Reels when they open. Reel Block watches only Instagram and reads only its screen IDs, never your messages or posts. It has no internet permission, keeps no logs and sends no data.</string>
+<!-- Copy rules (docs/design-system.md): short sentences, everyday words, say what the app can and cannot see,
+     explain "accessibility" the first time it appears, never blame the user. -->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name" translatable="false">Reel Block</string>
 
-    <string name="tagline">Closes Instagram Reels. Your feed, Stories and DMs keep working.</string>
-    <string name="status_on">ON</string>
-    <string name="status_off">OFF</string>
-    <string name="headline_on">Reels will close</string>
-    <string name="headline_off">Reel Block is off</string>
-    <string name="body_on">When the Reels viewer opens in Instagram, Reel Block presses Back for you.</string>
-    <string name="body_off">Turn it on in Accessibility settings. It takes about 20 seconds.</string>
-    <string name="status_paused">PAUSED</string>
-    <string name="headline_paused">Reel Block is paused</string>
-    <string name="body_paused">Reels stay open. Turn on the switch to close them again.</string>
-    <string name="body_paused_until">Reels stay open until %1$s. Then Reel Block closes them again.</string>
-    <string name="pause_title">Pause for how long?</string>
-    <string-array name="pause_options">
-        <item>15 minutes</item>
-        <item>1 hour</item>
-        <item>Until I turn it on</item>
-    </string-array>
+    <!-- Shown in Android's Accessibility settings. Must match the disclosure screen. -->
+    <string name="service_summary">Closes Instagram Reels. Works only in Instagram.</string>
+    <string name="service_description">Reel Block closes the Instagram Reels screen when it opens, by pressing Back for you. To notice Reels, it checks the name of the Instagram screen that is open. It works only in Instagram. It never reads your messages, posts, photos or passwords. It has no internet permission, so nothing leaves your phone, and it keeps no logs.</string>
+
+    <!-- Onboarding, page 1 -->
+    <string name="welcome_title">Keep Instagram.\nLose the Reels.</string>
+    <string name="welcome_body">Reel Block closes the Reels screen as soon as it opens. Your feed, Stories and messages keep working.</string>
+    <string name="welcome_point1">Free and open source</string>
+    <string name="welcome_point2">No account, no ads, no tracking</string>
+    <string name="welcome_point3">Works without the internet</string>
+    <string name="get_started">Get started</string>
+
+    <!-- Onboarding, page 2: the disclosure. Shown before Android settings open; needs a tap on "Agree". -->
+    <string name="disclosure_title">What Reel Block can see</string>
+    <string name="disclosure_body">To notice when Reels opens, Reel Block needs an Android permission called accessibility. Here is exactly how it uses it.</string>
+    <string name="can_title">It can</string>
+    <string name="can1">See when Instagram is open</string>
+    <string name="can2">See the name of the Instagram screen that is open, like the Reels screen</string>
+    <string name="can3">Press Back for you when that screen is Reels</string>
+    <string name="cannot_title">It never</string>
+    <string name="cannot1">Reads your messages, posts, photos or passwords</string>
+    <string name="cannot2">Looks at any app other than Instagram</string>
+    <string name="cannot3">Uses the internet. It has no internet permission, so nothing can leave your phone</string>
+    <string name="disclosure_note">Android will warn you that this kind of app can see your screen. The warning is the same for every app of this kind. The code that keeps these promises is public.</string>
+    <string name="agree">Agree and continue</string>
+    <string name="not_now">Not now</string>
+    <string name="read_code">Read the code</string>
+
+    <!-- Onboarding, page 3 -->
+    <string name="setup_title">Turn on Reel Block</string>
+    <string name="setup_body">Android opens its Accessibility settings. It takes about 20 seconds.</string>
+    <string name="setup_step1">Tap Open settings below.</string>
+    <string name="setup_step2">Find Reel Block. It can be under Downloaded apps or Installed apps.</string>
+    <string name="setup_step3">Turn it on, then tap Allow.</string>
+    <string name="restricted_title">Is the switch grey, or does it say “Restricted setting”?</string>
+    <string name="restricted_body">Android does this for apps that don’t come from an app store. Open App info, tap ⋮ at the top, then Allow restricted settings. Then try again.</string>
+    <string name="open_app_info">Open App info</string>
+    <string name="open_settings">Open settings</string>
+    <string name="back">Back</string>
+    <string name="page_of">Page %1$d of %2$d</string>
+
+    <!-- Home: status hero -->
+    <string name="hero_on_title">Reels are blocked</string>
+    <string name="hero_on_body">When Reels opens in Instagram, Reel Block takes you back. Everything else works as usual.</string>
+    <string name="hero_paused_title">Reels are paused</string>
+    <string name="hero_paused_until">Reels open as normal until %1$s. Then blocking turns back on by itself.</string>
+    <string name="hero_paused_body">Reels open as normal until you turn blocking back on.</string>
+    <string name="hero_off_title">Reel Block is off</string>
+    <string name="hero_off_body">Turn it on once in Android settings. Then it works in the background.</string>
+    <string name="hero_stopped_title">Android stopped Reel Block</string>
+    <string name="hero_stopped_body">Settings still show it as on, but it isn’t running. This can happen when you clear recent apps or when battery saving is strict. Turn Reel Block off and on again.</string>
+    <string name="hero_changed_title">Instagram has changed</string>
+    <string name="hero_changed_body">Instagram %1$s no longer has the Reels screen that Reel Block looks for, so Reels may stay open. Get the newest Reel Block, or let us know.</string>
     <string name="block_switch">Block Reels</string>
-    <string name="closed_label">Reels closed on this phone</string>
     <string name="turn_on">Turn on Reel Block</string>
-    <string name="manage">Accessibility settings</string>
+    <string name="fix_stopped">Open Accessibility settings</string>
+    <string name="get_update">Get the newest version</string>
+    <string name="report">Let us know</string>
+    <string name="announce_on">Reel Block is on. Reels will close.</string>
 
-    <string name="how_title">How it works</string>
-    <string name="step1">Tap the button above, then find \"Reel Block\". It can be under \"Downloaded apps\".</string>
-    <string name="step2">Turn it on and tap Allow.</string>
-    <string name="step3">Open Instagram. When Reels opens, it closes. The rest of Instagram works as before.</string>
+    <!-- Home: this week -->
+    <string name="week_title">This week</string>
+    <plurals name="week_count">
+        <item quantity="one">Reel closed</item>
+        <item quantity="other">Reels closed</item>
+    </plurals>
+    <string name="today_count">Today %1$s</string>
+    <string name="total_count">All time %1$s</string>
+    <string name="stats_separator" translatable="false">" · "</string>
+    <string name="empty_title">Nothing closed yet</string>
+    <string name="empty_body">Open Instagram and tap Reels to try it. The count stays on this phone.</string>
+    <plurals name="chart_day">
+        <item quantity="one">%1$s: %2$d Reel</item>
+        <item quantity="other">%1$s: %2$d Reels</item>
+    </plurals>
+    <string name="chart_today">today</string>
 
-    <string name="help_title">Switch is grey?</string>
-    <string name="help_body">Android blocks this setting for apps installed outside the Play Store. Open App info, tap ⋮ → \"Allow restricted settings\", then try again.</string>
-    <string name="app_info">Open App info</string>
+    <!-- Home: self-check -->
+    <string name="section_status">Status</string>
+    <string name="check_title">Self-check</string>
+    <string name="check_ok">Running. Instagram %1$s has the Reels screen.</string>
+    <string name="check_off">Off. Turn it on to start.</string>
+    <string name="check_stopped">Not running. Android stopped it.</string>
+    <string name="check_changed">Reels screen not found in Instagram %1$s.</string>
+    <string name="check_no_instagram">Instagram is not installed.</string>
+    <string name="check_done">Checked just now</string>
 
+    <!-- Home: shortcuts -->
+    <string name="section_shortcuts">Shortcuts</string>
+    <string name="tile_row_title">Quick Settings tile</string>
+    <string name="tile_row_body">Pause or resume from the top of your screen</string>
+    <string name="tile_how_title">Add the tile</string>
+    <string name="tile_how_body">Swipe down twice from the top of the screen. Tap the pencil, then drag Reel Block into your tiles.</string>
+    <string name="ok">OK</string>
     <string name="autostart_title">Keep it running</string>
-    <string name="autostart_body">This phone stops Reel Block when you clear Recents. Turn on Autostart for Reel Block, and the phone starts it again in about 1 second.</string>
-    <string name="autostart">Open Autostart</string>
+    <string name="autostart_body">Turn on Autostart, so this phone restarts Reel Block after you clear recent apps</string>
+    <string name="help_title">Setup help</string>
+    <string name="help_body">Turning it on, and “Restricted setting”</string>
 
-    <string name="privacy_title">Your privacy</string>
-    <string name="privacy1">No internet permission. Nothing can leave your phone.</string>
-    <string name="privacy2">No logs, analytics, ads or accounts.</string>
-    <string name="privacy3">Watches only Instagram. Reads only screen IDs, never your messages, posts or photos.</string>
+    <!-- Home: privacy -->
+    <string name="section_privacy">Private by design</string>
+    <string name="priv_net_title">No internet access</string>
+    <string name="priv_net_body">Reel Block has no internet permission. It can’t send anything.</string>
+    <string name="priv_see_title">Sees only Instagram</string>
+    <string name="priv_see_body">It checks screen names. It never reads your messages, posts or photos.</string>
+    <string name="priv_data_title">No account, ads or tracking</string>
+    <string name="priv_data_body">The count stays on this phone and is left out of backups.</string>
+    <string name="priv_code_title">Read the code</string>
+    <string name="priv_code_body">Open source under the MIT license</string>
+    <string name="share_title">Share Reel Block</string>
+    <string name="share_body_row">Send it to a friend who wants fewer Reels</string>
+    <string name="version">Reel Block %1$s</string>
+    <string name="opens_browser">Opens in your browser</string>
 
+    <!-- Pause dialog -->
+    <string name="pause_title">Pause blocking?</string>
+    <string name="pause_body">Reels open as normal while blocking is paused.</string>
+    <string name="pause_15">For 15 minutes</string>
+    <string name="pause_60">For 1 hour</string>
+    <string name="pause_forever">Until I turn it back on</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- Quick Settings tile -->
+    <string name="tile_label">Reel Block</string>
+    <string name="tile_on">On</string>
+    <string name="tile_paused">Paused</string>
+    <string name="tile_until">Until %1$s</string>
+    <string name="tile_off">Off</string>
+
+    <!-- Share -->
     <string name="share">Share Reel Block</string>
     <string name="share_some">Reel Block closed %1$d Instagram Reels for me. </string>
     <string name="share_none">I stopped doom-scrolling Reels. </string>

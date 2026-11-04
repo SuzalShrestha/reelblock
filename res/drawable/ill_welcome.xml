@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Welcome: a phone with the feed and Stories; the Reel card in front is on pause. Colours are role tokens, so it follows dark mode and dynamic colour. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="@dimen/illustration_width" android:height="@dimen/illustration_height" android:viewportWidth="280" android:viewportHeight="200">
+    <path android:fillColor="@color/surface_container_highest" android:pathData="M92,8h76a22,22 0 0 1 22,22v148a22,22 0 0 1 -22,22h-76a22,22 0 0 1 -22,-22v-148a22,22 0 0 1 22,-22z" />
+    <path android:fillColor="@color/bg_card" android:pathData="M94,16h72a16,16 0 0 1 16,16v152a16,16 0 0 1 -16,16h-72a16,16 0 0 1 -16,-16v-152a16,16 0 0 1 16,-16z" />
+    <path android:fillColor="@color/tertiary_container" android:pathData="M88,40a10,10 0 1 0 20,0a10,10 0 1 0 -20,0z" />
+    <path android:fillColor="@color/tertiary_container" android:pathData="M112,40a10,10 0 1 0 20,0a10,10 0 1 0 -20,0z" />
+    <path android:fillColor="@color/tertiary_container" android:pathData="M136,40a10,10 0 1 0 20,0a10,10 0 1 0 -20,0z" />
+    <path android:fillColor="@color/secondary_container" android:pathData="M98,62h64a10,10 0 0 1 10,10v36a10,10 0 0 1 -10,10h-64a10,10 0 0 1 -10,-10v-36a10,10 0 0 1 10,-10z" />
+    <path android:fillColor="@color/outline_variant" android:pathData="M91,126h54a3,3 0 0 1 3,3v0a3,3 0 0 1 -3,3h-54a3,3 0 0 1 -3,-3v-0a3,3 0 0 1 3,-3z" />
+    <path android:fillColor="@color/outline_variant" android:pathData="M91,138h38a3,3 0 0 1 3,3v0a3,3 0 0 1 -3,3h-38a3,3 0 0 1 -3,-3v-0a3,3 0 0 1 3,-3z" />
+    <path android:fillColor="@color/secondary_container" android:pathData="M98,152h64a10,10 0 0 1 10,10v20a10,10 0 0 1 -10,10h-64a10,10 0 0 1 -10,-10v-20a10,10 0 0 1 10,-10z" />
+    <path android:fillColor="@color/primary_container" android:pathData="M186,56h40a18,18 0 0 1 18,18v84a18,18 0 0 1 -18,18h-40a18,18 0 0 1 -18,-18v-84a18,18 0 0 1 18,-18z" />
+    <path android:fillColor="@color/primary" android:pathData="M198,102h0a4,4 0 0 1 4,4v20a4,4 0 0 1 -4,4h-0a4,4 0 0 1 -4,-4v-20a4,4 0 0 1 4,-4z" />
+    <path android:fillColor="@color/primary" android:pathData="M214,102h0a4,4 0 0 1 4,4v20a4,4 0 0 1 -4,4h-0a4,4 0 0 1 -4,-4v-20a4,4 0 0 1 4,-4z" />
+    <path android:fillColor="@color/success" android:pathData="M222,64a14,14 0 1 0 28,0a14,14 0 1 0 -28,0z" />
+    <path android:strokeColor="@color/on_success" android:strokeWidth="4" android:strokeLineCap="round" android:strokeLineJoin="round" android:pathData="M229,64l5,5l9,-10" />
+</vector>

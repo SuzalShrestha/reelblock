@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Quick Settings tile icon: the brand mark in one colour (the system tints it). 24dp. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="@dimen/icon_md" android:height="@dimen/icon_md" android:viewportWidth="24" android:viewportHeight="24">
+    <path android:fillColor="@android:color/white" android:fillAlpha="0.5" android:pathData="M4.5,6.5h2a2,2 0 0 1 2,2v7a2,2 0 0 1-2,2h-2a2,2 0 0 1-2,-2v-7a2,2 0 0 1 2,-2z" />
+    <path android:fillColor="@android:color/white" android:fillType="evenOdd" android:pathData="M10.5,3h8a2.5,2.5 0 0 1 2.5,2.5v13a2.5,2.5 0 0 1-2.5,2.5h-8a2.5,2.5 0 0 1-2.5,-2.5v-13a2.5,2.5 0 0 1 2.5,-2.5zM12.2,9a.8,.8 0 0 0-.8,.8v4.5a.8,.8 0 0 0 1.5,0v-4.5a.8,.8 0 0 0-.8,-.8zM16.2,9a.8,.8 0 0 0-.8,.8v4.5a.8,.8 0 0 0 1.5,0v-4.5a.8,.8 0 0 0-.8,-.8z" />
+</vector>

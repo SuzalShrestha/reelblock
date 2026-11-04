@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- List row in a group (single). Ripple is the M3 pressed state layer. -->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android" android:color="@color/state_on_surface">
+    <item>
+        <shape>
+            <solid android:color="@color/bg_card" />
+            <corners android:topLeftRadius="@dimen/radius_lg_increased" android:topRightRadius="@dimen/radius_lg_increased"
+                android:bottomLeftRadius="@dimen/radius_lg_increased" android:bottomRightRadius="@dimen/radius_lg_increased" />
+        </shape>
+    </item>
+</ripple>

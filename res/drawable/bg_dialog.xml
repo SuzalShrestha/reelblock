@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Dialog container: M3 extra-large corners (28dp), inset from the screen edge. -->
+<inset xmlns:android="http://schemas.android.com/apk/res/android" android:inset="@dimen/dialog_inset">
+    <shape><solid android:color="@color/bg_dialog" /><corners android:radius="@dimen/radius_xl" /></shape>
+</inset>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Main switch bar (like Android settings): a pill on the hero, with the pressed state layer. -->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android" android:color="@color/state_on_surface">
+    <item><shape><solid android:color="@color/bg_card" /><corners android:radius="@dimen/radius_full" /></shape></item>
+</ripple>

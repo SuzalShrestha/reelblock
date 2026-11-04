@@ -18,5 +18,5 @@ javac -source 8 -target 8 -bootclasspath "$JAR" -classpath "$BT/core-lambda-stub
 "$BT/zipalign" -f 4 $OUT/unsigned.apk $OUT/aligned.apk
 [ -f debug.keystore ] || keytool -genkeypair -keystore debug.keystore -storepass android -keypass android \
   -alias reelblock -keyalg RSA -keysize 2048 -validity 10000 -dname CN=reelblock >/dev/null 2>&1
-"$BT/apksigner" sign --ks debug.keystore --ks-pass pass:android --out ReelBlock.apk $OUT/aligned.apk
+"$BT/apksigner" sign --v1-signing-enabled false --ks debug.keystore --ks-pass pass:android --out ReelBlock.apk $OUT/aligned.apk
 [ -n "$NO_INSTALL" ] || adb ${1:+-s $1} install -r ReelBlock.apk

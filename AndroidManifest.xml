@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- No <uses-permission> at all: no INTERNET, nothing else. release.sh and CI fail the build if one appears. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="dev.local.reelblock" android:versionCode="6" android:versionName="1.4">
+    package="dev.local.reelblock" android:versionCode="7" android:versionName="2.0">
     <uses-sdk android:minSdkVersion="26" android:targetSdkVersion="33" />
-    <!-- Lets MainActivity see if the Xiaomi Autostart screen exists. -->
-    <queries><package android:name="com.miui.securitycenter" /></queries>
-    <application android:label="Reel Block" android:icon="@mipmap/ic_launcher" android:allowBackup="false"
-        android:dataExtractionRules="@xml/data_rules" android:theme="@style/Theme.ReelBlock">
+    <queries>
+        <!-- Lets MainActivity see if the Xiaomi Autostart screen exists. -->
+        <package android:name="com.miui.securitycenter" />
+        <!-- Lets the self-check read Instagram's version and whether its Reels view name still exists.
+             Package visibility only: it is not a permission and gives no access to Instagram's data. -->
+        <package android:name="com.instagram.android" />
+    </queries>
+    <application android:label="@string/app_name" android:icon="@mipmap/ic_launcher" android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_rules" android:theme="@style/Theme.ReelBlock"
+        android:supportsRtl="true">
         <activity android:name=".MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -13,12 +20,21 @@
             </intent-filter>
         </activity>
         <service android:name=".ReelBlockService" android:exported="true"
-            android:label="Reel Block"
+            android:label="@string/app_name"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
             </intent-filter>
             <meta-data android:name="android.accessibilityservice" android:resource="@xml/accessibility" />
+        </service>
+        <!-- Quick Settings tile. BIND_QUICK_SETTINGS_TILE is held by the system, not requested by this app. -->
+        <service android:name=".QsTile" android:exported="true" android:label="@string/tile_label"
+            android:icon="@drawable/ic_tile_brand"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+            <meta-data android:name="android.service.quicksettings.TOGGLEABLE_TILE" android:value="true" />
         </service>
     </application>
 </manifest>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Platform parents. values-night/themes_base.xml swaps in the dark platform theme. -->
+<resources>
+    <style name="Base.Theme" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Base.Dialog" parent="android:Theme.Material.Light.Dialog.NoActionBar" />
+</resources>

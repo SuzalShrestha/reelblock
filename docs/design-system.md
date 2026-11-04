@@ -42,6 +42,7 @@ What is in the folder:
 - `after-<screen>-<variant>.png` is v2.0: `welcome-1`, `welcome-2`, `welcome-3`, `disclosure-again` (the disclosure opened from home), `home-on`, `home-off`, `home-paused`, `home-stopped`, `home-changed`, `home-empty` and `pause`.
 - The variant is `light`, `dark` or `font2` (font scale 2.0). Extra files: `after-home-on-rtl.png`, `after-home-on-small.png`, `after-welcome-2-rtl.png`, `after-welcome-2-small.png` (right-to-left and a small screen), and `after-home-on-android14-light.png` and `after-welcome-3-android14-light.png` (an Android 14 render: wallpaper colours, and the Restricted-setting help on page 3).
 - [`audit-android11.txt`](screens/audit-android11.txt) and [`audit-android14.txt`](screens/audit-android14.txt) list every screen state that was rendered, with the number of clickable views in it. Every clickable view has a label and is at least 48dp. Both audits were run with Robolectric.
+- The harness is in the repo: [`tools/screens/`](../tools/screens). It is a dev tool, not part of the APK or `build.sh`. `tools/screens/run.sh ShotsR` renders the scenes in `tools/screens/scenes.txt` as Android 11 (fixed brand colours), and `tools/screens/run.sh Shots` as Android 14 (wallpaper colours). An optional second argument picks the variants (`light`, `dark`, `font2`, `dark-font2`, `rtl`, `small`). Output is `out/screens/<class>/<scene>_<variant>.png` and `audit.txt`: for every clickable view, a label and a size of at least 48dp. The script fails if a line says FAIL. Run `./build.sh` first; it needs Maven and a JDK 17 or later. The files in `docs/screens/` were made with it and renamed. `audit-android11.txt` has the same lines as the `audit.txt` of a `ShotsR` run. The harness renders the code in the checkout, so the `before-*` files (v1.4) cannot be made again from it.
 
 ## 3. Principles
 
@@ -304,6 +305,15 @@ All durations are `motion_*` integers in `res/values/motion.xml`. All curves are
 | `emphasized` | Path: `M 0,0 C 0.05,0 0.133333,0.06 0.166666,0.4 C 0.208333,0.82 0.25,1 1,1` | State changes that stay on screen (hero colour) |
 | `emphasized_decelerate` | 0.05, 0.7, 0.1, 1 | Things that enter |
 
+Two more motion tokens are floats in `res/values/dimens.xml`:
+
+| Token | Value | Use |
+|---|---|---|
+| `pop_start_scale` | 0.6 | Where the status badge pop starts |
+| `pop_overshoot` | 2.2 | Tension of the `OvershootInterpolator` in the pop |
+
+`press_scale` (0.97, see section 6) is the third. `Resources.getFloat` needs API 29 and minSdk is 26, so `Ui.token()` reads these through `TypedValue`.
+
 **Press feedback** (`res/animator/press.xml`, set on every button): the control scales to 0.97 in 150ms (`standard`), and back to 1 in 200ms (`emphasized_decelerate`). The ripple is the pressed state layer at 10%.
 
 **What animates** (all in `Ui.java`, `WeekChart.java`, `Welcome.java`):
@@ -312,7 +322,7 @@ All durations are `motion_*` integers in `res/values/motion.xml`. All curves are
 |---|---|
 | Hero colour change | Background tint, 500ms, `emphasized`. Skipped on first draw |
 | Hero first appears | Fade in and rise 16dp, 500ms, `emphasized_decelerate` |
-| Status badge pop | Scale from 0.6 to 1 with a small overshoot (`OvershootInterpolator`, 2.2), 500ms. Only when the state changes |
+| Status badge pop | Scale from `pop_start_scale` (0.6) to 1 with a small overshoot (`OvershootInterpolator`, tension `pop_overshoot`, 2.2), 500ms. Only when the state changes |
 | Week count | Counts up from 0, 700ms, `emphasized_decelerate`. Once, when the screen opens. Skipped for values under 2 |
 | Chart bars | Grow from the baseline, 700ms, `emphasized_decelerate`. Once, when the screen opens |
 | Onboarding pages | Slide 32dp (`space_8`) from the side they come from, plus fade, 500ms, `emphasized_decelerate`. Mirrored in right-to-left languages |
@@ -343,6 +353,24 @@ States: default and pressed (ripple 10% plus scale 0.97). Accessibility: every b
 ### Status hero
 
 `Hero` (parent `Card`): `bg_hero`, 32dp corners, 24dp padding. Anatomy, top to bottom: round badge (`HeroBadge`, 64dp, 16dp padding, hidden from TalkBack), headline (`Text.HeadlineMedium.Emphasized`, 20dp above it, `accessibilityHeading`, **`accessibilityLiveRegion="polite"`**), body (`Text.BodyLarge`), then the action. Colours, icon and text are set in `MainActivity.render()` with an animated tint. Because the headline is a polite live region, TalkBack reads the new headline when the state changes.
+
+**The first second.** When the home screen opens, the hero is hidden (invisible, not removed) while the service looks stopped, for 1 second (uptime clock). Android may still be binding the service. During that second the self-check line is empty too, so the app shows no status at all. If the service is still not running after the second, the Stopped hero appears with the usual fade and rise. Other states show at once.
+
+**On with no Instagram.** The On hero has a second body text when the self-check says Instagram is not installed: "Instagram is not on this phone yet. When you install it, Reels will close." The headline stays "Reels are blocked".
+
+**Self-check row.** Below the hero is a `Row.Single` titled "Self-check". Its supporting text is a polite live region and shows one of seven lines. Tapping the row reads Instagram's resource table again and announces "Checked just now". The icon is `ic_health` on `secondary_container`. When the hero shows Stopped or Changed, it becomes `ic_status_problem` on `error_container` (pair 17).
+
+| Result | Line |
+|---|---|
+| OK | Running. Instagram *version* has the Reels screen. |
+| OFF | Off. Turn it on to start. |
+| STOPPED | Not running. Android stopped it. |
+| CHANGED | Reels screen not found in Instagram *version*. |
+| NO_INSTAGRAM | Instagram is not installed. |
+| UNKNOWN | Running. Could not read Instagram *version* right now. Try again later. |
+| CHECKING | Running. Checking Instagram *version*… |
+
+Instagram's resource table is read on a background thread, once per Instagram install or update. The line says CHECKING until that is done.
 
 | State | Headline | Container / text | Badge / icon | Icon | Action |
 |---|---|---|---|---|---|
@@ -380,7 +408,7 @@ Turning the switch off opens the pause dialog. If the user picks nothing, the sw
 
 ### Dialog
 
-`Theme.ReelBlock.Dialog`: M3 basic dialog. Container `bg_dialog` (`surface_container_high` in light, `surface_container_highest` in dark), 28dp corners, 24dp inset from the screen edge, its minimum width is 95% of the screen on a phone and 65% on a wide screen, scrim at 32%. Parts: `Dialog.Title` (`Text.HeadlineSmall`, 24dp padding, `accessibilityHeading`), `Dialog.Body` (`Text.BodyMedium.Secondary`), `Dialog.Option` (`Text.BodyLarge`, 56dp minimum, 24dp side padding, 24dp leading icon in `icon_default`, 16dp gap, pressed ripple), `Dialog.Button` (text button at the end, 14sp). Back, a tap outside, or Cancel all dismiss it, and blocking stays on. Pairs 3, 6, 8, 23.
+`Theme.ReelBlock.Dialog`: M3 basic dialog. Container `bg_dialog` (`surface_container_high` in light, `surface_container_highest` in dark), 28dp corners, 24dp inset from the screen edge, its minimum width is 95% of the screen on a phone and 65% on a wide screen, scrim at 32%. Parts: `Dialog.Title` (`Text.HeadlineSmall`, 24dp padding, `accessibilityHeading`), `Dialog.Body` (`Text.BodyMedium.Secondary`), `Dialog.Option` (`Text.BodyLarge`, 56dp minimum, 24dp side padding, 24dp leading icon in `icon_default`, 16dp gap, pressed ripple), `Dialog.Button` (text button at the end, 14sp). Back, a tap outside, or Cancel all dismiss it, and blocking stays on. The pause dialog and the info dialog wrap their content in a `ScrollView`, so at large font sizes the options and the button can be reached by scrolling. Pairs 3, 6, 8, 23.
 
 ### Empty state
 
@@ -428,7 +456,7 @@ All strings live in `res/values/strings.xml`. The text shown in Android's own Ac
 - **Headings are marked** with `accessibilityHeading`: the app bar, section headers, card titles, dialog titles, onboarding titles, the hero headline.
 - **Live regions:** the hero headline and the self-check text are `polite`.
 - **The chart has one spoken sentence list** (see Week chart).
-- **Font scale 200%.** All text is in `sp`; text views wrap and rows use minimum heights, not fixed heights. Test at 200%.
+- **Font scale 200%.** All text is in `sp`; text views wrap and rows use minimum heights, not fixed heights. Test at 200%. The pause and info dialogs scroll at large font sizes.
 - **Right-to-left.** Layouts use start and end, never left and right. Directional icons are `autoMirrored` (`ic_back`, `ic_back_press`, `ic_chevron`, `ic_open`). The chart and the page slide are mirrored.
 - **Small screens.** Design for 360dp wide. Screens scroll; the onboarding buttons stay at the bottom.
 - **Reduced motion.** See section 7.

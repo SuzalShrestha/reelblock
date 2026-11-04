@@ -242,7 +242,7 @@ after that second. The wait uses the uptime clock, so changing the phone's clock
 
 ## Build from source
 
-You need a JDK (11 or later) and the Android SDK with one `build-tools` and one `platforms`
+You need a JDK (11 or later) and the Android SDK with one `build-tools` (30 or later, for `aapt2 optimize`) and one `platforms`
 package. No Gradle and no Android Studio. The build takes a few seconds.
 
 ```sh

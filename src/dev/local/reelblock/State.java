@@ -116,7 +116,7 @@ final class State {
     // Keep 30 days of per-day counts, drop the rest.
     static void prune(Context c) {
         SharedPreferences p = stats(c);
-        long oldest = day(System.currentTimeMillis()) - 30;
+        long oldest = day(System.currentTimeMillis()) - 29; // today and the 29 days before it
         SharedPreferences.Editor e = null;
         for (Map.Entry<String, ?> en : p.getAll().entrySet()) {
             String k = en.getKey();

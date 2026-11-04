@@ -72,6 +72,7 @@ scroll_down() { A input swipe $((W / 2)) $((H * 3 / 4)) $((W / 2)) $((H / 4)) 30
 tap_text() {
   i=0
   while [ $i -le 4 ]; do
+    b=
     dump tap && b=$(nodes tap | awk -F'|' -v t="$1" '$2==t {print $5; exit}')
     if [ -n "$b" ]; then
       # shellcheck disable=SC2046  # split "[x1,y1][x2,y2]" into four numbers on purpose
@@ -82,19 +83,35 @@ tap_text() {
   return 1
 }
 go() { tap_text "$1" || { fail "$2: could not find \"$1\""; return 1; }; }
-on_screen() { dump probe && nodes probe | grep -q "|$1|"; }
+# The screen shows text matching this regex, scrolling down up to 4 times (uiautomator sees only what is on screen).
+on_screen() {
+  i=0
+  while [ $i -le 4 ]; do
+    dump probe && nodes probe | grep -q "|$1|" && return 0
+    scroll_down; i=$((i + 1))
+  done
+  return 1
+}
 # Home first: leaving closes Reel Block's task (HyperOS fix), so it opens fresh at the top. Never "am start -S":
 # a force-stop makes Android remove the app's accessibility service from the enabled list.
 open_app() { A input keyevent KEYCODE_HOME; sleep 1; A am start -W -n $PKG/.MainActivity >/dev/null; sleep 2; }
 # "All time 128" on the home screen -> 128 (0 when the empty state shows).
 count() { open_app; dump count; n=$(nodes count 2>/dev/null | grep -o 'All time [0-9,.]*' | head -1 | tr -dc '0-9'); echo "${n:-0}"; }
-open_reels() { A monkey -p com.instagram.android -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1; sleep 5; A input tap $TAP; sleep 4; }
+open_reels() { sleep 2; A monkey -p com.instagram.android -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1; sleep 5; A input tap $TAP; sleep 4; }
 service_on() {
   case ":$SVCS0:" in *":$SVC:"*) L=$SVCS0;; *) L=${SVCS0:+$SVCS0:}$SVC;; esac
   A settings put secure enabled_accessibility_services "$L"; A settings put secure accessibility_enabled 1; sleep 3
 }
-service_off() { A settings put secure enabled_accessibility_services "$(echo ":$SVCS0:" | sed "s#:$SVC:#:#g; s#^:##; s#:\$##")"; sleep 2; }
-bound() { A dumpsys accessibility | grep -q "Bound services:{.*label=Reel Block"; }
+service_off() {
+  L=$(echo ":$SVCS0:" | sed "s#:$SVC:#:#g; s#^:##; s#:\$##")
+  # adb shell drops an empty argument, so an empty list must be a delete, not a put.
+  if [ -z "$L" ]; then A settings delete secure enabled_accessibility_services >/dev/null
+  else A settings put secure enabled_accessibility_services "$L"; fi
+  sleep 2; ! bound || fail "could not turn Reel Block off for the off screen"
+}
+# uiautomator dump connects UiAutomation, which can pause other accessibility services while it runs:
+# give Android a moment to bind Reel Block again before asking.
+bound() { sleep 2; A dumpsys accessibility | grep -q "Bound services:{.*label=Reel Block"; }
 crashed() { A dumpsys accessibility | grep "Crashed services" | grep -q "$PKG"; }
 # The Reels viewer is on screen: its view line in "dumpsys activity top" has the V (visible) flag. This sees
 # only the view's own flag; the count going up is the main proof that Reel Block pressed Back.

@@ -26,15 +26,27 @@ final class Check {
     // off the main thread. Until it is done the status is CHECKING.
     private static volatile long checkedUpdate = -1;
     private static volatile Boolean viewerFound; // null: could not read it (for example while Instagram updates)
-    private static volatile boolean loading;
+    private static volatile boolean loading, recheck;
+    // Who to tell when a read finishes: the screen that asked last (a rotated screen replaces the old one).
+    private static volatile Runnable listener;
 
-    // Look again on the next run (the self-check row).
+    // Read again (the self-check row). Until the new read is done, the last result stays on screen.
     static void forget() {
-        checkedUpdate = -1;
+        recheck = true;
+    }
+
+    // A screen that goes away stops listening, so a finished read never holds on to it.
+    static void unlisten(Runnable done) {
+        if (listener == done) listener = null;
+    }
+
+    static boolean reading() {
+        return loading;
     }
 
     // `done` runs on the main thread when a background read finishes.
     static Check run(Context c, Runnable done) {
+        listener = done;
         String version = null;
         long update = -1;
         try {
@@ -44,7 +56,7 @@ final class Check {
         } catch (PackageManager.NameNotFoundException e) {
             // Not installed: nothing to block, and nothing is wrong with Reel Block.
         }
-        if (version != null && update != checkedUpdate && !loading) load(c.getApplicationContext(), update, done);
+        if (version != null && (update != checkedUpdate || recheck) && !loading) load(c.getApplicationContext(), update);
         if (!State.enabled(c)) return new Check(OFF, version);
         if (!State.running(c)) return new Check(STOPPED, version);
         if (version == null) return new Check(NO_INSTAGRAM, null);
@@ -53,8 +65,9 @@ final class Check {
         return new Check(viewerFound ? OK : CHANGED, version);
     }
 
-    private static void load(Context app, long update, Runnable done) {
+    private static void load(Context app, long update) {
         loading = true;
+        recheck = false;
         new Thread(() -> {
             Boolean found;
             try {
@@ -66,7 +79,8 @@ final class Check {
             viewerFound = found;
             checkedUpdate = update;
             loading = false;
-            new Handler(Looper.getMainLooper()).post(done);
+            Runnable l = listener;
+            if (l != null) new Handler(Looper.getMainLooper()).post(l);
         }, "reelblock-check").start();
     }
 }

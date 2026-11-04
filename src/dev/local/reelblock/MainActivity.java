@@ -31,7 +31,9 @@ public class MainActivity extends Activity {
     private boolean firstRender;
     private long graceUntil;
     private Dialog dialog;
+    private boolean announceCheck;
     private final Runnable rerender = this::render;
+    private final Runnable checkDone = () -> { if (!isDestroyed()) render(); };
 
     @Override
     protected void onCreate(Bundle b) {
@@ -73,8 +75,8 @@ public class MainActivity extends Activity {
         });
         findViewById(R.id.check_row).setOnClickListener(v -> {
             Check.forget();
+            announceCheck = true; // said when the new result is on screen
             render();
-            v.announceForAccessibility(getString(R.string.check_done));
         });
         findViewById(R.id.tile_row).setOnClickListener(v -> addTile());
         findViewById(R.id.help_row).setOnClickListener(v -> welcome(Welcome.SETUP));
@@ -126,13 +128,20 @@ public class MainActivity extends Activity {
             if (sbm != null) {
                 sbm.requestAddTileService(new ComponentName(this, QsTile.class), getString(R.string.tile_label),
                     Icon.createWithResource(this, R.drawable.ic_tile_brand), getMainExecutor(), r -> {
-                        if (r == StatusBarManager.TILE_ADD_REQUEST_RESULT_TILE_ALREADY_ADDED && !isFinishing())
-                            dialog = Ui.info(this, R.string.tile_row_title, R.string.tile_already);
+                        if (isFinishing()) return;
+                        if (r == StatusBarManager.TILE_ADD_REQUEST_RESULT_TILE_ALREADY_ADDED) info(R.string.tile_row_title, R.string.tile_already);
+                        // Errors (1000+: no status bar service, request in progress...): explain how to add it by hand.
+                        else if (r >= 1000) info(R.string.tile_how_title, R.string.tile_how_body);
                     });
                 return;
             }
         }
-        dialog = Ui.info(this, R.string.tile_how_title, R.string.tile_how_body);
+        info(R.string.tile_how_title, R.string.tile_how_body);
+    }
+
+    private void info(int title, int body) {
+        if (dialog != null) dialog.dismiss();
+        dialog = Ui.info(this, title, body);
     }
 
     @Override
@@ -147,6 +156,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         if (dialog != null) dialog.dismiss();
+        Check.unlisten(checkDone);
         super.onDestroy();
     }
 
@@ -161,7 +171,8 @@ public class MainActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (!isChangingConfigurations()) finishAndRemoveTask();
+        // Only our own task: if another app started us inside its task (no NEW_TASK), leave that task alone.
+        if (!isChangingConfigurations()) { if (isTaskRoot()) finishAndRemoveTask(); else finish(); }
     }
 
     @Override
@@ -174,7 +185,7 @@ public class MainActivity extends Activity {
         View heroView = findViewById(R.id.hero);
         if (heroView == null) return;
         heroView.removeCallbacks(rerender);
-        Check check = Check.run(this, () -> { if (!isDestroyed()) render(); });
+        Check check = Check.run(this, checkDone);
         boolean paused = State.paused(this);
         long until = State.pausedUntil(this);
         Hero h = check.status == Check.OFF ? Hero.OFF
@@ -259,6 +270,10 @@ public class MainActivity extends Activity {
             : check.status == Check.UNKNOWN ? getString(R.string.check_unknown, v)
             : check.status == Check.CHECKING ? getString(R.string.check_checking, v)
             : getString(R.string.check_no_instagram));
+        if (announceCheck && !Check.reading()) {
+            announceCheck = false;
+            checkBody.announceForAccessibility(getString(R.string.check_done) + ". " + checkBody.getText());
+        }
         boolean bad = h == Hero.STOPPED || h == Hero.CHANGED;
         ImageView checkIcon = findViewById(R.id.check_icon);
         checkIcon.setImageResource(bad ? R.drawable.ic_status_problem : R.drawable.ic_health);

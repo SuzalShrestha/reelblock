@@ -31,7 +31,8 @@ on a phone. On Android 12 and later the colours follow your wallpaper, so your p
 The full set (every state, dark mode, font scale 2.0, right-to-left, a small screen and Android 14) is in
 [`docs/screens/`](docs/screens). The audits [`audit-android11.txt`](docs/screens/audit-android11.txt) and
 [`audit-android14.txt`](docs/screens/audit-android14.txt) show that every clickable view has a label and is at
-least 48dp, rendered with Robolectric.
+least 48dp, rendered with Robolectric. The harness that made them is in the repo:
+[`tools/screens/`](tools/screens) (see [Build from source](#build-from-source)).
 
 ---
 
@@ -46,10 +47,10 @@ least 48dp, rendered with Robolectric.
   Instagram has changed, each with one main action.
 - **A "This week" chart.** Reels closed per day, plus today and all-time counts. They stay on your phone.
 - **Self-check.** It tells you when Android stopped Reel Block, when an Instagram update removed the
-  Reels screen it looks for, and when it cannot tell.
+  Reels screen it looks for, when Instagram is not installed, and when it cannot tell.
 - **A Quick Settings tile.** Pause or resume from the top of your screen. Pausing asks for how long.
 - **Still the same promises.** Instagram only, no permission at all, no logs, no analytics, no account.
-  The APK grew from about 30 KB to about 100 KB because of the design system, vector icons and
+  The APK grew from about 30 KB to about 94 KB because of the design system, vector icons and
   illustrations, and dynamic colour.
 
 ---
@@ -71,7 +72,7 @@ turn the blocker off. Reel Block removes only the endless Reels feed. Everything
 | Root, modified APKs, accounts, ads, tracking, logs | **None** |
 | Quick Settings tile | Pause (asks for how long) or resume |
 | Self-check | Tells you when Android stopped it or Instagram changed |
-| Size | About 100 KB |
+| Size | About 94 KB |
 
 ## How it feels
 
@@ -153,21 +154,25 @@ The maintainer should register before 2027.
 **Is it safe? Accessibility apps can read my screen.**
 Yes, Android gives accessibility apps a lot of access. That is why Reel Block is open source and
 very small: [the part that acts on Instagram is 56 lines](src/dev/local/reelblock/ReelBlockService.java),
-and the whole app is about 910 lines of Java in [8 files](src/dev/local/reelblock). Read them. The app:
+and the whole app is about 950 lines of Java in [8 files](src/dev/local/reelblock). Read them. The app:
 - listens only to Instagram (see [`accessibility.xml`](res/xml/accessibility.xml)), and the code
   checks the package again before it looks at any window,
 - looks for one view ID and reads no text, messages or images,
 - has **no permission at all** and no internet permission (see [`AndroidManifest.xml`](AndroidManifest.xml)),
   so it cannot send anything anywhere. `aapt2 dump badging ReelBlock.apk` lists none,
 - writes no logs,
-- stores these things on your phone, in two private files: your pause setting (and when a timed pause
-  ends), whether you agreed to the disclosure or tapped **Not now**, the all-time count of closed Reels, and
-  the count for each of the last 30 days. It stores no time of day for a close. Backup and phone-to-phone
-  transfer copy nothing, so it stays on this phone,
+- stores these things on your phone, in two private files (the list is at the top of
+  [`State.java`](src/dev/local/reelblock/State.java)). `settings`: your pause setting (and when a timed
+  pause ends), whether you agreed to the disclosure, and whether the first run was shown (so **Not now** is
+  remembered). `stats`: the all-time count of closed Reels, and the count for each of the last 30 days. It
+  stores no time of day for a close. Counts older than 30 days are deleted on the first close of each day,
+  even if you never open the app (and when you open it). Backup and phone-to-phone transfer copy nothing, so
+  it stays on this phone,
 - has one `<queries>` entry for `com.instagram.android` in the manifest. That is package visibility,
   not a permission. The [self-check](src/dev/local/reelblock/Check.java) uses it to read Instagram's
   version and to ask whether Instagram still has the view name `clips_viewer_view_pager`. It never looks at
-  Instagram's screen for this. It keeps the answer in memory while the app runs, not on disk.
+  Instagram's screen for this. It reads Instagram's resource table on a background thread, once per
+  Instagram install or update, and keeps the answer in memory while the app runs, not on disk.
 
 **Why is it not on the Play Store?**
 Google allows accessibility apps on the Play Store only for some uses. You can build the APK
@@ -206,7 +211,7 @@ closes. It writes no log lines. To check it, watch the counter in the app go up.
 
 The **self-check** in the app is separate from the service. It checks that Android really runs the service
 (not only that Settings shows it as on), and that the installed Instagram still has the view name above.
-It ends in one of six results:
+It ends in one of seven results:
 
 | Result | What the self-check line says |
 |---|---|
@@ -216,15 +221,24 @@ It ends in one of six results:
 | Changed | Reels screen not found in Instagram *version*. |
 | No Instagram | Instagram is not installed. |
 | Cannot tell | Running. Could not read Instagram *version* right now. Try again later. |
+| Checking | Running. Checking Instagram *version*… |
 
 "Cannot tell" appears when Android does not let the app read Instagram's package (for example while Instagram
-updates). Reel Block says so, and does not guess "changed".
+updates). Reel Block says so, and does not guess "changed". "Checking" shows while the app reads Instagram's
+resource table (see below), and is replaced by one of the other results when that is done. When Instagram is
+not installed and Reel Block is running, the home screen still says **Reels are blocked**, with the text
+"Instagram is not on this phone yet. When you install it, Reels will close."
 
 **Why the view name is a good test.** The service finds the Reels viewer by the same name. If Instagram's
 resource table (the list of view names in its app) no longer has the name, the service cannot find the viewer
 either, so Reels would stay open. The self-check asks the same question, before you notice. Loading
-Instagram's resource table takes a moment, so it is read once per Instagram install or update (Android tells
-us the last update time), not on every look.
+Instagram's resource table takes a moment, so it is read on a background thread, once per Instagram install or
+update (Android tells us the last update time), not on every look. Tap the **Self-check** row to read it again.
+
+**The first second.** Right after the home screen opens, Android may still be binding the service. If the
+service looks stopped in that first second, the app shows no status at all (the status card is hidden and the
+self-check line is empty). It says **Android stopped Reel Block** only if the service is still not running
+after that second. The wait uses the uptime clock, so changing the phone's clock does not change it.
 
 ## Build from source
 
@@ -238,9 +252,16 @@ NO_INSTALL=1 ./build.sh   # build only
 ```
 
 The script uses `$ANDROID_HOME` (default `~/Library/Android/sdk`) and picks the newest build-tools
-and platform. It leaves the `R` classes out of the dex: `javac` already copies their ids into the code, so
-they are not needed at run time. Set `BUILD_TOOLS=/path/to/build-tools/<version>` or `ANDROID_JAR=/path/to/android.jar`
-to choose others. On the first build it creates a local `debug.keystore` to sign the APK (v2 and v3
+and platform. Set `BUILD_TOOLS=/path/to/build-tools/<version>` or `ANDROID_JAR=/path/to/android.jar`
+to choose others. To keep the APK small it:
+- runs `aapt2 optimize --shorten-resource-paths --collapse-resource-names`: short file paths inside the APK,
+  and one shared name for all resources, because the app never looks up a resource by name. The `R` ids in
+  the code do not change,
+- compiles the dex with `d8 --release`,
+- leaves the `R` classes out of the dex: `javac` already copies their ids into the code, so they are not
+  needed at run time.
+
+On the first build it creates a local `debug.keystore` to sign the APK (v2 and v3
 signing only; v1 JAR signing is off, because minSdk 26 never needs it). Git ignores this file.
 Releases are signed with the maintainer's key, which is the same key as older releases.
 
@@ -253,14 +274,38 @@ tools/device-check.sh             # on a phone with adb: install, a Reel closes 
                                   # the tile pauses and resumes, self-check, no Recents card or crashed
                                   # service on HyperOS, screenshots in light, dark and font 2.0,
                                   # every clickable node labelled
+tools/screens/run.sh ShotsR       # no phone: render the screens with Robolectric and audit the labels
 ```
 
-GitHub Actions runs the first two on every push, plus a search for logging and network code, the build,
-and a "no permissions" check on the APK. See [`.github/workflows/build.yml`](.github/workflows/build.yml).
-The built APK is 103,230 bytes (about 100 KB), measured by GitHub CI with the real Android SDK (build-tools
-`d8`, `compileSdk` 37) on commit `b594418`. It is smaller than before because unused colour roles, styles and
-drawables were removed and the `R` classes are left out of the dex. Version 1.4 was about 30 KB. The numbers
-are in [docs/research.md](docs/research.md).
+**`tools/device-check.sh` has not been run yet.** It was written where no phone was available, so its first
+run may also find mistakes in the script. It needs `adb`, `python3` and a phone with Instagram signed in. It
+turns the service on through `adb`, checks that a Reel closes and the count goes up, that the Quick Settings
+tile asks how long and resumes, that the self-check line says the Reels screen was found, and that after you
+leave the app there is no Recents card and the service is still bound. Then, in light, dark and font scale
+2.0, it takes a screenshot of the home screen (top to bottom), the pause dialog, the paused home screen, the
+off home screen, the disclosure and the setup help, and checks that every clickable node has a label.
+`FIRST_RUN=1` also shoots the three first-run pages. This **clears the app's data**, so the count goes back
+to 0. It cannot make **Android stopped Reel Block** or **Instagram has changed** on purpose, so those two
+screens are not covered. When it ends (also on Ctrl-C) it puts back the font scale, dark mode, the enabled
+accessibility services and `accessibility_enabled`. It never force-stops the app, because that makes Android
+remove the service from the enabled list.
+
+**`tools/screens/`** is a dev tool, not part of the APK or of `build.sh`. It renders the real layouts with
+Robolectric, writes the PNGs and checks that every clickable view has a label and is at least 48dp.
+`tools/screens/run.sh ShotsR` renders as Android 11 (fixed brand colours). `tools/screens/run.sh Shots`
+renders as Android 14 (wallpaper colours). Output goes to `out/screens/<class>/`, with an `audit.txt`. The
+scenes are in `tools/screens/scenes.txt`. Run `./build.sh` first. It needs Maven and a JDK 17 or later:
+Maven fetches Robolectric, and `tools/screens/src/test/java/androidx/test` holds a few stand-in classes
+because `androidx.test` is only on Google's Maven. [`docs/screens/`](docs/screens) was made with it.
+
+GitHub Actions runs the first two checks on every push, plus a search for logging and network code, a check
+that `accessibility.xml` has exactly one `packageNames` attribute and that it is exactly `com.instagram.android`,
+the build, and a "no permissions" check on the APK. See [`.github/workflows/build.yml`](.github/workflows/build.yml).
+The built APK is 93,981 bytes (about 94 KB; zipped, about 64 KB), measured by GitHub CI with the real Android
+SDK (build-tools `d8`, `compileSdk` 37) on commit `6d93a21`. It is smaller than before because unused colour
+roles, styles and drawables were removed, `build.sh` runs `aapt2 optimize` and `d8 --release`, and the `R`
+classes are left out of the dex. Version 1.4 was about 30 KB. The numbers are in
+[docs/research.md](docs/research.md).
 
 Merging does not make a release. To release, bump `versionCode` and `versionName` in
 `AndroidManifest.xml`, merge to `main`, then run `./release.sh notes.md` from `main`. It tags the version,

@@ -5,44 +5,45 @@ Read each community's self-promotion rules before you post. Post as yourself and
 
 ## One-sentence pitch
 
-Reel Block is a free, open-source Android app that closes Instagram Reels and YouTube Shorts the
-moment they open, and keeps everything else in those apps.
+Reel Block is a free, open-source Android app that closes Instagram Reels the moment they open, and
+keeps everything else in Instagram.
 
-**Tagline:** Keep Instagram and YouTube. Lose the Reels and Shorts.
+**Tagline:** Keep Instagram. Lose the Reels.
 
 ## GitHub repo description (max 350 chars)
 
-Free, open-source Android app that closes Instagram Reels and YouTube Shorts and keeps the rest of
-the apps. About 120 lines of Java, no root, no internet permission.
+Free, open-source Android app that closes Instagram Reels and keeps the rest of Instagram. About 980
+lines of Java (the part that acts on Instagram is 56), no root, no permissions at all.
 
 ## X / Threads / Bluesky
 
 > I kept opening Instagram to answer one DM and losing 40 minutes to Reels.
 >
-> So I made an Android app that closes Reels and YouTube Shorts the moment they open. DMs, feed,
-> Stories, normal YouTube all still work.
+> So I made an Android app that closes Reels the moment they open. DMs, feed and Stories all still
+> work.
 >
-> Free, open source, ~120 lines, no internet permission.
+> Free, open source, no permissions at all, no internet.
 > https://github.com/SuzalShrestha/reelblock
 
 ## Reddit (r/nosurf, r/digitalminimalism, r/androidapps, r/opensource)
 
-**Title:** I made a free, open-source Android app that closes Instagram Reels and YouTube Shorts but
-keeps the rest of the apps
+**Title:** I made a free, open-source Android app that closes Instagram Reels but keeps the rest of
+Instagram
 
 > App blockers never worked for me. If I block all of Instagram, I lose my DMs and my friends'
 > Stories, so I turn the blocker off after two days.
 >
-> Reel Block removes only the endless part. When the Reels or Shorts viewer opens, it presses Back.
+> Reel Block removes only the endless part. When the Reels viewer opens, it presses Back.
 > You land on your feed before the first video plays.
 >
-> - Instagram feed, Stories, DMs, and normal YouTube videos all still work
+> - Instagram feed, Stories and DMs all still work
 > - No root, no modified Instagram, no account
-> - No internet permission, so it cannot send data anywhere
-> - About 120 lines of Java. You can read all of it in five minutes.
+> - No permissions at all, not even internet, so it cannot send data anywhere
+> - About 980 lines of Java in 8 files. The part that acts on Instagram is 56 lines.
 >
 > It uses an accessibility service, which I know sounds scary. That is exactly why the source is
-> small and public.
+> small and public. Before Android settings open, the app shows a "What Reel Block can see" screen
+> that lists what it can and never does, and you tap Agree or Not now.
 >
 > https://github.com/SuzalShrestha/reelblock
 >
@@ -50,18 +51,18 @@ keeps the rest of the apps
 
 ## Hacker News (Show HN)
 
-**Title:** Show HN: Reel Block – a 120-line Android app that closes Reels and Shorts
+**Title:** Show HN: Reel Block – an Android app that closes Instagram Reels (service is 56 lines)
 
-> Instagram calls Reels "clips" internally, and YouTube calls Shorts "reels". Each app shows the
-> full-screen viewer in one view with a stable ID (`clips_viewer_view_pager`, `reel_recycler`).
-> Reel Block is an accessibility service that watches only those two packages, and presses Back
-> when that view becomes visible. No root, no network permission, no Gradle: the build is a 20-line
-> shell script around aapt2, javac and d8.
+> Instagram calls Reels "clips" internally. The full-screen viewer is one view with a stable ID
+> (`clips_viewer_view_pager`). Reel Block is an accessibility service that watches only the Instagram
+> package, and presses Back when that view becomes visible. No root, no permissions at all, no
+> Gradle: the build is a short shell script around aapt2, javac and d8. The whole app is about 980
+> lines of Java; the service is 56.
 >
-> The README shows how I found the IDs with `aapt2 dump resources` and `dumpsys activity top`, so
-> anyone can fix them when the apps change.
+> The README shows how I found the ID with `aapt2 dump resources` and `dumpsys activity top`, so
+> anyone can fix it when the app changes.
 
 ## Message to a friend
 
-> You said you want to stop scrolling Reels. This closes Reels and YouTube Shorts and keeps the rest
-> of the apps. Free, 2-minute setup: https://github.com/SuzalShrestha/reelblock
+> You said you want to stop scrolling Reels. This closes Instagram Reels and keeps the rest of
+> Instagram. Free, 2-minute setup: https://github.com/SuzalShrestha/reelblock

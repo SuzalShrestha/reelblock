@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Base.Theme" parent="android:Theme.Material.NoActionBar" />
+    <style name="Base.Dialog" parent="android:Theme.Material.Dialog.NoActionBar" />
+</resources>

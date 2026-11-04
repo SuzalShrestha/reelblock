@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Tinted at runtime: ok_soft when on, warn_soft when off. -->
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#FFFFFFFF" />
-    <corners android:radius="999dp" />
-</shape>

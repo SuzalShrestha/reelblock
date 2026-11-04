@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Material Symbols Rounded "health_and_safety" (Apache-2.0, google/material-design-icons). Tinted by the view. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="@dimen/icon_md" android:height="@dimen/icon_md"
+    android:viewportWidth="960" android:viewportHeight="960">
+    <group android:translateY="960">
+        <path android:fillColor="@android:color/white" android:pathData="M440-460v77q0 9 7 16t16 7h35q9.3 0 15.7-7 6.3-7 6.3-16v-77h78q9.3 0 15.7-7 6.3-7 6.3-16v-35q0-9.3-6.3-15.7Q607.4-540 598-540h-78v-78q0-9.3-6.3-15.7Q507.4-640 498-640h-35q-9 0-16 6.3-7 6.3-7 15.7v78h-77q-9 0-16 6.3-7 6.3-7 15.7v35q0 9 7 16t16 7h77Zm40 376q-5.3 0-9.9-1-4.6-1-9.1-3-139-47-220-168.5t-81-266.6V-719q0-19.3 10.9-34.7Q181.8-769.1 199-776l260-97q11-4 21-4t21 4l260 97q17.2 6.9 28.1 22.3Q800-738.3 800-719v195.9Q800-378 719-256.5T499-88q-4.6 2-9.1 3T480-84Zm0-59q115-38 187.5-143.5T740-523v-196l-260-98-260 98v196q0 131 72.5 236.5T480-143Zm0-337Z" />
+    </group>
+</vector>

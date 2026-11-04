@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- M3 switch thumb: 24dp on (on_primary), 16dp off (outline). The frame is half the track wide. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true">
+        <inset android:insetLeft="@dimen/switch_thumb_on_inset_h" android:insetRight="@dimen/switch_thumb_on_inset_h"
+            android:insetTop="@dimen/switch_thumb_on_inset_v" android:insetBottom="@dimen/switch_thumb_on_inset_v">
+            <shape android:shape="oval"><solid android:color="@color/on_primary" />
+                <size android:width="@dimen/switch_thumb_on" android:height="@dimen/switch_thumb_on" /></shape>
+        </inset>
+    </item>
+    <item>
+        <inset android:insetLeft="@dimen/switch_thumb_off_inset_h" android:insetRight="@dimen/switch_thumb_off_inset_h"
+            android:insetTop="@dimen/switch_thumb_off_inset_v" android:insetBottom="@dimen/switch_thumb_off_inset_v">
+            <shape android:shape="oval"><solid android:color="@color/outline" />
+                <size android:width="@dimen/switch_thumb_off" android:height="@dimen/switch_thumb_off" /></shape>
+        </inset>
+    </item>
+</selector>

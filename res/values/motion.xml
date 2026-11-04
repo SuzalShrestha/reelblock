@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Motion tokens (M3). Durations in ms; curves are in res/interpolator/. Animations respect
+     "Remove animations" (ValueAnimator.areAnimatorsEnabled()). -->
+<resources>
+    <integer name="motion_short2">100</integer>
+    <integer name="motion_short3">150</integer>
+    <integer name="motion_short4">200</integer>
+    <integer name="motion_medium2">300</integer>
+    <integer name="motion_medium4">400</integer>
+    <integer name="motion_long2">500</integer>
+    <integer name="motion_extra_long1">700</integer>
+</resources>

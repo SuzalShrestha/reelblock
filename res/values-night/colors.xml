@@ -1,16 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Colour role tokens (Material 3), dark. Generated from seed #2C7A7B; see docs/design-system.md.
+     Android 12+ replaces the brand roles with the wallpaper colours: values-v31, values-v34.
+     Layouts never use these names directly for surfaces; they use the semantic names in colors_semantic.xml.
+     tools/check_contrast.py checks every pair in docs/design-system.md against these values. -->
 <resources>
-    <color name="bg">#FF0E0F12</color>
-    <color name="surface">#FF181A1F</color>
-    <color name="outline">#FF2A2D34</color>
-    <color name="text">#FFF2F3F5</color>
-    <color name="text_muted">#FFA0A6B1</color>
-    <color name="accent">#FFFF6B72</color>
-    <color name="on_accent">#FF1A0507</color>
-    <color name="accent_soft">#FF3A1518</color>
-    <color name="ok">#FF6BD796</color>
-    <color name="ok_soft">#FF12301F</color>
-    <color name="warn">#FFFFB761</color>
-    <color name="warn_soft">#FF3A2610</color>
-    <bool name="light_bars">false</bool>
+    <!-- Brand: calm teal (seed #2C7A7B, Material 3 "tonal spot" scheme from material-color-utilities 0.3.0, primary chroma 26 instead of 36: calm, not neon). -->
+    <color name="primary">#FF9BD0D0</color>
+    <color name="on_primary">#FF003737</color>
+    <color name="primary_container">#FF164E4F</color>
+    <color name="on_primary_container">#FFB7ECEC</color>
+    <color name="secondary_container">#FF324B4B</color>
+    <color name="on_secondary_container">#FFCCE8E8</color>
+    <color name="tertiary_container">#FF344863</color>
+    <!-- Error: fixed Material 3 error palette. Used only for real problems. -->
+    <color name="error">#FFFFB4AB</color>
+    <color name="on_error">#FF690005</color>
+    <color name="error_container">#FF93000A</color>
+    <color name="on_error_container">#FFFFDAD6</color>
+    <!-- Surfaces: neutral palette, tinted toward the seed. Containers go from lowest to highest. -->
+    <color name="surface">#FF0E1514</color>
+    <color name="surface_container_lowest">#FF090F0F</color>
+    <color name="surface_container">#FF1A2121</color>
+    <color name="surface_container_high">#FF252B2B</color>
+    <color name="surface_container_highest">#FF2F3636</color>
+    <color name="on_surface">#FFDDE4E3</color>
+    <color name="on_surface_variant">#FFBEC8C8</color>
+    <color name="outline">#FF899392</color>
+    <color name="outline_variant">#FF3F4948</color>
+    <!-- Scrim under dialogs. -->
+    <color name="scrim">#FF000000</color>
+    <!-- Custom roles (M3 "custom colours"), harmonised to the seed: success = blocking works, warning = paused. -->
+    <color name="success">#FF92D5AB</color>
+    <color name="on_success">#FF003920</color>
+    <color name="warning">#FFF2BE62</color>
+    <color name="on_warning">#FF422C00</color>
+    <color name="warning_container">#FF5F4100</color>
+    <color name="on_warning_container">#FFFFDEAA</color>
 </resources>

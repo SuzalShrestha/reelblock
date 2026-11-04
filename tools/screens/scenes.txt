@@ -1,0 +1,12 @@
+welcome1|MainActivity|off,screen|
+welcome2|MainActivity|off,screen,click:welcome_next|
+welcome2full|MainActivity|off,click:welcome_next|
+welcome3|MainActivity|off,screen,click:welcome_next,welcome_next|
+home_off|MainActivity|off|s.seen=true
+home_on|MainActivity|on|s.consent=true;t.blocked=128;week=3,0,5,2,7,1,4;ig=ok
+home_empty|MainActivity|on|s.consent=true;ig=ok
+home_paused|MainActivity|timed|s.consent=true;t.blocked=128;week=3,0,5,2,7,1,4;ig=ok
+home_stopped|MainActivity|stopped|s.consent=true;t.blocked=128;week=3,0,5,2,7,1,4;ig=ok
+home_changed|MainActivity|on|s.consent=true;t.blocked=128;week=3,0,5,2,7,1,4;ig=changed
+dialog_pause|MainActivity|on,screen,click:block_switch|s.consent=true;t.blocked=128;week=3,0,5,2,7,1,4;ig=ok
+see_again|MainActivity|on,screen,click:see_row|s.consent=true;t.blocked=128;ig=ok

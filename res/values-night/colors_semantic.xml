@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Dark mode mapping of colors_semantic.xml. Only the names that change are here. -->
+<resources>
+    <color name="bg_window">@color/surface</color>
+    <color name="bg_card">@color/surface_container_high</color>
+    <color name="bg_dialog">@color/surface_container_highest</color>
+    <color name="nav_bar">@color/bg_window</color>
+    <bool name="light_bars">false</bool>
+</resources>

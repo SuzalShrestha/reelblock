@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Status hero. The colour is set per state from code (hero_*_bg) with an animated tint. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@android:color/white" />
+    <corners android:radius="@dimen/radius_xl_increased" />
+</shape>

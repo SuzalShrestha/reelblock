@@ -70,6 +70,10 @@
                         <ImageView style="@style/BulletIcon" android:src="@drawable/ic_back_press" android:tint="@color/primary" />
                         <TextView style="@style/BulletText" android:text="@string/can3" />
                     </LinearLayout>
+                    <LinearLayout style="@style/Bullet">
+                        <ImageView style="@style/BulletIcon" android:src="@drawable/ic_health" android:tint="@color/primary" />
+                        <TextView style="@style/BulletText" android:text="@string/can4" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout style="@style/Card">
@@ -78,10 +82,6 @@
                     <LinearLayout style="@style/Bullet">
                         <ImageView style="@style/BulletIcon" android:src="@drawable/ic_lock" android:tint="@color/primary" />
                         <TextView style="@style/BulletText" android:text="@string/keeps1" />
-                    </LinearLayout>
-                    <LinearLayout style="@style/Bullet">
-                        <ImageView style="@style/BulletIcon" android:src="@drawable/ic_health" android:tint="@color/primary" />
-                        <TextView style="@style/BulletText" android:text="@string/keeps2" />
                     </LinearLayout>
                 </LinearLayout>
 

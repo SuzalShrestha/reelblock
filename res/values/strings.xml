@@ -23,9 +23,9 @@
     <string name="can1">See when Instagram is open</string>
     <string name="can2">See the name of the Instagram screen that is open, like the Reels screen</string>
     <string name="can3">Press Back for you when that screen is Reels</string>
+    <string name="can4">Check which Instagram version is installed, to notice when an update breaks Reel Block</string>
     <string name="keeps_title">It keeps, only on this phone</string>
     <string name="keeps1">How many Reels it closed each day, for 30 days, and in total</string>
-    <string name="keeps2">The Instagram version, to notice when an update breaks Reel Block</string>
     <string name="cannot_title">It never</string>
     <string name="cannot1">Reads your messages, posts, photos or passwords</string>
     <string name="cannot2">Looks at any app other than Instagram</string>

@@ -12,6 +12,13 @@
     <string name="status_paused">PAUSED</string>
     <string name="headline_paused">Reel Block is paused</string>
     <string name="body_paused">Reels stay open. Turn on the switch to close them again.</string>
+    <string name="body_paused_until">Reels stay open until %1$s. Then Reel Block closes them again.</string>
+    <string name="pause_title">Pause for how long?</string>
+    <string-array name="pause_options">
+        <item>15 minutes</item>
+        <item>1 hour</item>
+        <item>Until I turn it on</item>
+    </string-array>
     <string name="block_switch">Block Reels</string>
     <string name="closed_label">Reels closed on this phone</string>
     <string name="turn_on">Turn on Reel Block</string>

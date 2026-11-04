@@ -67,7 +67,7 @@ settings). Since v1.2.1 the app leaves no Recents card when you leave it. With *
 phone starts it again in about 1 second, even after a swipe. On Xiaomi phones, the app shows an
 **Open Autostart** button for this.
 
-**To pause:** open Reel Block and turn off the "Block Reels" switch. Turn it on again to resume.
+**To pause:** open Reel Block and turn off the "Block Reels" switch. Choose **15 minutes**, **1 hour** or **Until I turn it on**. A timed pause ends by itself, so you cannot forget to turn blocking on again.
 
 **To stop:** turn off the service in Accessibility settings, or uninstall the app.
 
@@ -76,7 +76,7 @@ phone starts it again in about 1 second, even after a swipe. On Xiaomi phones, t
 **Is it safe? Accessibility apps can read my screen.**
 Yes, Android gives accessibility apps a lot of access. That is why Reel Block is open source and
 very small: [the service is about 40 lines](src/dev/local/reelblock/ReelBlockService.java) and the
-[app screen is about 60](src/dev/local/reelblock/MainActivity.java). Read them. The app:
+[app screen is about 130](src/dev/local/reelblock/MainActivity.java). Read them. The app:
 - listens only to Instagram (see [`accessibility.xml`](res/xml/accessibility.xml)), and the code
   checks the package again before it looks at any window,
 - looks for one view ID and reads no text, messages or images,

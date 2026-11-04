@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="dev.local.reelblock" android:versionCode="5" android:versionName="1.3">
+    package="dev.local.reelblock" android:versionCode="6" android:versionName="1.4">
     <uses-sdk android:minSdkVersion="26" android:targetSdkVersion="33" />
     <!-- Lets MainActivity see if the Xiaomi Autostart screen exists. -->
     <queries><package android:name="com.miui.securitycenter" /></queries>

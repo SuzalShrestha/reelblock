@@ -9,7 +9,6 @@
     <color name="text_secondary">@color/on_surface_variant</color>
     <color name="text_link">@color/primary</color>
     <color name="icon_default">@color/on_surface_variant</color>
-    <color name="divider">@color/outline_variant</color>
     <!-- Status hero, one set per state. -->
     <color name="hero_on_bg">@color/primary_container</color>
     <color name="hero_on_fg">@color/on_primary_container</color>
@@ -30,7 +29,10 @@
     <!-- Week chart. Bars need 3:1 against the card. -->
     <color name="chart_bar">@color/outline</color>
     <color name="chart_bar_today">@color/primary</color>
-    <color name="chart_empty">@color/outline_variant</color>
+    <color name="chart_empty">@color/outline</color>
+    <!-- Page dots: the current page is wider and primary; the others still need 3:1 to be seen. -->
+    <color name="indicator_active">@color/primary</color>
+    <color name="indicator_inactive">@color/outline</color>
     <!-- Brand mark (launcher icon and in-app logo). Fixed, never dynamic: the brand stays recognisable. -->
     <color name="brand_bg_top">#FF00696B</color>
     <color name="brand_bg_bottom">#FF0B5153</color>

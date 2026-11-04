@@ -105,7 +105,15 @@
 
         <!-- Privacy: the promises the code keeps. -->
         <TextView style="@style/SectionHeader" android:text="@string/section_privacy" />
-        <LinearLayout style="@style/Row.Top" android:focusable="true">
+        <LinearLayout android:id="@+id/see_row" style="@style/Row.Top" android:clickable="true" android:focusable="true">
+            <ImageView style="@style/RowIcon" android:src="@drawable/ic_eye" />
+            <LinearLayout style="@style/RowTexts">
+                <TextView style="@style/RowTitle" android:text="@string/see_title" />
+                <TextView style="@style/RowBody" android:text="@string/see_body" />
+            </LinearLayout>
+            <ImageView style="@style/RowTrailing" android:src="@drawable/ic_chevron" />
+        </LinearLayout>
+        <LinearLayout style="@style/Row" android:focusable="true">
             <ImageView style="@style/RowIcon" android:src="@drawable/ic_no_internet" />
             <LinearLayout style="@style/RowTexts">
                 <TextView style="@style/RowTitle" android:text="@string/priv_net_title" />

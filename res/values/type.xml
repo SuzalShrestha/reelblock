@@ -14,13 +14,10 @@
     </style>
     <style name="Text.DisplayLarge"><item name="android:textSize">@dimen/type_display_large</item><item name="android:lineHeight">@dimen/type_display_large_lh</item><item name="android:letterSpacing">-0.004</item><item name="android:fontFeatureSettings">tnum</item></style>
     <style name="Text.DisplayLarge.Emphasized"><item name="android:fontFamily">sans-serif-medium</item></style>
-    <style name="Text.DisplaySmall"><item name="android:textSize">@dimen/type_display_small</item><item name="android:lineHeight">@dimen/type_display_small_lh</item><item name="android:letterSpacing">0</item></style>
     <style name="Text.HeadlineLarge"><item name="android:textSize">@dimen/type_headline_large</item><item name="android:lineHeight">@dimen/type_headline_large_lh</item><item name="android:letterSpacing">0</item></style>
     <style name="Text.HeadlineMedium"><item name="android:textSize">@dimen/type_headline_medium</item><item name="android:lineHeight">@dimen/type_headline_medium_lh</item><item name="android:letterSpacing">0</item></style>
     <style name="Text.HeadlineMedium.Emphasized"><item name="android:fontFamily">sans-serif-medium</item></style>
     <style name="Text.HeadlineSmall"><item name="android:textSize">@dimen/type_headline_small</item><item name="android:lineHeight">@dimen/type_headline_small_lh</item><item name="android:letterSpacing">0</item></style>
-    <style name="Text.HeadlineSmall.Emphasized"><item name="android:fontFamily">sans-serif-medium</item></style>
-    <style name="Text.TitleLarge"><item name="android:textSize">@dimen/type_title_large</item><item name="android:lineHeight">@dimen/type_title_large_lh</item><item name="android:letterSpacing">0</item></style>
     <style name="Text.TitleMedium"><item name="android:fontFamily">sans-serif-medium</item><item name="android:textSize">@dimen/type_title_medium</item><item name="android:lineHeight">@dimen/type_title_medium_lh</item><item name="android:letterSpacing">0.009</item></style>
     <style name="Text.TitleSmall"><item name="android:fontFamily">sans-serif-medium</item><item name="android:textSize">@dimen/type_title_small</item><item name="android:lineHeight">@dimen/type_title_small_lh</item><item name="android:letterSpacing">0.007</item></style>
     <style name="Text.BodyLarge" />
@@ -29,8 +26,6 @@
     <style name="Text.BodyLarge.Secondary"><item name="android:textColor">@color/text_secondary</item></style>
     <style name="Text.BodySmall"><item name="android:textSize">@dimen/type_body_small</item><item name="android:lineHeight">@dimen/type_body_small_lh</item><item name="android:letterSpacing">0.033</item><item name="android:textColor">@color/text_secondary</item></style>
     <style name="Text.LabelLarge"><item name="android:fontFamily">sans-serif-medium</item><item name="android:textSize">@dimen/type_label_large</item><item name="android:lineHeight">@dimen/type_label_large_lh</item><item name="android:letterSpacing">0.007</item></style>
-    <style name="Text.LabelMedium"><item name="android:fontFamily">sans-serif-medium</item><item name="android:textSize">@dimen/type_label_medium</item><item name="android:lineHeight">@dimen/type_label_medium_lh</item><item name="android:letterSpacing">0.042</item></style>
-    <style name="Text.LabelSmall"><item name="android:fontFamily">sans-serif-medium</item><item name="android:textSize">@dimen/type_label_small</item><item name="android:lineHeight">@dimen/type_label_small_lh</item><item name="android:letterSpacing">0.045</item><item name="android:textColor">@color/text_secondary</item></style>
     <!-- Section label above a group of rows. -->
     <style name="Text.Section" parent="Text.TitleSmall"><item name="android:textColor">@color/primary</item></style>
 </resources>

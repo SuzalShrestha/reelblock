@@ -3,9 +3,12 @@ package dev.local.reelblock;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.view.View;
 import android.view.Window;
@@ -36,6 +39,20 @@ final class Ui {
             bottom.setPadding(bottom.getPaddingLeft(), bottom.getPaddingTop(), bottom.getPaddingRight(), b + s.bottom);
             return WindowInsets.CONSUMED;
         });
+    }
+
+    // Every screen we open outside the app gets its own task (NEW_TASK), so MainActivity.onStop() can close
+    // the app's task without closing that screen (HyperOS fix). Never crash if nothing can open it.
+    static void start(Activity a, Intent i) {
+        try {
+            a.startActivity(i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        } catch (ActivityNotFoundException | SecurityException e) {
+            // No browser, or a settings screen this phone does not have: nothing to open.
+        }
+    }
+
+    static Intent web(String url) {
+        return new Intent(Intent.ACTION_VIEW, Uri.parse(url));
     }
 
     static boolean animate() {

@@ -13,7 +13,9 @@ rm -rf $OUT && mkdir -p $OUT/classes $OUT/gen
 "$BT/aapt2" compile --dir res -o $OUT/res.zip
 "$BT/aapt2" link -I "$JAR" --manifest AndroidManifest.xml --java $OUT/gen -o $OUT/unsigned.apk $OUT/res.zip
 javac -source 8 -target 8 -bootclasspath "$JAR" -classpath "$BT/core-lambda-stubs.jar" -d $OUT/classes $(find src $OUT/gen -name '*.java') 2>&1 | grep -v 'bootstrap\|^1 warning' || true
-"$BT/d8" --lib "$JAR" --min-api 26 --output $OUT $(find $OUT/classes -name '*.class')
+# javac copies every R.* id into the code (they are compile-time constants), so the R classes are not needed at
+# run time. Leaving them out of the dex saves about a third of it, like R8 does in Gradle builds.
+"$BT/d8" --lib "$JAR" --min-api 26 --output $OUT $(find $OUT/classes -name '*.class' ! -name 'R.class' ! -name 'R$*.class')
 (cd $OUT && zip -q unsigned.apk classes.dex)
 "$BT/zipalign" -f 4 $OUT/unsigned.apk $OUT/aligned.apk
 [ -f debug.keystore ] || keytool -genkeypair -keystore debug.keystore -storepass android -keypass android \

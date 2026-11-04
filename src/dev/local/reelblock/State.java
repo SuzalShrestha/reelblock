@@ -10,8 +10,9 @@ import java.util.TimeZone;
 
 // Everything Reel Block stores, in two private preference files on this phone. Backup and device transfer
 // copy none of it (res/xml/data_rules.xml). Nothing here touches the network: the app has no INTERNET permission.
-//   settings: paused (until I turn it on), paused_until (timed pause end, wall clock), consent (disclosure agreed)
-//   stats:    blocked (all-time count), d<day> (count per local day, last 30 days), last (time of the last close)
+//   settings: paused (until I turn it on), paused_until (timed pause end, wall clock), consent (disclosure agreed),
+//             seen (first run shown; "Not now" does not bring it back)
+//   stats:    blocked (all-time count), d<day> (count per local day, last 30 days). No times of day, no history.
 final class State {
     private State() {}
 
@@ -54,7 +55,15 @@ final class State {
     }
 
     static void setConsent(Context c) {
-        settings(c).edit().putBoolean("consent", true).apply();
+        settings(c).edit().putBoolean("consent", true).putBoolean("seen", true).apply();
+    }
+
+    static boolean seen(Context c) {
+        return settings(c).getBoolean("seen", false);
+    }
+
+    static void setSeen(Context c) {
+        settings(c).edit().putBoolean("seen", true).apply();
     }
 
     // Turned on in Android's Accessibility settings. Match whole entries ("pkg/service", split by ':');
@@ -86,8 +95,7 @@ final class State {
         SharedPreferences p = stats(c);
         long now = System.currentTimeMillis();
         String key = "d" + day(now);
-        p.edit().putInt("blocked", p.getInt("blocked", 0) + 1).putInt(key, p.getInt(key, 0) + 1)
-            .putLong("last", now).apply();
+        p.edit().putInt("blocked", p.getInt("blocked", 0) + 1).putInt(key, p.getInt(key, 0) + 1).apply();
     }
 
     static int total(Context c) {

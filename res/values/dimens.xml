@@ -67,12 +67,13 @@
     <dimen name="step_badge">28dp</dimen>
     <dimen name="dot_size">8dp</dimen>
     <dimen name="dot_active_width">24dp</dimen>
-    <dimen name="dialog_max_width">560dp</dimen>
+    <!-- Dialog width: share of the screen (platform alert dialog values). Wide screens: major; phones: minor. -->
+    <item name="dialog_width_major" type="fraction">65%</item>
+    <item name="dialog_width_minor" type="fraction">95%</item>
     <dimen name="dialog_inset">24dp</dimen>
     <!-- Switch: M3 track 52x32, thumb 16 (off) / 24 (on). The thumb frame is half the track wide. -->
     <dimen name="switch_track_width">52dp</dimen>
     <dimen name="switch_track_height">32dp</dimen>
-    <dimen name="switch_thumb_frame">26dp</dimen>
     <dimen name="switch_thumb_on">24dp</dimen>
     <dimen name="switch_thumb_off">16dp</dimen>
     <dimen name="switch_thumb_on_inset_h">1dp</dimen>
@@ -99,7 +100,6 @@
 
     <!-- State layer opacity (M3). -->
     <item name="state_pressed_alpha" format="float" type="dimen">0.10</item>
-    <item name="disabled_alpha" format="float" type="dimen">0.38</item>
     <item name="scrim_alpha" format="float" type="dimen">0.32</item>
     <item name="press_scale" format="float" type="dimen">0.97</item>
 </resources>

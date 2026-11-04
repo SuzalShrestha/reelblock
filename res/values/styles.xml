@@ -24,8 +24,8 @@
     <!-- Dialog: M3 basic dialog. 28dp corners, surface container high, scrim at 32%. -->
     <style name="Theme.ReelBlock.Dialog" parent="Base.Dialog">
         <item name="android:windowBackground">@drawable/bg_dialog</item>
-        <item name="android:windowMinWidthMajor">@dimen/dialog_max_width</item>
-        <item name="android:windowMinWidthMinor">@dimen/dialog_max_width</item>
+        <item name="android:windowMinWidthMajor">@fraction/dialog_width_major</item>
+        <item name="android:windowMinWidthMinor">@fraction/dialog_width_minor</item>
         <item name="android:backgroundDimAmount">@dimen/scrim_alpha</item>
         <item name="android:colorAccent">@color/primary</item>
         <item name="android:colorControlHighlight">@color/state_on_surface</item>
@@ -93,10 +93,6 @@
     <style name="Button.Tonal">
         <item name="android:background">@drawable/btn_tonal</item>
         <item name="android:textColor">@color/on_secondary_container</item>
-    </style>
-    <style name="Button.Outlined">
-        <item name="android:background">@drawable/btn_outlined</item>
-        <item name="android:textColor">@color/text_primary</item>
     </style>
     <style name="Button.Text">
         <item name="android:background">@drawable/btn_text</item>

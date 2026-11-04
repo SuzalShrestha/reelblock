@@ -74,6 +74,19 @@
 
                 <LinearLayout style="@style/Card">
                     <TextView style="@style/Text.TitleMedium" android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:text="@string/keeps_title" android:accessibilityHeading="true" />
+                    <LinearLayout style="@style/Bullet">
+                        <ImageView style="@style/BulletIcon" android:src="@drawable/ic_lock" android:tint="@color/primary" />
+                        <TextView style="@style/BulletText" android:text="@string/keeps1" />
+                    </LinearLayout>
+                    <LinearLayout style="@style/Bullet">
+                        <ImageView style="@style/BulletIcon" android:src="@drawable/ic_health" android:tint="@color/primary" />
+                        <TextView style="@style/BulletText" android:text="@string/keeps2" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout style="@style/Card">
+                    <TextView style="@style/Text.TitleMedium" android:layout_width="match_parent" android:layout_height="wrap_content"
                         android:text="@string/cannot_title" android:accessibilityHeading="true" />
                     <LinearLayout style="@style/Bullet">
                         <ImageView style="@style/BulletIcon" android:src="@drawable/ic_eye_off" android:tint="@color/success" />
@@ -109,16 +122,20 @@
                     android:layout_marginTop="@dimen/space_3" android:text="@string/setup_body" />
                 <LinearLayout style="@style/Card" android:layout_marginTop="@dimen/space_6">
                     <LinearLayout style="@style/Bullet" android:layout_marginTop="@dimen/space_0">
-                        <TextView style="@style/Step" android:text="1" />
+                        <TextView style="@style/Step" android:text="@string/step_1" />
                         <TextView style="@style/BulletText" android:text="@string/setup_step1" />
                     </LinearLayout>
                     <LinearLayout style="@style/Bullet" android:layout_marginTop="@dimen/space_4">
-                        <TextView style="@style/Step" android:text="2" />
+                        <TextView style="@style/Step" android:text="@string/step_2" />
                         <TextView style="@style/BulletText" android:text="@string/setup_step2" />
                     </LinearLayout>
                     <LinearLayout style="@style/Bullet" android:layout_marginTop="@dimen/space_4">
-                        <TextView style="@style/Step" android:text="3" />
+                        <TextView style="@style/Step" android:text="@string/step_3" />
                         <TextView style="@style/BulletText" android:text="@string/setup_step3" />
+                    </LinearLayout>
+                    <LinearLayout style="@style/Bullet" android:layout_marginTop="@dimen/space_4">
+                        <TextView style="@style/Step" android:text="@string/step_4" />
+                        <TextView style="@style/BulletText" android:text="@string/setup_step4" />
                     </LinearLayout>
                 </LinearLayout>
                 <!-- Android 13+ only: help for "Restricted setting". -->

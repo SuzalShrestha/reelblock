@@ -52,9 +52,9 @@ PAIRS = [
     ("on_primary", "primary", 3.0, "switch thumb (on)"),
     ("outline", "surface_container_highest", 3.0, "switch thumb (off) on its track"),
     ("outline", "bg_card", 3.0, "switch track edge (off) against the switch bar"),
-    ("outline", "bg_card", 3.0, "outlined button edge"),
-    ("outline", "bg_window", 3.0, "outlined button edge on the window"),
-    ("primary", "bg_window", 3.0, "page indicator (current page)"),
+    ("indicator_active", "bg_window", 3.0, "page indicator, current page"),
+    ("indicator_inactive", "bg_window", 3.0, "page indicator, other pages"),
+    ("chart_empty", "bg_card", 3.0, "chart: dot for a day with no Reels closed"),
     ("brand_fg", "brand_bg_bottom", 3.0, "logo: card on teal"),
     ("brand_glyph", "brand_fg", 3.0, "logo: pause bars on the card"),
 ]
@@ -140,13 +140,14 @@ class Resolver:
 
 
 CONFIGS = [
+    # Most specific folder first, in Android's order: the night qualifier outranks the API level.
     ("light", Resolver(["values"], False, 26)),
     ("dark", Resolver(["values-night", "values"], True, 26)),
     ("light, Android 12-13 dynamic", Resolver(["values-v31", "values"], False, 31)),
-    ("dark, Android 12-13 dynamic", Resolver(["values-night-v31", "values-v31", "values-night", "values"], True, 31)),
+    ("dark, Android 12-13 dynamic", Resolver(["values-night-v31", "values-night", "values-v31", "values"], True, 31)),
     ("light, Android 14+ dynamic", Resolver(["values-v34", "values-v31", "values"], False, 34)),
-    ("dark, Android 14+ dynamic", Resolver(["values-night-v34", "values-night-v31", "values-v34", "values-v31",
-                                             "values-night", "values"], True, 34)),
+    ("dark, Android 14+ dynamic", Resolver(["values-night-v34", "values-night-v31", "values-night", "values-v34",
+                                             "values-v31", "values"], True, 34)),
 ]
 
 

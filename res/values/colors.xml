@@ -9,14 +9,9 @@
     <color name="on_primary">#FFFFFFFF</color>
     <color name="primary_container">#FFB7ECEC</color>
     <color name="on_primary_container">#FF164E4F</color>
-    <color name="secondary">#FF4A6363</color>
-    <color name="on_secondary">#FFFFFFFF</color>
     <color name="secondary_container">#FFCCE8E8</color>
     <color name="on_secondary_container">#FF324B4B</color>
-    <color name="tertiary">#FF4C5F7C</color>
-    <color name="on_tertiary">#FFFFFFFF</color>
     <color name="tertiary_container">#FFD4E3FF</color>
-    <color name="on_tertiary_container">#FF344863</color>
     <!-- Error: fixed Material 3 error palette. Used only for real problems. -->
     <color name="error">#FFBA1A1A</color>
     <color name="on_error">#FFFFFFFF</color>
@@ -24,10 +19,7 @@
     <color name="on_error_container">#FF93000A</color>
     <!-- Surfaces: neutral palette, tinted toward the seed. Containers go from lowest to highest. -->
     <color name="surface">#FFF4FBFA</color>
-    <color name="surface_dim">#FFD5DBDB</color>
-    <color name="surface_bright">#FFF4FBFA</color>
     <color name="surface_container_lowest">#FFFFFFFF</color>
-    <color name="surface_container_low">#FFEFF5F4</color>
     <color name="surface_container">#FFE9EFEE</color>
     <color name="surface_container_high">#FFE3E9E9</color>
     <color name="surface_container_highest">#FFDDE4E3</color>
@@ -35,16 +27,11 @@
     <color name="on_surface_variant">#FF3F4948</color>
     <color name="outline">#FF6F7979</color>
     <color name="outline_variant">#FFBEC8C8</color>
-    <color name="inverse_surface">#FF2B3231</color>
-    <color name="inverse_on_surface">#FFECF2F1</color>
-    <color name="inverse_primary">#FF9BD0D0</color>
     <!-- Scrim under dialogs. -->
     <color name="scrim">#FF000000</color>
     <!-- Custom roles (M3 "custom colours"), harmonised to the seed: success = blocking works, warning = paused. -->
     <color name="success">#FF286A48</color>
     <color name="on_success">#FFFFFFFF</color>
-    <color name="success_container">#FFADF2C6</color>
-    <color name="on_success_container">#FF002111</color>
     <color name="warning">#FF7D5700</color>
     <color name="on_warning">#FFFFFFFF</color>
     <color name="warning_container">#FFFFDEAA</color>

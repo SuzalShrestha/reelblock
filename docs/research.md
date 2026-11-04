@@ -17,7 +17,7 @@ Date: 2026-11-04.
 
 **What was read**
 
-- This repo as it was before v2.0: the README, launch posts, the two Java files of v1.4, `accessibility.xml`, the manifest and `strings.xml`. Sections 3, 5 and 6 were then updated to match the code that was built (8 Java files, 952 lines after round 3).
+- This repo as it was before v2.0: the README, launch posts, the two Java files of v1.4, `accessibility.xml`, the manifest and `strings.xml`. Sections 3, 5 and 6 were then updated to match the code that was built (8 Java files, 982 lines after round 4).
 - GitHub READMEs and issue trackers of about a dozen similar apps (AwayDoomscrollin, Odisej, Nudge, Curbox, Blockfy and others). These were fetched directly and are first-hand.
 - `developer.android.com` pages on accessibility services, tiles, widgets, dynamic colour and developer verification.
 - Material 3 token source files on GitHub (section 4).
@@ -25,7 +25,7 @@ Date: 2026-11-04.
 **Repo state on the research date**
 
 - The repo's GitHub issue tracker has **0 issues** (checked 2026-11-04). There is no user feedback to learn from yet. Every "user problem" below comes from other projects.
-- `docs/launch-posts.md` was **stale**. It pitched "Instagram Reels and YouTube Shorts" and "about 120 lines", and the app has been Instagram only since v1.2. It has since been rewritten for Instagram only. Its line counts match the code (about 950 lines, the service 56).
+- `docs/launch-posts.md` was **stale**. It pitched "Instagram Reels and YouTube Shorts" and "about 120 lines", and the app has been Instagram only since v1.2. It has since been rewritten for Instagram only. Its line counts match the code (about 980 lines, the service 56).
 
 **Limits**
 
@@ -174,7 +174,7 @@ Sources, called **TOKENS** here: androidx Compose `material3/tokens/*.kt` in the
 3. Quick Settings tile with the pause-length dialog.
 4. This-week chart, kept on the phone.
 
-Together the four files are 332 lines (`Welcome.java` 97, `Check.java` 72, `WeekChart.java` 100, `QsTile.java` 63). The whole app is 952 lines of Java in 8 files, and the part that acts on Instagram, `ReelBlockService.java`, is 56. Fewer good features beat many weak ones. Each answers a trust problem from section 2, and none touches the core idea.
+Together the four files are 347 lines (`Welcome.java` 97, `Check.java` 87, `WeekChart.java` 100, `QsTile.java` 63). The whole app is 982 lines of Java in 8 files, and the part that acts on Instagram, `ReelBlockService.java`, is 56. Fewer good features beat many weak ones. Each answers a trust problem from section 2, and none touches the core idea.
 
 **Cost in practice.** The APK went from about 30 KB (v1.4) to 93,981 bytes (about 94 KB; zipped, about 64 KB). GitHub CI measured it with the real Android SDK (build-tools `d8`, compileSdk 37) on commit `6d93a21`. The lines of code are not the main cost. `unzip -lv ReelBlock.apk` on that build shows where the bytes are:
 

@@ -16,10 +16,12 @@ final class Check {
 
     final int status;
     final String instagramVersion; // null when Instagram is not installed
+    final boolean reading; // a read of Instagram's resource table is still running: a newer result will follow
 
     private Check(int status, String version) {
         this.status = status;
         this.instagramVersion = version;
+        this.reading = loading;
     }
 
     // Reading Instagram's resource table takes a moment, so it runs once per Instagram install or update,
@@ -38,10 +40,6 @@ final class Check {
     // A screen that goes away stops listening, so a finished read never holds on to it.
     static void unlisten(Runnable done) {
         if (listener == done) listener = null;
-    }
-
-    static boolean reading() {
-        return loading;
     }
 
     // `done` runs on the main thread when a background read finishes.
@@ -69,18 +67,21 @@ final class Check {
         loading = true;
         recheck = false;
         new Thread(() -> {
-            Boolean found;
+            Boolean found = null; // stays null if Instagram's package cannot be read: say so, do not guess
             try {
                 found = app.getPackageManager().getResourcesForApplication(ReelBlockService.INSTAGRAM)
                     .getIdentifier(ReelBlockService.VIEWER_NAME, "id", ReelBlockService.INSTAGRAM) != 0;
-            } catch (PackageManager.NameNotFoundException | RuntimeException e) {
-                found = null; // Instagram's package could not be read right now. Say so, do not guess.
+            } catch (Throwable e) {
+                // Not readable right now (for example while Instagram updates). Catch everything: an uncaught
+                // error here would end the app's process, and the blocker runs in that process too.
+            } finally {
+                // Always finish, so the self-check can never stay on "Checking".
+                viewerFound = found;
+                checkedUpdate = update;
+                loading = false;
+                Runnable l = listener;
+                if (l != null) new Handler(Looper.getMainLooper()).post(l);
             }
-            viewerFound = found;
-            checkedUpdate = update;
-            loading = false;
-            Runnable l = listener;
-            if (l != null) new Handler(Looper.getMainLooper()).post(l);
         }, "reelblock-check").start();
     }
 }

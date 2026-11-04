@@ -154,7 +154,7 @@ The maintainer should register before 2027.
 **Is it safe? Accessibility apps can read my screen.**
 Yes, Android gives accessibility apps a lot of access. That is why Reel Block is open source and
 very small: [the part that acts on Instagram is 56 lines](src/dev/local/reelblock/ReelBlockService.java),
-and the whole app is about 950 lines of Java in [8 files](src/dev/local/reelblock). Read them. The app:
+and the whole app is about 980 lines of Java in [8 files](src/dev/local/reelblock). Read them. The app:
 - listens only to Instagram (see [`accessibility.xml`](res/xml/accessibility.xml)), and the code
   checks the package again before it looks at any window,
 - looks for one view ID and reads no text, messages or images,

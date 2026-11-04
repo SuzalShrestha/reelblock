@@ -12,7 +12,7 @@ keeps everything else in Instagram.
 
 ## GitHub repo description (max 350 chars)
 
-Free, open-source Android app that closes Instagram Reels and keeps the rest of Instagram. About 950
+Free, open-source Android app that closes Instagram Reels and keeps the rest of Instagram. About 980
 lines of Java (the part that acts on Instagram is 56), no root, no permissions at all.
 
 ## X / Threads / Bluesky
@@ -39,7 +39,7 @@ Instagram
 > - Instagram feed, Stories and DMs all still work
 > - No root, no modified Instagram, no account
 > - No permissions at all, not even internet, so it cannot send data anywhere
-> - About 950 lines of Java in 8 files. The part that acts on Instagram is 56 lines.
+> - About 980 lines of Java in 8 files. The part that acts on Instagram is 56 lines.
 >
 > It uses an accessibility service, which I know sounds scary. That is exactly why the source is
 > small and public. Before Android settings open, the app shows a "What Reel Block can see" screen
@@ -56,7 +56,7 @@ Instagram
 > Instagram calls Reels "clips" internally. The full-screen viewer is one view with a stable ID
 > (`clips_viewer_view_pager`). Reel Block is an accessibility service that watches only the Instagram
 > package, and presses Back when that view becomes visible. No root, no permissions at all, no
-> Gradle: the build is a short shell script around aapt2, javac and d8. The whole app is about 950
+> Gradle: the build is a short shell script around aapt2, javac and d8. The whole app is about 980
 > lines of Java; the service is 56.
 >
 > The README shows how I found the ID with `aapt2 dump resources` and `dumpsys activity top`, so

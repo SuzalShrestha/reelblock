@@ -270,7 +270,7 @@ public class MainActivity extends Activity {
             : check.status == Check.UNKNOWN ? getString(R.string.check_unknown, v)
             : check.status == Check.CHECKING ? getString(R.string.check_checking, v)
             : getString(R.string.check_no_instagram));
-        if (announceCheck && !Check.reading()) {
+        if (announceCheck && !check.reading) {
             announceCheck = false;
             checkBody.announceForAccessibility(getString(R.string.check_done) + ". " + checkBody.getText());
         }

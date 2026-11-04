@@ -84,6 +84,15 @@ tap_text() {
 }
 go() { tap_text "$1" || { fail "$2: could not find \"$1\""; return 1; }; }
 # The screen shows text matching this regex, scrolling down up to 4 times (uiautomator sees only what is on screen).
+# Same, without scrolling (a swipe outside a dialog would close it): retries the dump a few times.
+on_screen_now() {
+  i=0
+  while [ $i -le 3 ]; do
+    dump probe && nodes probe | grep -q "|$1|" && return 0
+    sleep 1; i=$((i + 1))
+  done
+  return 1
+}
 on_screen() {
   i=0
   while [ $i -le 4 ]; do
@@ -134,7 +143,7 @@ open_app; on_screen "Running. Instagram .* has the Reels screen." && pass "self-
 echo "== Quick Settings tile: pause asks how long, resume is one tap"
 A cmd statusbar add-tile $TILE >/dev/null 2>&1
 A cmd statusbar click-tile $TILE; sleep 2
-on_screen "Pause blocking?" && pass "tile opens the pause dialog" || fail "tile did not open the pause dialog"
+on_screen_now "Pause blocking?" && pass "tile opens the pause dialog" || fail "tile did not open the pause dialog"
 go "For 15 minutes" "tile pause"
 before=$(count); open_reels; after=$(count)
 [ "$after" = "$before" ] && pass "paused: Reels stay open" || fail "paused, but the count went up"

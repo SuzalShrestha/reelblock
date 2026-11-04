@@ -19,7 +19,7 @@ Instagram renames its views after updates. A fix is usually one line.
    Find a view that fills the screen (bounds like `0,0-1080,2174`) and has `V` (visible) in its flags.
 4. Go to the app's normal home screen and run the same command. The ID must **not** be visible
    there, or Reel Block would close the whole app.
-5. Change `VIEWER` in [`ReelBlockService.java`](src/dev/local/reelblock/ReelBlockService.java)
+5. Change `VIEWER_NAME` in [`ReelBlockService.java`](src/dev/local/reelblock/ReelBlockService.java)
    and update the comment with the Instagram version.
 6. Build, turn Reel Block on, and check:
    ```sh
@@ -42,5 +42,6 @@ In the pull request, write the app version, your phone and Android version, and 
 - Do not read text, messages or images on the screen. View IDs only.
 - Instagram only. No other packages in `accessibility.xml`.
 - No `android.util.Log` or any other logging.
-- Colours, type and spacing come from `res/values/colors.xml` and `styles.xml`. Every text colour
-  must reach 4.5:1 contrast in light and dark.
+- Colours, type and spacing come from `res/values/colors.xml` and `styles.xml`. Every colour pair
+  must pass `python3 tools/check_contrast.py`.
+- Layouts and drawables use tokens only: `python3 tools/check_tokens.py`.

@@ -1,6 +1,7 @@
 package dev.local.reelblock;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 
@@ -18,16 +19,24 @@ final class Check {
         this.instagramVersion = version;
     }
 
+    // Loading Instagram's resource table takes a moment, so it is read once per Instagram install or update.
+    private static long checkedUpdate = -1;
+    private static boolean viewerFound;
+
     static Check run(Context c) {
         String version = null;
-        boolean viewerFound = false;
         PackageManager pm = c.getPackageManager();
         try {
-            version = pm.getPackageInfo(ReelBlockService.INSTAGRAM, 0).versionName;
-            Resources r = pm.getResourcesForApplication(ReelBlockService.INSTAGRAM);
-            viewerFound = r.getIdentifier(ReelBlockService.VIEWER_NAME, "id", ReelBlockService.INSTAGRAM) != 0;
+            PackageInfo p = pm.getPackageInfo(ReelBlockService.INSTAGRAM, 0);
+            version = p.versionName;
+            if (p.lastUpdateTime != checkedUpdate) {
+                Resources r = pm.getResourcesForApplication(ReelBlockService.INSTAGRAM);
+                viewerFound = r.getIdentifier(ReelBlockService.VIEWER_NAME, "id", ReelBlockService.INSTAGRAM) != 0;
+                checkedUpdate = p.lastUpdateTime;
+            }
         } catch (PackageManager.NameNotFoundException e) {
             // Not installed: nothing to block, and nothing is wrong with Reel Block.
+            checkedUpdate = -1;
         }
         if (!State.enabled(c)) return new Check(OFF, version);
         if (!State.running(c)) return new Check(STOPPED, version);

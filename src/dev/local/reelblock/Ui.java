@@ -101,11 +101,12 @@ final class Ui {
         return d;
     }
 
-    static void info(Context c, int title, int body) {
+    static Dialog info(Context c, int title, int body) {
         Dialog d = dialog(c, R.layout.dialog_info);
         ((TextView) d.findViewById(R.id.dialog_title)).setText(title);
         ((TextView) d.findViewById(R.id.dialog_body)).setText(body);
         d.findViewById(R.id.dialog_ok).setOnClickListener(v -> d.dismiss());
         d.show();
+        return d;
     }
 }

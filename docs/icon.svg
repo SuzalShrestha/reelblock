@@ -1,6 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="21 21 66 66" width="96" height="96">
-  <rect x="21" y="21" width="66" height="66" rx="15" fill="#14161A"/>
-  <path d="M47,42 L47,66 L66,54 Z" fill="#FFFFFF"/>
-  <circle cx="54" cy="54" r="24" fill="none" stroke="#FFFFFF" stroke-width="4"/>
-  <path d="M37,37 L71,71" stroke="#FF4D5A" stroke-width="6" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="10 10 88 88" width="96" height="96">
+  <!-- Same geometry as res/drawable/ic_launcher_*.xml (108-unit canvas, 66-unit safe zone). -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00696B"/><stop offset="1" stop-color="#0B5153"/></linearGradient>
+  </defs>
+  <rect x="10" y="10" width="88" height="88" rx="26" fill="url(#bg)"/>
+  <rect x="35" y="36" width="20" height="36" rx="6" fill="#BFEFEC" fill-opacity="0.45"/>
+  <rect x="43" y="31" width="30" height="46" rx="8" fill="#BFEFEC"/>
+  <rect x="50" y="46" width="5" height="16" rx="2.5" fill="#0B5153"/>
+  <rect x="59" y="46" width="5" height="16" rx="2.5" fill="#0B5153"/>
 </svg>

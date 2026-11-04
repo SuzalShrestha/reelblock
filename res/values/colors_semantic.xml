@@ -37,5 +37,7 @@
     <color name="brand_fg">#FFBFEFEC</color>
     <color name="brand_fg_back">#73BFEFEC</color>
     <color name="brand_glyph">#FF0B5153</color>
+    <!-- Android 8.0 has no light navigation bar (API 27), so its white buttons need a dark bar. -->
+    <color name="nav_bar">@color/scrim</color>
     <bool name="light_bars">true</bool>
 </resources>

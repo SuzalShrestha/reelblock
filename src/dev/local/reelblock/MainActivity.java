@@ -29,13 +29,16 @@ public class MainActivity extends Activity {
     private Welcome welcome;
     private Hero shown;
     private boolean firstRender;
+    private Dialog dialog;
     private final Runnable rerender = this::render;
 
     @Override
     protected void onCreate(Bundle b) {
         super.onCreate(b);
+        // After a rotation or a theme change, stay on the same onboarding page.
+        if (b != null && b.containsKey("page")) welcome = new Welcome(this, b.getInt("page"));
         // First run: explain before asking. Also when "Turn on" is tapped before the disclosure was agreed.
-        if (getIntent().getBooleanExtra(EXTRA_SETUP, false)) welcome = new Welcome(this, State.consent(this) ? 2 : 1);
+        else if (getIntent().getBooleanExtra(EXTRA_SETUP, false)) welcome = new Welcome(this, State.consent(this) ? 2 : 1);
         else if (!State.consent(this) && !State.enabled(this)) welcome = new Welcome(this, 0);
         else showHome(getIntent().getBooleanExtra(EXTRA_PAUSE, false));
     }
@@ -82,7 +85,7 @@ public class MainActivity extends Activity {
     // A timed pause ends by itself, so a pause you forget does not turn the blocker off for good.
     // Back, a tap outside or Cancel keep blocking on.
     private void askPause() {
-        Dialog d = Ui.dialog(this, R.layout.dialog_pause);
+        Dialog d = dialog = Ui.dialog(this, R.layout.dialog_pause);
         int[] ids = {R.id.pause_15, R.id.pause_60, R.id.pause_forever};
         int[] minutes = {15, 60, 0};
         for (int i = 0; i < ids.length; i++) {
@@ -108,11 +111,23 @@ public class MainActivity extends Activity {
                 return;
             }
         }
-        Ui.info(this, R.string.tile_how_title, R.string.tile_how_body);
+        dialog = Ui.info(this, R.string.tile_how_title, R.string.tile_how_body);
     }
 
     void openUrl(String url) {
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle b) {
+        super.onSaveInstanceState(b);
+        if (welcome != null) b.putInt("page", welcome.page());
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (dialog != null) dialog.dismiss();
+        super.onDestroy();
     }
 
     @Override

@@ -21,6 +21,7 @@ final class Welcome {
 
     Welcome(MainActivity a, int start) {
         this.a = a;
+        start = Math.max(0, Math.min(PAGES - 1, start));
         a.setContentView(R.layout.welcome);
         pages = new View[]{a.findViewById(R.id.page1), a.findViewById(R.id.page2), a.findViewById(R.id.page3)};
         dots = a.findViewById(R.id.dots);
@@ -43,6 +44,10 @@ final class Welcome {
             Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + a.getPackageName()))
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)));
         show(start);
+    }
+
+    int page() {
+        return page;
     }
 
     private void next() {

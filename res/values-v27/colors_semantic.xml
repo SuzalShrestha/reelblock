@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 8.1+: the navigation bar can have dark buttons, so it takes the window colour. -->
+<resources>
+    <color name="nav_bar">@color/bg_window</color>
+</resources>

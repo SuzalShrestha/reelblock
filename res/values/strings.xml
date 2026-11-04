@@ -9,6 +9,10 @@
     <string name="headline_off">Reel Block is off</string>
     <string name="body_on">When the Reels viewer opens in Instagram, Reel Block presses Back for you.</string>
     <string name="body_off">Turn it on in Accessibility settings. It takes about 20 seconds.</string>
+    <string name="status_paused">PAUSED</string>
+    <string name="headline_paused">Reel Block is paused</string>
+    <string name="body_paused">Reels stay open. Turn on the switch to close them again.</string>
+    <string name="block_switch">Block Reels</string>
     <string name="closed_label">Reels closed on this phone</string>
     <string name="turn_on">Turn on Reel Block</string>
     <string name="manage">Accessibility settings</string>

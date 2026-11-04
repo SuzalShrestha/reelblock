@@ -24,6 +24,10 @@
                 android:layout_height="wrap_content" android:background="@drawable/pill"
                 android:paddingStart="12dp" android:paddingEnd="12dp" android:paddingTop="4dp"
                 android:paddingBottom="4dp" />
+            <!-- In-app on/off. Shown only when the service is on; keeps the service bound, so no re-setup. -->
+            <Switch android:id="@+id/block_switch" style="@style/Text" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:minHeight="48dp" android:layout_marginTop="12dp"
+                android:text="@string/block_switch" android:textSize="16sp" android:visibility="gone" />
             <TextView android:id="@+id/headline" style="@style/Text.Title" android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:layout_marginTop="12dp"
                 android:accessibilityLiveRegion="polite" />

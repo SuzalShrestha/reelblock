@@ -67,11 +67,11 @@ final class Ui {
         return c.getResources().getInteger(id);
     }
 
-    // Colour change that stays on screen (the hero): M3 emphasized easing, medium duration.
+    // Colour change that stays on screen (the hero): M3 emphasized easing. No animation while it is hidden.
     static void tint(View v, int to) {
         ColorStateList now = v.getBackgroundTintList();
         int from = now == null ? to : now.getDefaultColor();
-        if (from == to || !animate() || !v.isLaidOut()) { v.setBackgroundTintList(ColorStateList.valueOf(to)); return; }
+        if (from == to || !animate() || !v.isLaidOut() || v.getVisibility() != View.VISIBLE) { v.setBackgroundTintList(ColorStateList.valueOf(to)); return; }
         ValueAnimator va = ValueAnimator.ofArgb(from, to);
         va.setDuration(ms(v.getContext(), R.integer.motion_long2));
         va.setInterpolator(curve(v.getContext(), R.interpolator.emphasized));
@@ -104,10 +104,18 @@ final class Ui {
     // A status badge that pops in: scale from 0.6 with a small overshoot, like an M3 Expressive spring.
     static void pop(View v) {
         if (!animate()) return;
-        v.setScaleX(0.6f);
-        v.setScaleY(0.6f);
+        float from = token(v.getContext(), R.dimen.pop_start_scale);
+        v.setScaleX(from);
+        v.setScaleY(from);
         v.animate().scaleX(1).scaleY(1).setDuration(ms(v.getContext(), R.integer.motion_long2))
-            .setInterpolator(new android.view.animation.OvershootInterpolator(2.2f)).start();
+            .setInterpolator(new android.view.animation.OvershootInterpolator(token(v.getContext(), R.dimen.pop_overshoot))).start();
+    }
+
+    // A float token from dimens.xml (Resources.getFloat needs API 29).
+    static float token(Context c, int id) {
+        android.util.TypedValue t = new android.util.TypedValue();
+        c.getResources().getValue(id, t, true);
+        return t.getFloat();
     }
 
     // M3 basic dialog with our layout. Back and a tap outside cancel.

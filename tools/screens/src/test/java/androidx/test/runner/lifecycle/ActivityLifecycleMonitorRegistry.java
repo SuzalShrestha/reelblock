@@ -1,0 +1,1 @@
+package androidx.test.runner.lifecycle; public final class ActivityLifecycleMonitorRegistry { static ActivityLifecycleMonitor i; public static ActivityLifecycleMonitor getInstance() { return i; } public static void registerInstance(ActivityLifecycleMonitor m) { i = m; } }

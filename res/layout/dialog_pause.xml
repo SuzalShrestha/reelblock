@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Pause dialog. Back, a tap outside, or Cancel all keep blocking on. -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+<!-- Pause dialog. Back, a tap outside, or Cancel all keep blocking on. Scrolls at large font sizes. -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
     <TextView style="@style/Dialog.Title" android:text="@string/pause_title" />
     <TextView style="@style/Dialog.Body" android:paddingBottom="@dimen/space_4" android:text="@string/pause_body" />
     <TextView android:id="@+id/pause_15" style="@style/Dialog.Option" android:drawableStart="@drawable/ic_schedule" android:text="@string/pause_15" />
@@ -9,3 +10,4 @@
     <TextView android:id="@+id/pause_forever" style="@style/Dialog.Option" android:drawableStart="@drawable/ic_pause" android:text="@string/pause_forever" />
     <Button android:id="@+id/dialog_cancel" style="@style/Dialog.Button" android:text="@string/cancel" />
 </LinearLayout>
+</ScrollView>

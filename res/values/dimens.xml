@@ -101,5 +101,8 @@
     <!-- State layer opacity (M3). -->
     <item name="state_pressed_alpha" format="float" type="dimen">0.10</item>
     <item name="scrim_alpha" format="float" type="dimen">0.32</item>
+    <!-- Status badge pop: starts at 60% and overshoots a little (OvershootInterpolator tension). -->
+    <item name="pop_start_scale" format="float" type="dimen">0.6</item>
+    <item name="pop_overshoot" format="float" type="dimen">2.2</item>
     <item name="press_scale" format="float" type="dimen">0.97</item>
 </resources>

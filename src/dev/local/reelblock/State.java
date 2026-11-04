@@ -95,7 +95,9 @@ final class State {
         SharedPreferences p = stats(c);
         long now = System.currentTimeMillis();
         String key = "d" + day(now);
+        boolean newDay = !p.contains(key);
         p.edit().putInt("blocked", p.getInt("blocked", 0) + 1).putInt(key, p.getInt(key, 0) + 1).apply();
+        if (newDay) prune(c); // once a day: keep only 30 days, even if the app is never opened
     }
 
     static int total(Context c) {

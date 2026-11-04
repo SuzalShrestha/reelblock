@@ -71,6 +71,7 @@ public class MainActivity extends Activity {
             else askPause();
         });
         findViewById(R.id.check_row).setOnClickListener(v -> {
+            Check.forget();
             render();
             v.announceForAccessibility(getString(R.string.check_done));
         });
@@ -172,7 +173,7 @@ public class MainActivity extends Activity {
         View heroView = findViewById(R.id.hero);
         if (heroView == null) return;
         heroView.removeCallbacks(rerender);
-        Check check = Check.run(this);
+        Check check = Check.run(this, () -> { if (!isDestroyed()) render(); });
         boolean paused = State.paused(this);
         long until = State.pausedUntil(this);
         Hero h = check.status == Check.OFF ? Hero.OFF
@@ -181,10 +182,13 @@ public class MainActivity extends Activity {
             : check.status == Check.CHANGED ? Hero.CHANGED : Hero.ON;
         long wait = graceUntil - System.currentTimeMillis();
         if (h == Hero.STOPPED && wait > 0) {
+            // Say nothing yet (no red hero, no "Not running" line): look again when the grace ends.
             heroView.setVisibility(View.INVISIBLE);
+            ((TextView) findViewById(R.id.check_body)).setText(null);
             heroView.postDelayed(rerender, wait);
-        } else if (heroView.getVisibility() != View.VISIBLE) {
-            Ui.enter(heroView, 0, getResources().getDimension(R.dimen.space_4));
+            renderWeek();
+            firstRender = false;
+            return;
         }
 
         TextView title = findViewById(R.id.hero_title), body = findViewById(R.id.hero_body);
@@ -193,7 +197,8 @@ public class MainActivity extends Activity {
         switch (h) {
             case ON: bg = R.color.hero_on_bg; fg = R.color.hero_on_fg; badgeBg = R.color.hero_on_badge;
                 badgeFg = R.color.hero_on_badge_icon; icon = R.drawable.ic_status_on;
-                title.setText(R.string.hero_on_title); body.setText(R.string.hero_on_body); break;
+                title.setText(R.string.hero_on_title);
+                body.setText(check.status == Check.NO_INSTAGRAM ? R.string.hero_on_no_instagram : R.string.hero_on_body); break;
             case PAUSED: bg = R.color.hero_paused_bg; fg = R.color.hero_paused_fg; badgeBg = R.color.hero_paused_badge;
                 badgeFg = R.color.hero_paused_badge_icon; icon = R.drawable.ic_status_paused;
                 title.setText(R.string.hero_paused_title);
@@ -214,6 +219,7 @@ public class MainActivity extends Activity {
                 body.setText(getString(R.string.hero_changed_body, check.instagramVersion));
         }
         Ui.tint(heroView, getColor(bg));
+        if (heroView.getVisibility() != View.VISIBLE) Ui.enter(heroView, 0, getResources().getDimension(R.dimen.space_4));
         title.setTextColor(getColor(fg));
         body.setTextColor(getColor(fg));
         Button action = findViewById(R.id.hero_action), action2 = findViewById(R.id.hero_action2);
@@ -250,6 +256,7 @@ public class MainActivity extends Activity {
             : check.status == Check.STOPPED ? getString(R.string.check_stopped)
             : check.status == Check.CHANGED ? getString(R.string.check_changed, v)
             : check.status == Check.UNKNOWN ? getString(R.string.check_unknown, v)
+            : check.status == Check.CHECKING ? getString(R.string.check_checking, v)
             : getString(R.string.check_no_instagram));
         boolean bad = h == Hero.STOPPED || h == Hero.CHANGED;
         ImageView checkIcon = findViewById(R.id.check_icon);

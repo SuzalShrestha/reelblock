@@ -15,10 +15,12 @@ jobs:
         run: |
           python3 tools/check_tokens.py
           python3 tools/check_contrast.py
-      - name: No logging, no network code
+      - name: No logging, no network code, Instagram only
         run: |
           if grep -rn "android.util.Log\|java.net\|HttpURLConnection\|javax.net" src; then exit 1; fi
-          if grep -n "<package\|packageNames" res/xml/accessibility.xml | grep -v "com.instagram.android"; then exit 1; fi
+          # Instagram only: exactly one packageNames attribute, and it is exactly Instagram.
+          [ "$(grep -c 'packageNames' res/xml/accessibility.xml)" = 1 ]
+          grep -q 'android:packageNames="com.instagram.android"' res/xml/accessibility.xml
       - run: NO_INSTALL=1 ./build.sh
       - name: No permissions, size
         run: |

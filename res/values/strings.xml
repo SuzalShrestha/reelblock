@@ -26,6 +26,7 @@
     <string name="can4">Check which Instagram version is installed, to notice when an update breaks Reel Block</string>
     <string name="keeps_title">It keeps, only on this phone</string>
     <string name="keeps1">How many Reels it closed each day, for 30 days, and in total</string>
+    <string name="keeps2">Your pause setting, and that you agreed to this page</string>
     <string name="cannot_title">It never</string>
     <string name="cannot1">Reads your messages, posts, photos or passwords</string>
     <string name="cannot2">Looks at any app other than Instagram</string>
@@ -56,6 +57,7 @@
 
     <!-- Home: status hero -->
     <string name="hero_on_title">Reels are blocked</string>
+    <string name="hero_on_no_instagram">Instagram is not on this phone yet. When you install it, Reels will close.</string>
     <string name="hero_on_body">When Reels opens in Instagram, Reel Block takes you back. Everything else works as usual.</string>
     <string name="hero_paused_title">Reels are paused</string>
     <string name="hero_paused_until">Reels open as normal until %1$s. Then blocking turns back on by itself.</string>
@@ -97,6 +99,7 @@
     <string name="check_stopped">Not running. Android stopped it.</string>
     <string name="check_changed">Reels screen not found in Instagram %1$s.</string>
     <string name="check_no_instagram">Instagram is not installed.</string>
+    <string name="check_checking">Running. Checking Instagram %1$s…</string>
     <string name="check_unknown">Running. Could not read Instagram %1$s right now. Try again later.</string>
     <string name="check_done">Checked just now</string>
 

@@ -83,6 +83,10 @@
                         <ImageView style="@style/BulletIcon" android:src="@drawable/ic_lock" android:tint="@color/primary" />
                         <TextView style="@style/BulletText" android:text="@string/keeps1" />
                     </LinearLayout>
+                    <LinearLayout style="@style/Bullet">
+                        <ImageView style="@style/BulletIcon" android:src="@drawable/ic_pause" android:tint="@color/primary" />
+                        <TextView style="@style/BulletText" android:text="@string/keeps2" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout style="@style/Card">

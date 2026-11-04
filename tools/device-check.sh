@@ -16,7 +16,6 @@ SVC=$PKG/$PKG.ReelBlockService
 TILE=$PKG/$PKG.QsTile
 OUT=${OUT:-out/device}
 TAP=${REELS_TAP:-324 2286}
-mkdir -p "$OUT"
 A() { adb shell "$@" | tr -d '\r'; }
 unnull() { [ "$1" = null ] && echo "" || echo "$1"; }
 FONT0=$(unnull "$(A settings get system font_scale)"); NIGHT0=$(A cmd uimode night | sed 's/.*: //')
@@ -37,10 +36,17 @@ pass() { echo "PASS  $*"; }
 fail() { echo "FAIL  $*"; FAILED=1; }
 SIZE=$(A wm size | grep -o '[0-9]*x[0-9]*' | tail -1); W=${SIZE%x*}; H=${SIZE#*x}
 
-# Fresh dump of the screen into $OUT/$1.xml. Fails (returns 1) instead of reusing an old dump.
+# Fresh dump of the screen into $OUT/$1.xml. Fails (returns 1) instead of reusing an old dump: the old local
+# file is deleted first. uiautomator sometimes says "null root node" while a view animates, so try 3 times.
 dump() {
-  A rm -f /sdcard/rb.xml
-  A uiautomator dump /sdcard/rb.xml | grep -q "dumped to" && adb pull /sdcard/rb.xml "$OUT/$1.xml" >/dev/null 2>&1
+  rm -f "$OUT/$1.xml"
+  for _ in 1 2 3; do
+    A rm -f /sdcard/rb.xml
+    A uiautomator dump /sdcard/rb.xml 2>&1 | grep -q "dumped to" && adb pull /sdcard/rb.xml "$OUT/$1.xml" >/dev/null 2>&1 \
+      && return 0
+    sleep 1
+  done
+  return 1
 }
 # One line per node: clickable|text|content-desc|resource-id|bounds
 nodes() {
@@ -104,8 +110,8 @@ on_screen() {
 # Home first: leaving closes Reel Block's task (HyperOS fix), so it opens fresh at the top. Never "am start -S":
 # a force-stop makes Android remove the app's accessibility service from the enabled list.
 open_app() { A input keyevent KEYCODE_HOME; sleep 1; A am start -W -n $PKG/.MainActivity >/dev/null; sleep 2; }
-# "All time 128" on the home screen -> 128 (0 when the empty state shows).
-count() { open_app; dump count; n=$(nodes count 2>/dev/null | grep -o 'All time [0-9,.]*' | head -1 | tr -dc '0-9'); echo "${n:-0}"; }
+# "All time 128" on the home screen -> 128 (0 when the empty state shows, "?" when the screen could not be read).
+count() { open_app; dump count || { echo "?"; return; }; n=$(nodes count 2>/dev/null | grep -o 'All time [0-9,.]*' | head -1 | tr -dc '0-9'); echo "${n:-0}"; }
 open_reels() { sleep 2; A monkey -p com.instagram.android -c android.intent.category.LAUNCHER 1 >/dev/null 2>&1; sleep 5; A input tap $TAP; sleep 4; }
 service_on() {
   case ":$SVCS0:" in *":$SVC:"*) L=$SVCS0;; *) L=${SVCS0:+$SVCS0:}$SVC;; esac
@@ -128,6 +134,7 @@ viewer_visible() { A dumpsys activity top | grep "clips_viewer_view_pager" | gre
 
 echo "== Install and turn on"
 NO_INSTALL='' ./build.sh "$ANDROID_SERIAL" >/dev/null || { echo "FAIL  build or install"; exit 1; }
+mkdir -p "$OUT"  # after build.sh: it deletes out/, and the default $OUT is inside it
 service_on
 bound && pass "service is bound" || fail "service is not bound"
 
@@ -146,7 +153,7 @@ A cmd statusbar click-tile $TILE; sleep 2
 on_screen_now "Pause blocking?" && pass "tile opens the pause dialog" || fail "tile did not open the pause dialog"
 go "For 15 minutes" "tile pause"
 before=$(count); open_reels; after=$(count)
-[ "$after" = "$before" ] && pass "paused: Reels stay open" || fail "paused, but the count went up"
+[ "$after" = "$before" ] && [ "$after" != "?" ] && pass "paused: Reels stay open" || fail "paused, but the count changed ($before -> $after)"
 A cmd statusbar click-tile $TILE; sleep 1
 open_app; on_screen "Reels are blocked" && pass "tile resumed blocking" || fail "tile did not resume"
 echo "note  the tile stays in Quick Settings; remove it by hand if you do not want it"

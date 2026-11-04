@@ -1,12 +1,14 @@
 package dev.local.reelblock;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 import java.text.NumberFormat;
 
@@ -36,6 +38,17 @@ public class MainActivity extends Activity {
             findViewById(R.id.autostart_card).setVisibility(View.VISIBLE);
             findViewById(R.id.autostart).setOnClickListener(v -> startActivity(autostart));
         }
+        // Pause without turning the service off: the service stays bound and only skips the Back press.
+        ((Switch) findViewById(R.id.block_switch)).setOnCheckedChangeListener((v, on) -> {
+            if (on == !paused(this)) return;
+            getSharedPreferences("settings", MODE_PRIVATE).edit().putBoolean("paused", !on).apply();
+            render();
+        });
+    }
+
+    // Read by ReelBlockService on each event. Same process, so the change applies at once.
+    static boolean paused(Context c) {
+        return c.getSharedPreferences("settings", MODE_PRIVATE).getBoolean("paused", false);
     }
 
     // Leave no Recents card. On Xiaomi/HyperOS, swiping the card away kills every process of the app
@@ -49,16 +62,27 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        render();
+    }
+
+    private void render() {
         String on = Settings.Secure.getString(getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
         // Match whole entries ("pkg/service", split by ':'). contains() would also match "x.dev.local.reelblock/...".
         boolean enabled = false;
         if (on != null) for (String s : on.split(":")) enabled |= s.startsWith(getPackageName() + "/");
+        boolean paused = paused(this);
+        boolean active = enabled && !paused;
+        Switch sw = findViewById(R.id.block_switch);
+        sw.setVisibility(enabled ? View.VISIBLE : View.GONE);
+        sw.setChecked(!paused);
         TextView pill = findViewById(R.id.pill);
-        pill.setText(enabled ? R.string.status_on : R.string.status_off);
-        pill.setTextColor(getColor(enabled ? R.color.ok : R.color.warn));
-        pill.setBackgroundTintList(getColorStateList(enabled ? R.color.ok_soft : R.color.warn_soft));
-        ((TextView) findViewById(R.id.headline)).setText(enabled ? R.string.headline_on : R.string.headline_off);
-        ((TextView) findViewById(R.id.body)).setText(enabled ? R.string.body_on : R.string.body_off);
+        pill.setText(active ? R.string.status_on : enabled ? R.string.status_paused : R.string.status_off);
+        pill.setTextColor(getColor(active ? R.color.ok : R.color.warn));
+        pill.setBackgroundTintList(getColorStateList(active ? R.color.ok_soft : R.color.warn_soft));
+        ((TextView) findViewById(R.id.headline)).setText(
+            active ? R.string.headline_on : enabled ? R.string.headline_paused : R.string.headline_off);
+        ((TextView) findViewById(R.id.body)).setText(
+            active ? R.string.body_on : enabled ? R.string.body_paused : R.string.body_off);
         ((TextView) findViewById(R.id.count)).setText(NumberFormat.getInstance().format(blocked()));
         Button turnOn = findViewById(R.id.turn_on);
         turnOn.setText(enabled ? R.string.manage : R.string.turn_on);

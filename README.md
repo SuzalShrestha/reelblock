@@ -67,6 +67,8 @@ settings). Since v1.2.1 the app leaves no Recents card when you leave it. With *
 phone starts it again in about 1 second, even after a swipe. On Xiaomi phones, the app shows an
 **Open Autostart** button for this.
 
+**To pause:** open Reel Block and turn off the "Block Reels" switch. Turn it on again to resume.
+
 **To stop:** turn off the service in Accessibility settings, or uninstall the app.
 
 ## FAQ

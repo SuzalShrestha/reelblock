@@ -21,8 +21,8 @@ https://github.com/user-attachments/assets/9e368622-f6dc-417e-a583-c22226c2a839
 
 <p align="center">
   <img src="docs/screens/after-welcome-2-light.png" width="220" alt="First run: the screen &quot;What Reel Block can see&quot;, with what it can and never does, and the buttons Agree and continue and Not now">
-  <img src="docs/screens/after-home-on-light.png" width="220" alt="Home screen in light mode: Reels are blocked, with a chart of Reels closed this week">
-  <img src="docs/screens/after-home-on-dark.png" width="220" alt="Home screen in dark mode: Reels are blocked, with a chart of Reels closed this week">
+  <img src="docs/screens/after-home-on-light.png" width="220" alt="Home screen in light mode: Blocking is on, with a chart of Reels closed this week">
+  <img src="docs/screens/after-home-on-dark.png" width="220" alt="Home screen in dark mode: Blocking is on, with a chart of Reels closed this week">
   <img src="docs/screens/after-pause-light.png" width="220" alt="The Pause blocking question: 15 minutes, 1 hour, or until I turn it back on">
 </p>
 
@@ -38,12 +38,20 @@ least 48dp, rendered with Robolectric. The harness that made them is in the repo
 
 ## What's new in 2.0
 
+- **New in 2.1: choose what to block.** Four switches: Reels, Stories, Comments, Explore. Only Reels is
+  on at first. Reel Block closes each screen you chose by pressing Back. A switch is grey when your
+  Instagram version does not have the screen name that Reel Block looks for.
+- **New in 2.1: a pause when Instagram opens (optional).** A short screen with a **Close Instagram**
+  button. **Continue** turns on after 5 seconds, and the screen goes away by itself after 15 seconds. A study found that the option to leave is the part that
+  works (Grüning et al., PNAS 2023, doi 10.1073/pnas.2213114120).
+- **New: an iPhone version for Safari.** See [ios/README.md](ios/README.md). It hides parts of
+  instagram.com in Safari. iOS does not let an app change the Instagram app.
 - **A new look.** Material 3, a calm teal brand, dark mode, and a new icon. On Android 12 and later
   it follows your wallpaper colours. See [Design](#design).
 - **A first run that tells you what it can see.** Before Android settings open, a screen has three
   cards: what Reel Block can do, what it keeps (only on your phone), and what it never does. Settings open
   only after you tap **Agree and continue**. You can read the screen again from the home screen.
-- **One clear status on the home screen.** Reels are blocked, paused, off, stopped by Android, or
+- **One clear status on the home screen.** Blocking is on, paused, off, stopped by Android, or
   Instagram has changed, each with one main action.
 - **A "This week" chart.** Reels closed per day, plus today and all-time counts. They stay on your phone.
 - **Self-check.** It tells you when Android stopped Reel Block, when an Instagram update removed the
@@ -113,7 +121,7 @@ a **Keep it running** row that opens Autostart. If Android still stops Reel Bloc
 **Android stopped Reel Block** and the self-check says "Not running". Turn it off and on again in
 Accessibility settings.
 
-**To pause:** open Reel Block and turn off the "Block Reels" switch, or tap the Reel Block
+**To pause:** open Reel Block and turn off the "Blocking" switch, or tap the Reel Block
 **Quick Settings tile** while it is blocking. Both ask for how long: **15 minutes**, **1 hour** or
 **Until I turn it back on**. Back or Cancel keeps blocking on. A timed pause ends by itself, so you cannot
 forget to turn blocking on again. To resume early, turn the switch on again, or tap the tile while it shows
@@ -226,7 +234,7 @@ It ends in one of seven results:
 "Cannot tell" appears when Android does not let the app read Instagram's package (for example while Instagram
 updates). Reel Block says so, and does not guess "changed". "Checking" shows while the app reads Instagram's
 resource table (see below), and is replaced by one of the other results when that is done. When Instagram is
-not installed and Reel Block is running, the home screen still says **Reels are blocked**, with the text
+not installed and Reel Block is running, the home screen still says **Blocking is on**, with the text
 "Instagram is not on this phone yet. When you install it, Reels will close."
 
 **Why the view name is a good test.** The service finds the Reels viewer by the same name. If Instagram's

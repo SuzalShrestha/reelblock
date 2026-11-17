@@ -24,6 +24,9 @@ import java.util.Date;
 public class MainActivity extends Activity {
     static final String REPO = "https://github.com/SuzalShrestha/reelblock";
     static final String EXTRA_PAUSE = "pause"; // from the Quick Settings tile: ask "pause for how long?"
+    // Same order as ReelBlockService.KEYS.
+    private static final int[] PARTS = {R.id.part_reels, R.id.part_stories, R.id.part_comments, R.id.part_explore};
+    private static final int[] PART_LABELS = {R.string.part_reels, R.string.part_stories, R.string.part_comments, R.string.part_explore};
     private enum Hero { ON, PAUSED, OFF, STOPPED, CHANGED }
 
     private Welcome welcome;
@@ -73,6 +76,11 @@ public class MainActivity extends Activity {
             if (on) { State.resume(this); render(); }
             else askPause();
         });
+        for (int i = 0; i < PARTS.length; i++) {
+            String key = "block_" + ReelBlockService.KEYS[i];
+            ((Switch) findViewById(PARTS[i])).setOnCheckedChangeListener((v, on) -> State.set(this, key, on));
+        }
+        ((Switch) findViewById(R.id.gate_switch)).setOnCheckedChangeListener((v, on) -> State.set(this, "gate", on));
         findViewById(R.id.check_row).setOnClickListener(v -> {
             Check.forget();
             announceCheck = true; // said when the new result is on screen
@@ -186,12 +194,21 @@ public class MainActivity extends Activity {
         if (heroView == null) return;
         heroView.removeCallbacks(rerender);
         Check check = Check.run(this, checkDone);
+        for (int i = 0; i < PARTS.length; i++) {
+            String part = ReelBlockService.KEYS[i];
+            Switch s = findViewById(PARTS[i]);
+            boolean gone = Check.missing(part);
+            s.setChecked(State.block(this, part));
+            s.setEnabled(!gone || s.isChecked()); // a part that is on can always be turned off
+            s.setText(gone ? getString(R.string.part_missing, getString(PART_LABELS[i])) : getString(PART_LABELS[i]));
+        }
+        ((Switch) findViewById(R.id.gate_switch)).setChecked(State.gate(this));
         boolean paused = State.paused(this);
         long until = State.pausedUntil(this);
         Hero h = check.status == Check.OFF ? Hero.OFF
             : check.status == Check.STOPPED ? Hero.STOPPED
             : paused ? Hero.PAUSED
-            : check.status == Check.CHANGED ? Hero.CHANGED : Hero.ON;
+            : check.status == Check.CHANGED && State.block(this, "reels") ? Hero.CHANGED : Hero.ON;
         long wait = graceUntil - SystemClock.uptimeMillis();
         if (h == Hero.STOPPED && wait > 0) {
             // Say nothing yet (no red hero, no "Not running" line): look again when the grace ends.

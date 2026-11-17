@@ -27,6 +27,13 @@ final class Check {
     // Reading Instagram's resource table takes a moment, so it runs once per Instagram install or update,
     // off the main thread. Until it is done the status is CHECKING.
     private static volatile long checkedUpdate = -1;
+    // Parts whose view names the installed Instagram does not have. The home screen greys them out.
+    private static volatile java.util.Set<String> missing = java.util.Collections.emptySet();
+
+    static boolean missing(String part) {
+        return missing.contains(part);
+    }
+
     private static volatile Boolean viewerFound; // null: could not read it (for example while Instagram updates)
     private static volatile boolean loading, recheck;
     // Who to tell when a read finishes: the screen that asked last (a rotated screen replaces the old one).
@@ -69,8 +76,13 @@ final class Check {
         new Thread(() -> {
             Boolean found = null; // stays null if Instagram's package cannot be read: say so, do not guess
             try {
-                found = app.getPackageManager().getResourcesForApplication(ReelBlockService.INSTAGRAM)
-                    .getIdentifier(ReelBlockService.VIEWER_NAME, "id", ReelBlockService.INSTAGRAM) != 0;
+                android.content.res.Resources r = app.getPackageManager().getResourcesForApplication(ReelBlockService.INSTAGRAM);
+                java.util.Set<String> gone = new java.util.HashSet<>();
+                for (int i = 0; i < ReelBlockService.KEYS.length; i++)
+                    for (String name : ReelBlockService.NAMES[i])
+                        if (r.getIdentifier(name, "id", ReelBlockService.INSTAGRAM) == 0) gone.add(ReelBlockService.KEYS[i]);
+                missing = gone;
+                found = !gone.contains("reels");
             } catch (Throwable e) {
                 // Not readable right now (for example while Instagram updates). Catch everything: an uncaught
                 // error here would end the app's process, and the blocker runs in that process too.

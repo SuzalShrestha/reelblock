@@ -208,3 +208,23 @@ These could not be checked from the sandbox.
 - **On-phone script, not run.** `tools/device-check.sh` has not been run: it was written where no phone was available. Nothing in this file depends on its results. It cannot make "Android stopped Reel Block" or "Instagram has changed" on purpose, so those two screens are checked only in the Robolectric renders (`tools/screens/`, not on a phone).
 - **Play review and Data safety claims** about one sec, ScreenZen and Opal are search snippets only.
 - **Dynamic-colour shade mapping** and the "Expressive" label on the 20/32/48 dp shapes are unverified (section 4).
+
+## 12. Version 2.1: more parts (2026-11-16)
+
+Source of each Instagram view name in `ReelBlockService.NAMES`. Only `clips_viewer_view_pager` was read from a
+live phone by this project. No phone was connected when 2.1 was written, so the other names are **not confirmed
+on a phone**. The self-check reads Instagram's resource table and greys out a part whose name is missing.
+
+| Part | View name | Source | Confidence |
+|---|---|---|---|
+| Stories | `reel_viewer_root` | HushGram `BurnInGuard.java`, Scrolless, antidoomscroll-dist `selectors.json`, unscroll `InstagramRules.kt`, 2019 resource table | high, no raw 2025-26 dump |
+| Comments | `layout_comment_thread_edittext` | real dump RLinter/MobileGuard `instagram_14.xml` (2025-05), GramAddict, taktik-bot | high for feed posts; Reels comments sheet not confirmed |
+| Explore | `explore_action_bar` + `grid_card_layout_container` | unscroll, antidoomscroll-dist, AwayDoomscrollin, detach | medium, no raw dump |
+
+Not built, and why: the Stories row on the feed (`reels_tray_container`) and suggested posts cannot be closed
+with Back; they need a different mechanism. Daily limits: one preprint (Silverman, Srna, Etkin) reports that
+generous optional limits increase time spent.
+
+Pause screen evidence: Grüning et al., PNAS 2023, doi 10.1073/pnas.2213114120 (36% of open attempts ended with
+the app closed; the dismiss option had the largest effect). Haliburton et al., CHI 2024,
+doi 10.1145/3613904.3642370: users pause such interventions and overuse returns.

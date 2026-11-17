@@ -155,7 +155,7 @@ go "For 15 minutes" "tile pause"
 before=$(count); open_reels; after=$(count)
 [ "$after" = "$before" ] && [ "$after" != "?" ] && pass "paused: Reels stay open" || fail "paused, but the count changed ($before -> $after)"
 A cmd statusbar click-tile $TILE; sleep 1
-open_app; on_screen "Reels are blocked" && pass "tile resumed blocking" || fail "tile did not resume"
+open_app; on_screen "Blocking is on" && pass "tile resumed blocking" || fail "tile did not resume"
 echo "note  the tile stays in Quick Settings; remove it by hand if you do not want it"
 
 echo "== HyperOS: no Recents card, no crashed service after leaving the app"
@@ -170,7 +170,7 @@ for v in light dark font2; do
   A settings put system font_scale "$([ $v = font2 ] && echo 2.0 || echo 1.0)"
   sleep 1
   open_app; shot "home-1-$v"; scroll_down; shot "home-2-$v"; scroll_down; shot "home-3-$v"; scroll_down; shot "home-4-$v"
-  open_app; go "Block Reels" "pause-$v" && { shot "pause-dialog-$v"; go "For 15 minutes" "paused-$v" && { open_app; shot "home-paused-$v"; go "Block Reels" "resume-$v"; }; }
+  open_app; go "Blocking" "pause-$v" && { shot "pause-dialog-$v"; go "For 15 minutes" "paused-$v" && { open_app; shot "home-paused-$v"; go "Blocking" "resume-$v"; }; }
   open_app; go "What Reel Block can see" "disclosure-$v" && { shot "disclosure-1-$v"; scroll_down; shot "disclosure-2-$v"; scroll_down; shot "disclosure-3-$v"; }
   open_app; go "Setup help" "setup-$v" && { shot "setup-1-$v"; scroll_down; shot "setup-2-$v"; }
   service_off; open_app; shot "home-off-$v"; service_on

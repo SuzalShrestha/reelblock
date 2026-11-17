@@ -1,0 +1,4 @@
+[
+  {"action": {"type": "css-display-none", "selector": "a[href$=\"/reels/\"]"}, "trigger": {"url-filter": ".*", "if-domain": ["*instagram.com"]}},
+  {"action": {"type": "block"}, "trigger": {"url-filter": "^https?://(www\\.)?instagram\\.com/reels/", "resource-type": ["document"]}}
+]

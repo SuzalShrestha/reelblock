@@ -64,6 +64,19 @@
             </LinearLayout>
         </LinearLayout>
 
+        <!-- What to block: one switch per Instagram part. MainActivity greys out a part this Instagram lacks. -->
+        <TextView style="@style/SectionHeader" android:text="@string/section_parts" />
+        <Switch android:id="@+id/part_reels" style="@style/SwitchRow" android:layout_marginTop="@dimen/space_2" />
+        <Switch android:id="@+id/part_stories" style="@style/SwitchRow" android:layout_marginTop="@dimen/space_2" />
+        <Switch android:id="@+id/part_comments" style="@style/SwitchRow" android:layout_marginTop="@dimen/space_2" />
+        <Switch android:id="@+id/part_explore" style="@style/SwitchRow" android:layout_marginTop="@dimen/space_2" />
+        <TextView style="@style/SectionHeader" android:text="@string/section_gate" />
+        <Switch android:id="@+id/gate_switch" style="@style/SwitchRow" android:layout_marginTop="@dimen/space_2"
+            android:text="@string/gate_switch" />
+        <TextView style="@style/Text.BodyMedium.Secondary" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginTop="@dimen/space_2"
+            android:paddingStart="@dimen/space_4" android:paddingEnd="@dimen/space_4" android:text="@string/gate_note" />
+
         <!-- Status -->
         <TextView style="@style/SectionHeader" android:text="@string/section_status" />
         <LinearLayout android:id="@+id/check_row" style="@style/Row.Single" android:clickable="true" android:focusable="true">

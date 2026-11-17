@@ -356,7 +356,7 @@ States: default and pressed (ripple 10% plus scale 0.97). Accessibility: every b
 
 **The first second.** When the home screen opens, the hero is hidden (invisible, not removed) while the service looks stopped, for 1 second (uptime clock). Android may still be binding the service. During that second the self-check line is empty too, so the app shows no status at all. If the service is still not running after the second, the Stopped hero appears with the usual fade and rise. Other states show at once.
 
-**On with no Instagram.** The On hero has a second body text when the self-check says Instagram is not installed: "Instagram is not on this phone yet. When you install it, Reels will close." The headline stays "Reels are blocked".
+**On with no Instagram.** The On hero has a second body text when the self-check says Instagram is not installed: "Instagram is not on this phone yet. When you install it, Reels will close." The headline stays "Blocking is on".
 
 **Self-check row.** Below the hero is a `Row.Single` titled "Self-check". Its supporting text is a polite live region and shows one of seven lines. Tapping the row reads Instagram's resource table again and announces "Checked just now". The icon is `ic_health` on `secondary_container`. When the hero shows Stopped or Changed, it becomes `ic_status_problem` on `error_container` (pair 17).
 
@@ -374,8 +374,8 @@ Instagram's resource table is read on a background thread, once per Instagram in
 
 | State | Headline | Container / text | Badge / icon | Icon | Action |
 |---|---|---|---|---|---|
-| On | Reels are blocked | `hero_on_bg` (`primary_container`) / `hero_on_fg` | `hero_on_badge` (`primary`) / `hero_on_badge_icon` | `ic_status_on` | Switch "Block Reels" (on) |
-| Paused | Reels are paused | `hero_paused_bg` (`warning_container`) / `hero_paused_fg` | `hero_paused_badge` (`warning`) / `hero_paused_badge_icon` | `ic_status_paused` | Switch "Block Reels" (off) |
+| On | Blocking is on | `hero_on_bg` (`primary_container`) / `hero_on_fg` | `hero_on_badge` (`primary`) / `hero_on_badge_icon` | `ic_status_on` | Switch "Blocking" (on) |
+| Paused | Blocking is paused | `hero_paused_bg` (`warning_container`) / `hero_paused_fg` | `hero_paused_badge` (`warning`) / `hero_paused_badge_icon` | `ic_status_paused` | Switch "Blocking" (off) |
 | Off | Reel Block is off | `hero_off_bg` (`bg_card`) / `hero_off_fg` | `hero_off_badge` (`surface_container_highest`) / `hero_off_badge_icon` | `ic_status_off` | Filled "Turn on Reel Block" |
 | Stopped | Android stopped Reel Block | `hero_problem_bg` (`error_container`) / `hero_problem_fg` | `hero_problem_badge` (`error`) / `hero_problem_badge_icon` | `ic_status_problem` | Filled "Open Accessibility settings" |
 | Changed | Instagram has changed | same as Stopped | same as Stopped | `ic_status_problem` | Filled "Get the newest version" and text "Let us know" |
@@ -397,7 +397,7 @@ Parts: `RowIcon` (40dp circle, `secondary_container`, 24dp icon in `on_secondary
 
 ### Switch row (main switch bar)
 
-`SwitchRow` (parent `Text.TitleMedium`): a pill (`bg_switch_row`, `bg_card`, `radius_full`) inside the hero, 56dp minimum, 16dp start and 12dp end padding, label at the start, switch at the end. **The whole row is the touch target.** Label: "Block Reels".
+`SwitchRow` (parent `Text.TitleMedium`): a pill (`bg_switch_row`, `bg_card`, `radius_full`) inside the hero, 56dp minimum, 16dp start and 12dp end padding, label at the start, switch at the end. **The whole row is the touch target.** Label: "Blocking".
 
 | Part | On | Off |
 |---|---|---|

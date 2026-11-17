@@ -11,7 +11,8 @@ import java.util.TimeZone;
 // Everything Reel Block stores, in two private preference files on this phone. Backup and device transfer
 // copy none of it (res/xml/data_rules.xml). Nothing here touches the network: the app has no INTERNET permission.
 //   settings: paused (until I turn it on), paused_until (timed pause end, wall clock), consent (disclosure agreed),
-//             seen (first run shown; "Not now" does not bring it back)
+//             seen (first run shown; "Not now" does not bring it back), block_<part> (which Instagram
+//             screens to close; only Reels is on at first), gate (pause screen when Instagram opens)
 //   stats:    blocked (all-time count), d<day> (count per local day, last 30 days). No times of day, no history.
 final class State {
     private State() {}
@@ -22,6 +23,18 @@ final class State {
 
     static SharedPreferences stats(Context c) {
         return c.getSharedPreferences("stats", Context.MODE_PRIVATE);
+    }
+
+    static boolean block(Context c, String part) {
+        return settings(c).getBoolean("block_" + part, "reels".equals(part));
+    }
+
+    static boolean gate(Context c) {
+        return settings(c).getBoolean("gate", false);
+    }
+
+    static void set(Context c, String key, boolean on) {
+        settings(c).edit().putBoolean(key, on).apply();
     }
 
     // Read by ReelBlockService on each Instagram event. Same process, so a change applies at once.

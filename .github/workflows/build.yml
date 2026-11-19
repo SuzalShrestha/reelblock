@@ -21,12 +21,25 @@ jobs:
           # Instagram only: exactly one packageNames attribute, and it is exactly Instagram.
           [ "$(grep -c 'packageNames' res/xml/accessibility.xml)" = 1 ]
           grep -q 'android:packageNames="com.instagram.android"' res/xml/accessibility.xml
+      - name: Android 16 SDK (Play needs targetSdk 36)
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-36" "build-tools;36.0.0" >/dev/null
+      - name: Schedule
+        run: |
+          JAR="$ANDROID_HOME/platforms/android-36/android.jar"
+          javac -nowarn -cp "$JAR" -d out/test src/dev/local/reelblock/State.java src/dev/local/reelblock/ReelBlockService.java tools/ScheduleTest.java
+          java -cp "out/test:$JAR" dev.local.reelblock.ScheduleTest
       - run: NO_INSTALL=1 ./build.sh
-      - name: No permissions, size
+      - name: One permission (Play billing), target SDK, size
         run: |
           BT=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)
           "$BT/aapt2" dump badging ReelBlock.apk | grep -E "^package|permission|sdkVersion"
-          if "$BT/aapt2" dump badging ReelBlock.apk | grep -q uses-permission; then echo "Reel Block must ask for no permission"; exit 1; fi
-          echo "APK size: $(stat -c %s ReelBlock.apk) bytes"
+          [ "$("$BT/aapt2" dump badging ReelBlock.apk | grep uses-permission)" = "uses-permission: name='com.android.vending.BILLING'" ] \
+            || { echo "Reel Block may ask only for com.android.vending.BILLING"; exit 1; }
+          "$BT/aapt2" dump badging ReelBlock.apk | grep -q "targetSdkVersion:'36'"
+          echo "APK size: $(stat -c %s ReelBlock.apk) bytes, AAB size: $(stat -c %s ReelBlock.aab) bytes"
       - uses: actions/upload-artifact@v4
-        with: { name: ReelBlock-unsigned-test, path: ReelBlock.apk }
+        with:
+          name: ReelBlock-unsigned-test
+          path: |
+            ReelBlock.apk
+            ReelBlock.aab

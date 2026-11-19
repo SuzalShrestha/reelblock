@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 500" width="1024" height="500">
+  <!-- Google Play feature graphic (1024 x 500). The mark is docs/icon.svg's geometry, scaled. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00696B"/><stop offset="1" stop-color="#0B5153"/></linearGradient>
+  </defs>
+  <rect width="1024" height="500" fill="url(#bg)"/>
+  <g transform="translate(70 110) scale(5.2) translate(-31 -23)">
+    <rect x="35" y="36" width="20" height="36" rx="6" fill="#BFEFEC" fill-opacity="0.45"/>
+    <rect x="43" y="31" width="30" height="46" rx="8" fill="#BFEFEC"/>
+    <rect x="50" y="46" width="5" height="16" rx="2.5" fill="#0B5153"/>
+    <rect x="59" y="46" width="5" height="16" rx="2.5" fill="#0B5153"/>
+  </g>
+  <text x="400" y="235" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="76" font-weight="700" fill="#FFFFFF">Reel Block</text>
+  <text x="402" y="305" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="38" fill="#BFEFEC">Keep Instagram. Lose the Reels.</text>
+</svg>

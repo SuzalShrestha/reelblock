@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Pro schedule. Back, a tap outside, or Cancel change nothing. Scrolls at large font sizes. -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+    <TextView style="@style/Dialog.Title" android:text="@string/schedule_title" />
+    <TextView style="@style/Dialog.Body" android:text="@string/schedule_body_dialog" />
+    <Switch android:id="@+id/schedule_switch" style="@style/SwitchRow" android:layout_marginStart="@dimen/space_6"
+        android:layout_marginEnd="@dimen/space_6" android:layout_marginBottom="@dimen/space_2"
+        android:text="@string/schedule_use" />
+    <TextView android:id="@+id/schedule_start" style="@style/Dialog.Option" android:drawableStart="@drawable/ic_schedule" />
+    <TextView android:id="@+id/schedule_end" style="@style/Dialog.Option" android:drawableStart="@drawable/ic_schedule" />
+    <TextView android:id="@+id/schedule_days" style="@style/Dialog.Option" android:drawableStart="@drawable/ic_check" />
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="end">
+        <Button android:id="@+id/dialog_cancel" style="@style/Dialog.Button" android:text="@string/cancel" />
+        <Button android:id="@+id/dialog_ok" style="@style/Dialog.Button" android:text="@string/save" />
+    </LinearLayout>
+</LinearLayout>
+</ScrollView>

@@ -55,6 +55,20 @@ least 48dp, rendered with Robolectric. The harness that made them is in the repo
 
 ---
 
+## What's new in 2.1
+
+- **Reel Block Pro**, one optional purchase on Google Play: a **schedule** (block Reels only at the times
+  and on the days you choose) and a **12-month chart** (counts are kept for a year, still only on your
+  phone). Everything in 2.0 stays free.
+- **One permission:** `com.android.vending.BILLING`, so the app can ask the Play Store app on your phone to
+  sell Pro. It is not the internet permission. Reel Block still has no INTERNET permission. Google's billing
+  telemetry library is left out on purpose ([`build.sh`](build.sh) says why).
+- **Google Play build.** `targetSdk` 36 and an Android App Bundle (`ReelBlock.aab`). See
+  [docs/play-store.md](docs/play-store.md).
+- The APK is about 205 KB: the Play Billing Library and a small part of `androidx.core`, after R8.
+
+---
+
 ## Why
 
 You open Instagram to answer one message. Forty minutes later you are still swiping Reels.
@@ -158,14 +172,16 @@ and the whole app is about 980 lines of Java in [8 files](src/dev/local/reelbloc
 - listens only to Instagram (see [`accessibility.xml`](res/xml/accessibility.xml)), and the code
   checks the package again before it looks at any window,
 - looks for one view ID and reads no text, messages or images,
-- has **no permission at all** and no internet permission (see [`AndroidManifest.xml`](AndroidManifest.xml)),
-  so it cannot send anything anywhere. `aapt2 dump badging ReelBlock.apk` lists none,
+- has **one permission**, `com.android.vending.BILLING` (to buy Pro from the Play Store app), and **no
+  internet permission** (see [`AndroidManifest.xml`](AndroidManifest.xml)), so it cannot send anything
+  anywhere. `aapt2 dump badging ReelBlock.apk` lists only BILLING, and CI fails on any other,
 - writes no logs,
 - stores these things on your phone, in two private files (the list is at the top of
   [`State.java`](src/dev/local/reelblock/State.java)). `settings`: your pause setting (and when a timed
   pause ends), whether you agreed to the disclosure, and whether the first run was shown (so **Not now** is
-  remembered). `stats`: the all-time count of closed Reels, and the count for each of the last 30 days. It
-  stores no time of day for a close. Counts older than 30 days are deleted on the first close of each day,
+  remembered), whether Google Play says you bought Pro, and your Pro schedule. `stats`: the all-time count of
+  closed Reels, and the count for each of the last 30 days (366 with Pro). It stores no time of day for a
+  close. Older counts are deleted on the first close of each day,
   even if you never open the app (and when you open it). Backup and phone-to-phone transfer copy nothing, so
   it stays on this phone,
 - has one `<queries>` entry for `com.instagram.android` in the manifest. That is package visibility,
@@ -174,9 +190,14 @@ and the whole app is about 980 lines of Java in [8 files](src/dev/local/reelbloc
   Instagram's screen for this. It reads Instagram's resource table on a background thread, once per
   Instagram install or update, and keeps the answer in memory while the app runs, not on disk.
 
-**Why is it not on the Play Store?**
-Google allows accessibility apps on the Play Store only for some uses. You can build the APK
-yourself from this source (see below) and compare.
+**Is it on the Play Store?**
+Version 2.1 is ready to submit (see [docs/play-store.md](docs/play-store.md)). Google reviews every app that
+uses the accessibility API, so approval is not certain. The GitHub APK stays available. You can also build
+the APK yourself from this source (see below) and compare.
+
+**What does Pro cost, and what if I build it myself?**
+Pro is one payment on Google Play, with no subscription and no account. The code is MIT-licensed, so if you
+build Reel Block yourself you can change anything, Pro included. Buying Pro pays for the work.
 
 **Does it work on iPhone?**
 No. iOS does not let apps act on other apps. On iPhone, the closest option is a Screen Time limit
@@ -300,7 +321,8 @@ because `androidx.test` is only on Google's Maven. [`docs/screens/`](docs/screen
 
 GitHub Actions runs the first two checks on every push, plus a search for logging and network code, a check
 that `accessibility.xml` has exactly one `packageNames` attribute and that it is exactly `com.instagram.android`,
-the build, and a "no permissions" check on the APK. See [`.github/workflows/build.yml`](.github/workflows/build.yml).
+the schedule check (`tools/ScheduleTest.java`), the build, and a check that the APK asks only for BILLING
+and targets SDK 36. See [`.github/workflows/build.yml`](.github/workflows/build.yml).
 The built APK is 93,981 bytes (about 94 KB; zipped, about 64 KB), measured by GitHub CI with the real Android
 SDK (build-tools `d8`, `compileSdk` 37) on commit `6d93a21`. It is smaller than before because unused colour
 roles, styles and drawables were removed, `build.sh` runs `aapt2 optimize` and `d8 --release`, and the `R`
@@ -309,7 +331,8 @@ classes are left out of the dex. Version 1.4 was about 30 KB. The numbers are in
 
 Merging does not make a release. To release, bump `versionCode` and `versionName` in
 `AndroidManifest.xml`, merge to `main`, then run `./release.sh notes.md` from `main`. It tags the version,
-checks the APK has the release key and no permissions, and uploads it to GitHub Releases.
+checks the APK has the release key and only the BILLING permission, and uploads it to GitHub Releases.
+It also leaves `ReelBlock.aab` for Google Play ([docs/play-store.md](docs/play-store.md)).
 
 ## Design
 

@@ -10,3 +10,6 @@ home_stopped|MainActivity|stopped|s.consent=true;t.blocked=128;week=3,0,5,2,7,1,
 home_changed|MainActivity|on|s.consent=true;t.blocked=128;week=3,0,5,2,7,1,4;ig=changed
 dialog_pause|MainActivity|on,screen,click:block_switch|s.consent=true;t.blocked=128;week=3,0,5,2,7,1,4;ig=ok
 see_again|MainActivity|on,screen,click:see_row|s.consent=true;t.blocked=128;ig=ok
+home_pro|MainActivity|on|s.consent=true;s.pro=true;s.sched=true;s.sched_start=0;s.sched_end=0;s.sched_days=127;t.blocked=128;week=3,0,5,2,7,1,4;ig=ok
+home_schedule|MainActivity|on|s.consent=true;s.pro=true;s.sched=true;s.sched_days=0;t.blocked=128;week=3,0,5,2,7,1,4;ig=ok
+dialog_schedule|MainActivity|on,screen,click:schedule_row|s.consent=true;s.pro=true;s.sched=true;t.blocked=128;ig=ok

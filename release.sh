@@ -1,5 +1,5 @@
 #!/bin/sh
-# Publishes a GitHub release from main. Usage: ./release.sh notes.md
+# Publishes a GitHub release from main and leaves ReelBlock.aab for Google Play. Usage: ./release.sh notes.md
 # The version comes from versionName in AndroidManifest.xml (bump it and versionCode first).
 # Signs with the local debug.keystore, so the key never leaves this computer.
 # Build tool overrides (BUILD_TOOLS, ANDROID_JAR) work as in build.sh.
@@ -22,11 +22,13 @@ SDK=${ANDROID_HOME:-$HOME/Library/Android/sdk}
 BT=${BUILD_TOOLS:-$(ls -d "$SDK"/build-tools/* | sort -V | tail -1)}
 "$BT/apksigner" verify --print-certs ReelBlock.apk | grep -q "certificate SHA-256 digest: $CERT" \
   || { echo "ReelBlock.apk is not signed with the release key"; exit 1; }
-! "$BT/aapt2" dump badging ReelBlock.apk | grep -q uses-permission \
-  || { echo "ReelBlock.apk asks for a permission: Reel Block must have none"; exit 1; }
+[ "$("$BT/aapt2" dump badging ReelBlock.apk | grep uses-permission)" = "uses-permission: name='com.android.vending.BILLING'" ] \
+  || { echo "ReelBlock.apk may ask only for com.android.vending.BILLING"; exit 1; }
+jarsigner -verify -certs ReelBlock.aab | grep -q "jar verified" || { echo "ReelBlock.aab is not signed"; exit 1; }
 
 SUM=$(shasum -a 256 ReelBlock.apk | cut -d' ' -f1)
 git tag -a "$TAG" -m "Reel Block $TAG"
 git push -q origin "$TAG"
 { cat "$NOTES"; printf '\nSHA-256: `%s`\n' "$SUM"; } > out/notes.md
 gh release create "$TAG" ReelBlock.apk --title "Reel Block $TAG" --notes-file out/notes.md --latest
+echo "Next: upload ReelBlock.aab in Play Console (docs/play-store.md, step 5)."

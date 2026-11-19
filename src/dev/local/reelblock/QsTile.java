@@ -49,10 +49,10 @@ public class QsTile extends TileService {
         long until = State.pausedUntil(this);
         String sub = !enabled ? getString(R.string.tile_off)
             : !running ? getString(R.string.tile_stopped)
-            : !paused ? getString(R.string.tile_on)
+            : !paused ? getString(State.outsideSchedule(this) ? R.string.tile_schedule : R.string.tile_on)
             : until > 0 ? getString(R.string.tile_until, DateFormat.getTimeFormat(this).format(new Date(until)))
             : getString(R.string.tile_paused);
-        t.setState(running && !paused ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
+        t.setState(running && State.blocking(this) ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
         t.setIcon(Icon.createWithResource(this, R.drawable.ic_tile_brand));
         t.setLabel(getString(R.string.tile_label));
         if (Build.VERSION.SDK_INT >= 29) t.setSubtitle(sub);

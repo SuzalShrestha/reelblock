@@ -37,7 +37,7 @@ public class ReelBlockService extends AccessibilityService {
     public void onAccessibilityEvent(AccessibilityEvent event) {
         // While an app closes, Android can still report its old window. Wait so one Back does not become two.
         if (!INSTAGRAM.equals(String.valueOf(event.getPackageName()))
-            || System.currentTimeMillis() - lastBack < 1500 || State.paused(this)) return;
+            || System.currentTimeMillis() - lastBack < 1500 || !State.blocking(this)) return;
         // The active window can belong to another app when the event arrives. Never look inside it.
         AccessibilityNodeInfo root = getRootInActiveWindow();
         if (root == null || !INSTAGRAM.equals(String.valueOf(root.getPackageName()))) return;

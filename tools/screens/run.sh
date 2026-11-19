@@ -15,6 +15,9 @@ OUT=$ROOT/out/screens/$CLASS; APP=$ROOT/out/screens/app
 [ -d "$ROOT/out/classes" ] || { echo "run ./build.sh first"; exit 1; }
 rm -rf "$OUT" "$APP"; mkdir -p "$OUT" "$APP" src/test/resources/com/android/tools
 (cd "$ROOT/out/classes" && zip -qr "$APP/app.jar" .)
+# The Play Billing Library and androidx.core that build.sh fetched (MainActivity creates a billing client).
+for j in "$ROOT"/out/lib/*/classes.jar; do unzip -qo "$j" -d "$APP/lib"; done
+(cd "$APP/lib" && zip -qr "$APP/app.jar" .)
 # Robolectric needs the resources with their names, so link them again without build.sh's name collapsing.
 "$BT/aapt2" link -I "$JAR" --manifest "$ROOT/AndroidManifest.xml" -o "$APP/res.apk" "$ROOT/out/res.zip"
 printf 'android_merged_manifest=%s\nandroid_resource_apk=%s\nandroid_custom_package=dev.local.reelblock\n' \

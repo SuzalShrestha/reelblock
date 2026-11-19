@@ -64,6 +64,17 @@
             </LinearLayout>
         </LinearLayout>
 
+        <!-- Pro: the last 12 months, on-device counts only. -->
+        <LinearLayout android:id="@+id/year_card" style="@style/Card" android:visibility="gone">
+            <TextView style="@style/Text.TitleMedium" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:text="@string/year_title" android:accessibilityHeading="true" />
+            <dev.local.reelblock.WeekChart android:id="@+id/year_chart" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:layout_marginTop="@dimen/space_5" />
+            <TextView android:id="@+id/year_more" style="@style/Text.BodyMedium.Secondary"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_4" />
+        </LinearLayout>
+
         <!-- Status -->
         <TextView style="@style/SectionHeader" android:text="@string/section_status" />
         <LinearLayout android:id="@+id/check_row" style="@style/Row.Single" android:clickable="true" android:focusable="true">
@@ -72,6 +83,26 @@
                 <TextView style="@style/RowTitle" android:text="@string/check_title" />
                 <TextView android:id="@+id/check_body" style="@style/RowBody" android:accessibilityLiveRegion="polite" />
             </LinearLayout>
+        </LinearLayout>
+
+        <!-- Pro: one Google Play purchase. Before it, one row to buy; after it, the schedule. -->
+        <TextView style="@style/SectionHeader" android:text="@string/section_pro" />
+        <LinearLayout android:id="@+id/buy_row" style="@style/Row.Single" android:clickable="true" android:focusable="true">
+            <ImageView style="@style/RowIcon" android:src="@drawable/ic_check" />
+            <LinearLayout style="@style/RowTexts">
+                <TextView style="@style/RowTitle" android:text="@string/buy_title" />
+                <TextView android:id="@+id/buy_body" style="@style/RowBody" />
+            </LinearLayout>
+            <ImageView style="@style/RowTrailing" android:src="@drawable/ic_chevron" />
+        </LinearLayout>
+        <LinearLayout android:id="@+id/schedule_row" style="@style/Row.Single" android:clickable="true" android:focusable="true"
+            android:visibility="gone">
+            <ImageView style="@style/RowIcon" android:src="@drawable/ic_schedule" />
+            <LinearLayout style="@style/RowTexts">
+                <TextView style="@style/RowTitle" android:text="@string/schedule_title" />
+                <TextView android:id="@+id/schedule_body" style="@style/RowBody" />
+            </LinearLayout>
+            <ImageView style="@style/RowTrailing" android:src="@drawable/ic_chevron" />
         </LinearLayout>
 
         <!-- Shortcuts -->
